@@ -1,0 +1,81 @@
+<resources>
+    <string name="app_name">RG_LA_PP_Cluedo</string>
+    <!-- activity_main -->
+    <string name="tvTituloMain">Who is the murderer?</string>
+    <string name="btIniciar">Play</string>
+    <string name="btReglas">Rules</string>
+    <string name="btHistorial">History</string>
+
+    <!-- activity_reglas -->
+    <string name="Reglas_Intro">HOW TO PLAY</string>
+    <string name="Start">START</string>
+    <string name="texto_start">
+        The game has: \n
+        - 6 character cards \n
+        - 6 weapon cards \n
+        - 6 room cards \n
+    </string>
+    <string name="texto_start2">
+       At the start the player will choose who wants to be between the characters.
+    </string>
+    <string name="Game">GAME</string>
+    <string name="texto_Game">The player will choose one card of each type (character, weapon
+        and room) then it will tap the “Suspect” button. \n
+        If 1 or more between the chosen ones are wrong, one of them will be shown to the player.
+        Next, the player will make a suspect suggestion again
+        with another combination of cards. \n
+        In case of choosing the 3 cards correctly, the player wins! \n \n
+        At the beginning the elections of cards will be made randomly, but along the game
+        continue and cards are shown it will be easier to find the cards involved in the
+        murder.</string>
+    <string name="btVolverMain">Menu</string>
+
+    <!-- activity_historial -->
+    <string name="tvTituloPartidas">History</string>
+    <string name="tvTTNull">Playing</string>
+    <string name="tvResultadoGanar">Win</string>
+    <string name="tvResultadoPerder">Lose</string>
+    <string name="btBorrar">Delete</string>
+    <string name="msjNoPartidas">There aren\'t saved games</string>
+
+    <!-- activity_juego -->
+    <string name="btSospechar">Suspect</string>
+    <string name="btRendirse">Give Up</string>
+    <string name="tvPersonaje">Character</string>
+    <string name="tvArma">Weapon</string>
+    <string name="tvHabitacion">Room</string>
+    <string name="tvCont">Opportunities:</string>
+    <string name="msj3Cartas">Chose 3 cards</string>
+
+    <!-- activity_elegir_personaje -->
+    <string name="tvPers1">Amapola</string>
+    <string name="tvPers2">Blanco</string>
+    <string name="tvPers3">Celeste</string>
+    <string name="tvPers4">Mora</string>
+    <string name="tvPers5">Prado</string>
+    <string name="tvPers6">Rubio</string>
+
+    <!-- activity_elegir_arma -->
+    <string name="tvArma1">Candelabra</string>
+    <string name="tvArma2">String</string>
+    <string name="tvArma3">Tool</string>
+    <string name="tvArma4">Handgun</string>
+    <string name="tvArma5">Dagger</string>
+    <string name="tvArma6">Pipe</string>
+
+    <!-- activity_elegir_habitación -->
+    <string name="tvHab1">Bathroom</string>
+    <string name="tvHab2">Dining Room</string>
+    <string name="tvHab3">Bedroom</string>
+    <string name="tvHab4">Study</string>
+    <string name="tvHab5">Garage</string>
+    <string name="tvHab6">Patio</string>
+
+    <!-- dialog_salir -->
+    <string name="msjSalir">Are you sure you want to exit Cluedo?</string>
+    <string name="btNgtv">Cancel</string>
+    <string name="btPstv">Okay</string>
+
+    <!-- activity_perder -->
+
+</resources>

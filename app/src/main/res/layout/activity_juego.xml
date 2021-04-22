@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo_juego"
+    tools:context=".ActivityJuego">
+
+
+    <ImageView
+        android:id="@+id/ivJugador"
+        android:layout_width="@dimen/J_imgJugadorAncho"
+        android:layout_height="@dimen/J_imgJugadorAlto"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.060000002"
+        app:srcCompat="@drawable/personaje_amapola"
+        tools:srcCompat="@drawable/personaje_amapola" />
+
+    <TextView
+        android:id="@+id/txtV1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/txtV2"
+        android:layout_toLeftOf="@+id/txtV2"
+        android:text="@string/tvCont"
+        android:textSize="@dimen/J_texto"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.854"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.086" />
+
+    <TextView
+        android:id="@+id/txtV2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/J_margen"
+        android:textSize="@dimen/J_texto"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/txtV1"
+        app:layout_constraintStart_toStartOf="@+id/txtV1"
+        app:layout_constraintTop_toBottomOf="@+id/txtV1" />
+
+    <Button
+        android:id="@+id/btnSuponer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="@string/btSospechar"
+        android:textSize="@dimen/J_texto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.87" />
+
+    <TextView
+        android:id="@+id/tvHabitacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvArma"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/backText"
+        android:text="@string/tvHabitacion"
+        android:textSize="@dimen/J_texto"
+        app:layout_constraintEnd_toEndOf="@+id/imBtHabitacion"
+        app:layout_constraintStart_toStartOf="@+id/imBtHabitacion"
+        app:layout_constraintTop_toTopOf="@+id/tvArma" />
+
+    <TextView
+        android:id="@+id/tvPersonaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivJugador"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/backText"
+        android:text="@string/tvPersonaje"
+        android:textSize="@dimen/J_texto"
+        app:layout_constraintEnd_toEndOf="@+id/imBtPersonaje"
+        app:layout_constraintStart_toStartOf="@+id/imBtPersonaje"
+        app:layout_constraintTop_toTopOf="@+id/tvArma" />
+
+    <TextView
+        android:id="@+id/tvArma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvPersonaje"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/J_margen"
+        android:background="@color/backText"
+        android:text="@string/tvArma"
+        android:textSize="@dimen/J_texto"
+        app:layout_constraintBottom_toTopOf="@+id/imBtArma"
+        app:layout_constraintEnd_toEndOf="@+id/imBtArma"
+        app:layout_constraintHorizontal_bias="0.541"
+        app:layout_constraintStart_toStartOf="@+id/imBtArma" />
+
+    <ImageButton
+        android:id="@+id/imBtPersonaje"
+        android:layout_width="@dimen/J_cartaAncho"
+        android:layout_height="@dimen/J_cartaAlto"
+        android:layout_marginStart="@dimen/J_margen"
+        android:layout_marginLeft="@dimen/J_margen"
+        android:background="@drawable/carta_interrogante"
+        app:layout_constraintEnd_toStartOf="@+id/imBtArma"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imBtArma" />
+
+    <ImageButton
+        android:id="@+id/imBtArma"
+        android:layout_width="@dimen/J_cartaAncho"
+        android:layout_height="@dimen/J_cartaAlto"
+        android:background="@drawable/carta_interrogante"
+        app:layout_constraintBottom_toTopOf="@+id/btnSuponer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivJugador" />
+
+    <ImageButton
+        android:id="@+id/imBtHabitacion"
+        android:layout_width="@dimen/J_cartaAncho"
+        android:layout_height="@dimen/J_cartaAlto"
+        android:layout_marginEnd="@dimen/J_margen"
+        android:layout_marginRight="@dimen/J_margen"
+        android:background="@drawable/carta_interrogante"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imBtArma"
+        app:layout_constraintTop_toTopOf="@+id/imBtArma" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="rendirse"
+        android:text="@string/btRendirse"
+        android:textSize="@dimen/J_subtexto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

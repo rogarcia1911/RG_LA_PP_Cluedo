@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo_ok"
+    android:onClick="tapScreen"
+    tools:context=".ActivityGanar">
+
+    <ImageView
+        android:id="@+id/ivTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26"
+        app:srcCompat="@drawable/texto_ganar"
+        tools:srcCompat="@drawable/texto_ganar" />
+
+    <ImageView
+        android:id="@+id/ivTop"
+        android:layout_width="@dimen/G_imgTopAncho"
+        android:layout_height="@dimen/G_imgTopAlto"
+        app:layout_constraintBottom_toTopOf="@+id/ivTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.85"
+        app:srcCompat="@drawable/pablo_ganar" />
+
+    <ImageView
+        android:id="@+id/ivIzq"
+        android:layout_width="@dimen/G_imgBot"
+        android:layout_height="@dimen/G_imgBot"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivDer"
+        app:layout_constraintStart_toStartOf="@+id/ivArma"
+        app:layout_constraintTop_toBottomOf="@+id/ivTxt"
+        app:layout_constraintVertical_bias="0.050000012"
+        app:srcCompat="@drawable/luz_ganar" />
+
+    <ImageView
+        android:id="@+id/ivDer"
+        android:layout_width="@dimen/G_imgBot"
+        android:layout_height="@dimen/G_imgBot"
+        app:layout_constraintBottom_toBottomOf="@+id/ivIzq"
+        app:layout_constraintEnd_toEndOf="@+id/ivArma"
+        app:layout_constraintStart_toEndOf="@+id/ivIzq"
+        app:layout_constraintTop_toTopOf="@+id/ivIzq"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/rocio_ganar" />
+
+    <ImageView
+        android:id="@+id/ivPers"
+        android:layout_width="@dimen/G_cartaAncho"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/ivArma"
+        app:layout_constraintEnd_toStartOf="@+id/ivArma"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivArma"
+        app:srcCompat="@drawable/carta_interrogante" />
+
+    <ImageView
+        android:id="@+id/ivArma"
+        android:layout_width="@dimen/G_cartaAncho"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/ivHab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivHab"
+        app:srcCompat="@drawable/carta_interrogante" />
+
+    <ImageView
+        android:id="@+id/ivHab"
+        android:layout_width="@dimen/G_cartaAncho"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toEndOf="@+id/ivArma"
+        app:layout_constraintTop_toBottomOf="@+id/ivDer"
+        app:srcCompat="@drawable/carta_interrogante" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

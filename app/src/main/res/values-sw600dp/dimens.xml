@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- activity_main -->
+    <dimen name="M_imgAncho">210dp</dimen>
+    <dimen name="M_imgMargen">134dp</dimen>
+    <dimen name="M_textoAncho">168dp</dimen>
+    <dimen name="M_textoAlto">140dp</dimen>
+    <dimen name="M_textoTitulo">30sp</dimen>
+    <dimen name="M_textoBoton">24sp</dimen>
+
+    <!-- activity_reglas -->
+    <dimen name="R_margen">28dp</dimen>
+    <dimen name="R_imgAncho">212dp</dimen>
+    <dimen name="R_imgAlto">305dp</dimen>
+    <dimen name="R_titulo">36sp</dimen>
+    <dimen name="R_subtitulo">30sp</dimen>
+    <dimen name="R_parrafo">18sp</dimen>
+
+    <!-- activity_historial -->
+    <dimen name="H_titulo">36sp</dimen>
+    <dimen name="H_parrafo">18sp</dimen>
+    <dimen name="H_margen">70dp</dimen>
+    <dimen name="H_scrollAlto">480dp</dimen>
+
+    <!-- activity_juego -->
+    <dimen name="J_texto">30sp</dimen>
+    <dimen name="J_subtexto">24sp</dimen>
+    <dimen name="J_margen">10dp</dimen>
+    <dimen name="J_imgJugadorAncho">164dp</dimen>
+    <dimen name="J_imgJugadorAlto">198dp</dimen>
+    <dimen name="J_cartaAncho">153dp</dimen>
+    <dimen name="J_cartaAlto">234dp</dimen>
+
+    <!-- activity_elegir_... -->
+    <dimen name="E_texto">28sp</dimen>
+    <dimen name="E_margentxt">15dp</dimen>
+    <dimen name="E_marcador">56dp</dimen>
+    <dimen name="E_pergaminoAncho">449dp</dimen>
+    <dimen name="E_pergaminoAlto">516dp</dimen>
+    <dimen name="E_cartaAncho">91dp</dimen>
+    <dimen name="E_cartaAlto">140dp</dimen>
+
+    <!-- activity_ganar -->
+    <dimen name="G_cartaAncho">168dp</dimen>
+    <dimen name="G_imgTopAncho">210dp</dimen>
+    <dimen name="G_imgTopAlto">194dp</dimen>
+    <dimen name="G_imgBot">140dp</dimen>
+
+</resources>
