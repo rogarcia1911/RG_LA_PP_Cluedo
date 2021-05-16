@@ -1,6 +1,7 @@
 package com.example.rg_la_pp_cluedo;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,23 +14,33 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.ArrayAdapter;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 public class ActivityMain extends AppCompatActivity {
 
+    private FirebaseDatabase firebaseObj;
+    private DatabaseReference databaseRefObj;
     private String fich = "cartas.dat";
+    private List<Match> matchList = new ArrayList<>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +80,25 @@ public class ActivityMain extends AppCompatActivity {
 
     //Método del botón Iniciar
     public void inicar(View view) {
+        //TODO: insert revision https://www.youtube.com/watch?v=765aoufNc8c&list=PL2LFsAM2rdnxv8bLBZrMtd_f3fsfgLzH7&index=4
         Intent jugar = new Intent(this, ActivityJuego.class);
+
+        inizializateFirebase();
+
+        Match currentMatch = new Match();
+        currentMatch.setMatchId(Integer.valueOf(UUID.randomUUID().toString()));
+        //TODO: primary key method revision
+        //TODO: primary key is not valid
+
+        currentMatch.setBeginningDate(System.currentTimeMillis()); //Con un new Date convertimos los milisegundos a fecha
+        currentMatch.setEndingDate(null);
+        currentMatch.setMode(null);
+        currentMatch.setResultGame(null);
+        currentMatch.setMatchCards(null);
+        currentMatch.setPlayerNum(null);
+        databaseRefObj.child("Match").child(String.valueOf(currentMatch.getMatchId())).setValue(currentMatch);
+
+
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(
                 this, "administracion", null, 1);
@@ -91,6 +120,14 @@ public class ActivityMain extends AppCompatActivity {
             jugar.putExtra("nuevaPartida",true);
         }
         startActivity(jugar);
+    }
+
+
+
+    private void inizializateFirebase() {
+        FirebaseApp.initializeApp(this);
+        firebaseObj = FirebaseDatabase.getInstance();
+        databaseRefObj = firebaseObj.getReference();
     }
 
     private void generarCartas() {

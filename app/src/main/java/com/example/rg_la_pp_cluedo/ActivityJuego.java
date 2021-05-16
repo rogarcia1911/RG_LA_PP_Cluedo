@@ -19,11 +19,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Random;
+import java.util.UUID;
 
 public class ActivityJuego extends AppCompatActivity {
 
@@ -31,6 +37,9 @@ public class ActivityJuego extends AppCompatActivity {
     private ImageView mostrarimagen;
     private Button btnSuponer;
     private TextView tvCont;
+
+    private FirebaseDatabase firebaseObj;
+    private DatabaseReference databaseRefObj;
 
     private String fich = "cartas.dat";
     private int oportunidades = 10, contador;
@@ -248,6 +257,17 @@ public class ActivityJuego extends AppCompatActivity {
 
     //Modifica fin, tiempoTot y Resultado de la última partida
     public void terminarPartida(boolean resultado) {
+
+        inizializateFirebase();
+        //TODO: update revision  https://www.youtube.com/watch?v=mI3ZjifIlPk&list=PL2LFsAM2rdnxv8bLBZrMtd_f3fsfgLzH7&index=7
+        //TODO: filter for update object
+        //Update Final date and resultGame
+        Match currentMatch = new Match();
+        currentMatch.setMatchId(Integer.valueOf(UUID.randomUUID().toString())); // TODO: primary key method revision
+        currentMatch.setEndingDate(System.currentTimeMillis());// Con un new Date convertimos los milisegundos a fecha
+        currentMatch.setResultGame(null);
+        databaseRefObj.child("Match").child(String.valueOf(currentMatch.getMatchId())).setValue(currentMatch);
+
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(
                 this, "administracion", null, 1);
         SQLiteDatabase db = admin.getWritableDatabase();
@@ -273,6 +293,12 @@ public class ActivityJuego extends AppCompatActivity {
         db.close();
         admin.close();
     }//FIN terminarPartida
+
+    private void inizializateFirebase() {
+        FirebaseApp.initializeApp(this);
+        firebaseObj = FirebaseDatabase.getInstance();
+        databaseRefObj = firebaseObj.getReference();
+    }
 
     private String calcTiempodeSeg(int seg) {
         String segS,minS = null,horS = null;

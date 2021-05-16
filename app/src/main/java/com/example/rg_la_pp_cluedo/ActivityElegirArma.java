@@ -24,6 +24,7 @@ public class ActivityElegirArma extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_elegir_arma);
 
         imgbtn_ar1 = findViewById(R.id.imgbtn_arma1);
