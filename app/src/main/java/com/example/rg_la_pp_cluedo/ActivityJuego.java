@@ -38,8 +38,7 @@ public class ActivityJuego extends AppCompatActivity {
     private Button btnSuponer;
     private TextView tvCont;
 
-    private FirebaseDatabase firebaseObj;
-    private DatabaseReference databaseRefObj;
+    DataBaseConection firebaseConection = null;
 
     private String fich = "cartas.dat";
     private int oportunidades = 10, contador;
@@ -258,7 +257,7 @@ public class ActivityJuego extends AppCompatActivity {
     //Modifica fin, tiempoTot y Resultado de la última partida
     public void terminarPartida(boolean resultado) {
 
-        inizializateFirebase();
+        firebaseConection = DataBaseConection.getInstance();
         //TODO: update revision  https://www.youtube.com/watch?v=mI3ZjifIlPk&list=PL2LFsAM2rdnxv8bLBZrMtd_f3fsfgLzH7&index=7
         //TODO: filter for update object
         //Update Final date and resultGame
@@ -266,7 +265,7 @@ public class ActivityJuego extends AppCompatActivity {
         currentMatch.setMatchId(Integer.valueOf(UUID.randomUUID().toString())); // TODO: primary key method revision
         currentMatch.setEndingDate(System.currentTimeMillis());// Con un new Date convertimos los milisegundos a fecha
         currentMatch.setResultGame(null);
-        databaseRefObj.child("Match").child(String.valueOf(currentMatch.getMatchId())).setValue(currentMatch);
+        firebaseConection.getFirebase().child("Match").child(String.valueOf(currentMatch.getMatchId())).setValue(currentMatch);
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(
                 this, "administracion", null, 1);
@@ -294,11 +293,6 @@ public class ActivityJuego extends AppCompatActivity {
         admin.close();
     }//FIN terminarPartida
 
-    private void inizializateFirebase() {
-        FirebaseApp.initializeApp(this);
-        firebaseObj = FirebaseDatabase.getInstance();
-        databaseRefObj = firebaseObj.getReference();
-    }
 
     private String calcTiempodeSeg(int seg) {
         String segS,minS = null,horS = null;

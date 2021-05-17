@@ -35,11 +35,9 @@ import java.util.UUID;
 
 public class ActivityMain extends AppCompatActivity {
 
-    private FirebaseDatabase firebaseObj;
-    private DatabaseReference databaseRefObj;
     private String fich = "cartas.dat";
     private List<Match> matchList = new ArrayList<>();
-
+    DataBaseConection firebaseConection = null;
 
 
     @Override
@@ -83,7 +81,7 @@ public class ActivityMain extends AppCompatActivity {
         //TODO: insert revision https://www.youtube.com/watch?v=765aoufNc8c&list=PL2LFsAM2rdnxv8bLBZrMtd_f3fsfgLzH7&index=4
         Intent jugar = new Intent(this, ActivityJuego.class);
 
-        inizializateFirebase();
+        firebaseConection = DataBaseConection.getInstance();
 
         Match currentMatch = new Match();
         currentMatch.setMatchId(Integer.valueOf(UUID.randomUUID().toString()));
@@ -96,7 +94,7 @@ public class ActivityMain extends AppCompatActivity {
         currentMatch.setResultGame(null);
         currentMatch.setMatchCards(null);
         currentMatch.setPlayerNum(null);
-        databaseRefObj.child("Match").child(String.valueOf(currentMatch.getMatchId())).setValue(currentMatch);
+        firebaseConection.getFirebase().child("Match").child(String.valueOf(currentMatch.getMatchId())).setValue(currentMatch);
 
 
 
@@ -123,12 +121,6 @@ public class ActivityMain extends AppCompatActivity {
     }
 
 
-
-    private void inizializateFirebase() {
-        FirebaseApp.initializeApp(this);
-        firebaseObj = FirebaseDatabase.getInstance();
-        databaseRefObj = firebaseObj.getReference();
-    }
 
     private void generarCartas() {
         String fich = "cartas.dat";

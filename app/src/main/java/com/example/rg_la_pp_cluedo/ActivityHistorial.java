@@ -30,9 +30,7 @@ public class ActivityHistorial extends AppCompatActivity {
 
     TextView tvId, tvTiempo, tvResultado;
     Long  matchTime;
-
-    private FirebaseDatabase firebaseObj;
-    private DatabaseReference databaseRefObj;
+    DataBaseConection firebaseConection = null;
 
     private List<Match> matchList = new ArrayList<>();
     private ArrayAdapter<Match> arrayAdapterMatch;
@@ -48,7 +46,7 @@ public class ActivityHistorial extends AppCompatActivity {
 
         iniciar();
 
-        inizializateFirebase();
+        firebaseConection = DataBaseConection.getInstance();
 
         dataList();
 
@@ -88,15 +86,13 @@ public class ActivityHistorial extends AppCompatActivity {
 
         db.close();
     }
-    private void inizializateFirebase() {
-        FirebaseApp.initializeApp(this);
-        firebaseObj = FirebaseDatabase.getInstance();
-        databaseRefObj = firebaseObj.getReference();
-    }
+
 
     private void dataList() {
         //TODO: select revision https://www.youtube.com/watch?v=_17qiNSMDCA&list=PL2LFsAM2rdnxv8bLBZrMtd_f3fsfgLzH7&index=5
-        databaseRefObj.child("Match").addValueEventListener(new ValueEventListener() {
+
+
+        firebaseConection.getFirebase().child("Match").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 matchList.clear();
