@@ -9,19 +9,19 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 
-public class DataBaseConection  extends AppCompatActivity {
+public class DataBaseConnection extends AppCompatActivity {
 
     private FirebaseDatabase firebaseObj = null;
     private DatabaseReference databaseRefObj = null;
-    private static DataBaseConection connection = null;
+    private static DataBaseConnection connection = null;
 
-    private DataBaseConection(){
+    private DataBaseConnection(){
 
     }
 
-    public static DataBaseConection getInstance(){
+    public static DataBaseConnection getInstance(){
         if(connection == null){
-             return connection = new DataBaseConection();
+             return connection = new DataBaseConnection();
         }
         return connection;
     }

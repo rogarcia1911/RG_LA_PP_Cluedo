@@ -19,16 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Random;
 import java.util.UUID;
 
 public class ActivityJuego extends AppCompatActivity {
@@ -38,7 +31,7 @@ public class ActivityJuego extends AppCompatActivity {
     private Button btnSuponer;
     private TextView tvCont;
 
-    DataBaseConection firebaseConection = null;
+    DataBaseConnection firebaseConection = null;
 
     private String fich = "cartas.dat";
     private int oportunidades = 10, contador;
@@ -257,7 +250,7 @@ public class ActivityJuego extends AppCompatActivity {
     //Modifica fin, tiempoTot y Resultado de la última partida
     public void terminarPartida(boolean resultado) {
 
-        firebaseConection = DataBaseConection.getInstance();
+        firebaseConection = DataBaseConnection.getInstance();
         //TODO: update revision  https://www.youtube.com/watch?v=mI3ZjifIlPk&list=PL2LFsAM2rdnxv8bLBZrMtd_f3fsfgLzH7&index=7
         //TODO: filter for update object
         //Update Final date and resultGame

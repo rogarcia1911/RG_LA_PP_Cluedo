@@ -3,7 +3,6 @@ package com.example.rg_la_pp_cluedo;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,24 +12,19 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ActivityHistorial extends AppCompatActivity {
 
     TextView tvId, tvTiempo, tvResultado;
     Long  matchTime;
-    DataBaseConection firebaseConection = null;
+    DataBaseConnection firebaseConnection = null;
+
 
     private List<Match> matchList = new ArrayList<>();
     private ArrayAdapter<Match> arrayAdapterMatch;
@@ -46,7 +40,7 @@ public class ActivityHistorial extends AppCompatActivity {
 
         iniciar();
 
-        firebaseConection = DataBaseConection.getInstance();
+        firebaseConnection = DataBaseConnection.getInstance();
 
         dataList();
 
@@ -92,7 +86,7 @@ public class ActivityHistorial extends AppCompatActivity {
         //TODO: select revision https://www.youtube.com/watch?v=_17qiNSMDCA&list=PL2LFsAM2rdnxv8bLBZrMtd_f3fsfgLzH7&index=5
 
 
-        firebaseConection.getFirebase().child("Match").addValueEventListener(new ValueEventListener() {
+        firebaseConnection.getFirebase().child("Match").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 matchList.clear();

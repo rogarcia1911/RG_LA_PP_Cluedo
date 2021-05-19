@@ -1,7 +1,6 @@
 package com.example.rg_la_pp_cluedo;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,29 +15,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 public class ActivityMain extends AppCompatActivity {
 
     private String fich = "cartas.dat";
     private List<Match> matchList = new ArrayList<>();
-    DataBaseConection firebaseConection = null;
 
+    DataBaseConnection firebaseConection = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +70,7 @@ public class ActivityMain extends AppCompatActivity {
         //TODO: insert revision https://www.youtube.com/watch?v=765aoufNc8c&list=PL2LFsAM2rdnxv8bLBZrMtd_f3fsfgLzH7&index=4
         Intent jugar = new Intent(this, ActivityJuego.class);
 
-        firebaseConection = DataBaseConection.getInstance();
+        firebaseConection = DataBaseConnection.getInstance();
 
         Match currentMatch = new Match();
         currentMatch.setMatchId(Integer.valueOf(UUID.randomUUID().toString()));
