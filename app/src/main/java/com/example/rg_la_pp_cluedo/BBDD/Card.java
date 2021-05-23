@@ -1,10 +1,22 @@
-package com.example.rg_la_pp_cluedo;
+package com.example.rg_la_pp_cluedo.BBDD;
 
 public class Card {
 
+    /**
+     * Identificador de la carta
+     */
     private Integer cardId;
+    /**
+     * Tipo de carta (Person|Room|Tool)
+     */
     private String type;
+    /**
+     * Nombre de la carta
+     */
     private String cardName;
+    /**
+     * Referencia de recursos
+     */
     private Integer image;  //id of resources
 
     public Card() {

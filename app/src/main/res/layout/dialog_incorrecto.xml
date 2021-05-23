@@ -6,16 +6,23 @@
     android:layout_height="match_parent"
     android:background="@drawable/fondo_juego">
 
-    <ImageView
-        android:id="@+id/iv_incorrecta"
-        android:layout_width="@dimen/J_cartaAncho"
-        android:layout_height="@dimen/J_cartaAlto"
-        android:background="@drawable/carta_interrogante"
+    <LinearLayout
+        android:id="@+id/llvcartas"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/J_cartaAltoX2"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.064" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/llhcartas"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/J_cartaAlto"
+            android:orientation="horizontal" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,20 +4,23 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
+import com.example.rg_la_pp_cluedo.BBDD.Match;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -28,6 +31,8 @@ public class ActivityJuego extends AppCompatActivity {
 
     private ImageButton imBtPersonaje, imBtLugar, imBtArma;
     private ImageView mostrarimagen;
+    private LinearLayout llhCartas;
+    private LinearLayout llvCartas;
     private Button btnSuponer;
     private TextView tvCont;
 
@@ -68,7 +73,7 @@ public class ActivityJuego extends AppCompatActivity {
             reiniciarBtMarc(spEA);
             cambiar_cont(oportunidades); //reiniciamos el contador
         }
-
+        
         SharedPreferences spCont = getSharedPreferences("juegoDatos", Context.MODE_PRIVATE);
         contador = spCont.getInt("cont", oportunidades);
         cambiar_cont(contador);
@@ -174,18 +179,39 @@ public class ActivityJuego extends AppCompatActivity {
     }
 
     //Método crea AlertDialog que muestra una de las imagenes incorrectas elegidas
-    public void incorrecta(int img){
+    public void incorrecta(ArrayList<Integer> images){
         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityJuego.this);
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_incorrecto, null);
-
-        mostrarimagen = view.findViewById(R.id.iv_incorrecta);
-        mostrarimagen.setImageResource(img);
+        // LinearLayout donde se irán agregando las cartas incorrectas
+        llhCartas = view.findViewById(R.id.llhcartas);
+        llvCartas = view.findViewById(R.id.llvcartas);
+        for (int i = 0 ; i < images.size() ; i++ )
+        {
+            ImageView card = new ImageView(ActivityJuego.this);
+            card.setImageResource(images.get(i));
+            card.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            if (i<2)
+                llhCartas.addView(card);
+            else
+                llvCartas.addView(card);
+        }
         builder.setView(view);
+        builder.setNegativeButton(R.string.btNext, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
 
         final AlertDialog dialog = builder.create();
+        /*dialog.setButton(R.id.btNext, getString(R.string.btNext), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });*/
         dialog.show();
-
     }
 
     /*Método comprueba si se ha elegido las cartas correctas
@@ -238,9 +264,8 @@ public class ActivityJuego extends AppCompatActivity {
                 if (c[1].getImagen() != imagen_arma)cartasInc.add(imagen_arma);
                 if (c[2].getImagen() != imagen_lugar)cartasInc.add(imagen_lugar);
 
-                //Llamamos el método incorecta para mostrar una de las cartas incorrectas
-                int aleatorio = (int) (Math.random()*cartasInc.size());
-                incorrecta(cartasInc.get(aleatorio));
+                //Llamamos el método incorecta para mostrar las cartas incorrectas
+                incorrecta(cartasInc);
             }
 
         }
@@ -255,11 +280,12 @@ public class ActivityJuego extends AppCompatActivity {
         //TODO: filter for update object
         //Update Final date and resultGame
         Match currentMatch = new Match();
-        currentMatch.setMatchId(Integer.valueOf(UUID.randomUUID().toString())); // TODO: primary key method revision
+        //currentMatch.setMatchId(Integer.valueOf(UUID.randomUUID().toString())); // TODO: primary key method revision
         currentMatch.setEndingDate(System.currentTimeMillis());// Con un new Date convertimos los milisegundos a fecha
-        currentMatch.setResultGame(null);
-        firebaseConection.getFirebase().child("Match").child(String.valueOf(currentMatch.getMatchId())).setValue(currentMatch);
+        currentMatch.setResultGame(resultado);
+        firebaseConection.getFirebase(this).child("Match").child(String.valueOf(currentMatch.getNum())).setValue(currentMatch);
 
+        /*
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(
                 this, "administracion", null, 1);
         SQLiteDatabase db = admin.getWritableDatabase();
@@ -284,6 +310,7 @@ public class ActivityJuego extends AppCompatActivity {
 
         db.close();
         admin.close();
+        */
     }//FIN terminarPartida
 
 
