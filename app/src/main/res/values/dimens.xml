@@ -30,6 +30,7 @@
     <dimen name="J_imgJugadorAlto">149dp</dimen>
     <dimen name="J_cartaAncho">115dp</dimen>
     <dimen name="J_cartaAlto">176dp</dimen>
+    <dimen name="J_cartaAltoX2">352dp</dimen>
 
     <!-- activity_elegir_... -->
     <dimen name="E_texto">18sp</dimen>

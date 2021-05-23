@@ -1,4 +1,4 @@
-package com.example.rg_la_pp_cluedo;
+package com.example.rg_la_pp_cluedo.BBDD;
 
 public class Player {
 

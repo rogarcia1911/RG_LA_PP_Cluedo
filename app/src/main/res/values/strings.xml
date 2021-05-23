@@ -41,11 +41,12 @@
     <!-- activity_juego -->
     <string name="btSospechar">Suspect</string>
     <string name="btRendirse">Give Up</string>
-    <string name="tvPersonaje">Character</string>
+    <string name="tvPersonaje">Murder</string>
     <string name="tvArma">Weapon</string>
     <string name="tvHabitacion">Room</string>
     <string name="tvCont">Opportunities:</string>
     <string name="msj3Cartas">Chose 3 cards</string>
+    <string name="btNext">Next</string>
 
     <!-- activity_elegir_personaje -->
     <string name="tvPers1">Amapola</string>
@@ -75,6 +76,8 @@
     <string name="msjSalir">Are you sure you want to exit Cluedo?</string>
     <string name="btNgtv">Cancel</string>
     <string name="btPstv">Okay</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- activity_perder -->
 

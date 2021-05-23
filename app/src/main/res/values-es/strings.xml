@@ -44,6 +44,7 @@
     <string name="tvHabitacion">Habitación</string>
     <string name="tvCont">Oportunidades:</string>
     <string name="msj3Cartas">Elige las 3 cartas</string>
+    <string name="btNext">Continuar</string>
 
     <!-- activity_elegir_personaje -->
     <string name="tvPers1">Amapola</string>

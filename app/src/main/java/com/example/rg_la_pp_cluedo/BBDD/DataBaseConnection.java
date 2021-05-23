@@ -1,8 +1,11 @@
-package com.example.rg_la_pp_cluedo;
+package com.example.rg_la_pp_cluedo.BBDD;
 
+
+import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.rg_la_pp_cluedo.ActivityMain;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,15 +30,13 @@ public class DataBaseConnection extends AppCompatActivity {
     }
 
 
-    public DatabaseReference getFirebase(){
-        FirebaseApp.initializeApp(getApplicationContext());
+    public DatabaseReference getFirebase(Context context){
+        FirebaseApp.initializeApp(context);
         firebaseObj = FirebaseDatabase.getInstance();
         firebaseObj.setPersistenceEnabled(true);
         databaseRefObj = firebaseObj.getReference();
 
         return databaseRefObj;
     }
-
-
 
 }
