@@ -46,6 +46,9 @@
     <string name="msj3Cartas">Elige las 3 cartas</string>
     <string name="btNext">Continuar</string>
 
+    <!-- Carta por defecto -->
+    <string name="tvCardDefault">card</string>
+
     <!-- activity_elegir_personaje -->
     <string name="tvPers1">Amapola</string>
     <string name="tvPers2">Blanco</string>
