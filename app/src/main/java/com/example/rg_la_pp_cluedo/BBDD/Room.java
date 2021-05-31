@@ -2,26 +2,28 @@ package com.example.rg_la_pp_cluedo.BBDD;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Room {
 
     private String name;
     private Integer turn;
-    private Array cardsSuspicious;
-    private ArrayList players;
-    private ArrayList<ChatMessage> Chat;
+    private Card[] CardsPicked;
+    private Array Players;
+    private Array Chat;
+
 
     public Room() {
 
     }
 
 
-    public Room(String name, Integer turn, Array cardsSuspicious, ArrayList players) {
+    public Room(String name, Integer turn, Card[] CardsPicked, Array Players, Array Chat) {
         this.name = name;
         this.turn = turn;
-        this.cardsSuspicious = cardsSuspicious;
-        this.players = players;
-        this.Chat = new ArrayList<ChatMessage>();
+        this.CardsPicked = CardsPicked;
+        this.Players = Players;
+
     }
 
     public String getName() {
@@ -40,23 +42,19 @@ public class Room {
         this.turn = turn;
     }
 
-    public ArrayList getPlayers() {
-        return players;
+    public Array getPlayers() {
+        return Players;
     }
 
-    public void setPlayers(ArrayList players) {
-        this.players = players;
+    public void setPlayers(Array Players) {
+        this.Players = Players;
     }
 
-    public void addPlayer(Player player) {
-        players.add(player);
-    }
-
-    public ArrayList<ChatMessage> getChat() {
+    public Array getChat() {
         return Chat;
     }
 
-    public void setChat(ArrayList<ChatMessage> Chat) {
+    public void setChat(Array Chat) {
         this.Chat = Chat;
     }
 }

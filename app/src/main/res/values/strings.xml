@@ -73,12 +73,10 @@
     <string name="tvHab6">Patio</string>
 
     <!-- dialog_salir -->
-    <string name="msjSalir">Are you sure you want to exit Cluedo?</string>
+    <string name="msjSalir">Are you sure you want to exit ClueCards?</string>
     <string name="btNgtv">Cancel</string>
     <string name="btPstv">Okay</string>
-
-
-    <!-- activity_perder -->
+  
     <!-- activity_login -->
     <string name="nameUser">NameUser</string>
     <string name="switchMusica">Musica</string>

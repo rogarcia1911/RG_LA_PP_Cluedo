@@ -34,7 +34,7 @@ public class Match {
      /**
       * Las 3 cartas correctas (culpables del asesinato)
       */
-     private Card[] murderCards;
+     //private Card[] murderCards;
      //private Long matchTime;   //Calcular tiempo jugado /Solo/ (fin-inico-(pausa.fin-pausa.inicio))
 
      public Match(){
@@ -48,7 +48,7 @@ public class Match {
      }
 
      public Match(String name, Integer num, Long beginningDate, Long endingDate, Boolean resultGame, String mode,
-                  String difficulty, Card[] murderCards) {
+                  String difficulty) {
           this.name = name;
           this.num = num;
           this.beginningDate = beginningDate;
@@ -56,7 +56,6 @@ public class Match {
           this.resultGame = resultGame;
           this.mode = mode;
           this.difficulty = difficulty;
-          this.murderCards = murderCards;
      }
 
      public String getName() {
@@ -126,13 +125,5 @@ public class Match {
                   ", mode='" + mode + '\'' +
                   ", difficulty='" + difficulty + "'" +
                   '}';
-     }
-
-     public Card[] getMurderCards() {
-          return murderCards;
-     }
-
-     public void setMurderCards(Card[] murderCards) {
-          this.murderCards = murderCards;
      }
 }
