@@ -42,7 +42,7 @@ public class ActivityMain extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //firebaseConnection = DataBaseConnection.getInstance();
-        //firebaseConnection.getFirebase(this);
+        //firebaseConnection.getFirebase(getApplicationContext);
 
         //Si pulsa el boton Back saldrá un dialog preguntando si esta seguro de quiere salir de la aplicación
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {

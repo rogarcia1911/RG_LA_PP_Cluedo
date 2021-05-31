@@ -127,8 +127,17 @@ public class ActivityJuego extends AppCompatActivity {
             public void onClick(View v) {
                 if(imagen_personaje == R.drawable.carta_interrogante || imagen_arma == R.drawable.carta_interrogante || imagen_lugar == R.drawable.carta_interrogante)
                     Toast.makeText(ActivityJuego.this, getString(R.string.msj3Cartas), Toast.LENGTH_SHORT).show();
-                else
-                    comprobar(imagen_personaje, imagen_arma, imagen_lugar);
+                else{
+
+
+                    //if(solo){
+                    comprobarIndividual(imagen_personaje, imagen_arma, imagen_lugar);
+                    //}else{
+                        // comprobarMultijugador(imagen_personaje, imagen_arma, imagen_lugar);
+                    //}
+                }
+
+
             }
         });
 
@@ -216,7 +225,7 @@ public class ActivityJuego extends AppCompatActivity {
 
     /*Método comprueba si se ha elegido las cartas correctas
     y si no mostrará una de las incorectas llamando el métoco incorrecta */
-    public void comprobar(int imagen_personaje, int imagen_arma, int imagen_lugar){
+    public void comprobarIndividual(int imagen_personaje, int imagen_arma, int imagen_lugar){
         reiniciarCartas(); //Reiniciar los imageButton
         //Bajar el contador de oportunidades
         contador--;
@@ -272,6 +281,8 @@ public class ActivityJuego extends AppCompatActivity {
 
     }//FIN comprobar
 
+
+
     //Modifica fin, tiempoTot y Resultado de la última partida
     public void terminarPartida(boolean resultado) {
 
@@ -283,7 +294,7 @@ public class ActivityJuego extends AppCompatActivity {
         //currentMatch.setMatchId(Integer.valueOf(UUID.randomUUID().toString())); // TODO: primary key method revision
         currentMatch.setEndingDate(System.currentTimeMillis());// Con un new Date convertimos los milisegundos a fecha
         currentMatch.setResultGame(resultado);
-        firebaseConection.getFirebase(this).child("Match").child(String.valueOf(currentMatch.getNum())).setValue(currentMatch);
+        firebaseConection.getFirebase(getApplicationContext()).child("Match").child(String.valueOf(currentMatch.getNum())).setValue(currentMatch);
 
         /*
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(

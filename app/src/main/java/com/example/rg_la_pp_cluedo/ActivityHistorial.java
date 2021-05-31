@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ActivityHistorial extends AppCompatActivity {
 
-    TextView tvId, tvTiempo, tvResultado;
+    private TextView tvId, tvTiempo, tvResultado;
     Long  matchTime;
 
     DataBaseConnection firebaseConnection = null;
@@ -98,7 +98,7 @@ public class ActivityHistorial extends AppCompatActivity {
         //TODO: select revision https://www.youtube.com/watch?v=_17qiNSMDCA&list=PL2LFsAM2rdnxv8bLBZrMtd_f3fsfgLzH7&index=5
 
 
-        firebaseConnection.getFirebase(this).child("Match").addValueEventListener(new ValueEventListener() {
+        firebaseConnection.getFirebase(getApplicationContext()).child("Match").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 matchList.clear();

@@ -9,6 +9,7 @@ public class Player {
     private Integer score;
     private String country;
     private Integer image;  //Referencia del integer a la imagen
+    @Deprecated
     private Boolean login;
 
 
