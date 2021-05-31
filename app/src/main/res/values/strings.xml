@@ -76,9 +76,10 @@
     <string name="msjSalir">Are you sure you want to exit Cluedo?</string>
     <string name="btNgtv">Cancel</string>
     <string name="btPstv">Okay</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
     <!-- activity_perder -->
-
+    <!-- activity_login -->
+    <string name="nameUser">NameUser</string>
+    <string name="switchMusica">Musica</string>
 </resources>
