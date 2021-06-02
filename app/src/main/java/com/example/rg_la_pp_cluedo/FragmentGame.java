@@ -7,13 +7,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 
 import com.example.rg_la_pp_cluedo.BBDD.Card;
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
@@ -25,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -114,48 +113,31 @@ public class FragmentGame extends Fragment {
         firebaseConnection = DataBaseConnection.getInstance();
 
         // Recuperar última partida jugada
-        match = getMatch(MatchHelper.mode.Solo.name());
+        match = getMatch(MatchHelper.Mode.SOLO.name());
 
         // Comprobar si la última partida guardada ha terminado o no
         if (match.getEndingDate() != null)
         { // Si ha terminado creamos una nueva partida
             match = new Match();
             //match.setMatchId(Integer.valueOf(UUID.randomUUID().toString()));
-            //TODO: primary key method revision
-            //TODO: primary key is not valid
 
             match.setBeginningDate(System.currentTimeMillis()); //Con un new Date convertimos los milisegundos a fecha
             match.setEndingDate(null);
-            match.setMode(MatchHelper.mode.Solo.name());
-            generarCartasCulpables(); // Guardamos las 3 cartas culpables
-            match.setDifficulty(MatchHelper.difficulty.Easy.name());
+            match.setMode(MatchHelper.Mode.SOLO.name());
+            match.setDifficulty(MatchHelper.Difficulty.EASY.name());
             firebaseConnection.getFirebase(getContext()).child("Match").child(String.valueOf(match.getName())).setValue(match);
+
+            generarCartasCulpables(match); // Guardamos las 3 cartas culpables
+
+            jugar.putExtra("NewMatch",true);
         }
+        jugar.putExtra("MatchName",match.getName());
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(
-                getContext(), "administracion", null, 1);
-        SQLiteDatabase db = admin.getWritableDatabase();
-        Cursor fila = db.rawQuery("SELECT MAX(id),tiempoTot,datetime() FROM partidas",null);
-        fila.moveToFirst();
-
-        int idPartida = fila.getInt(0);
-        //Si se cumple una de las condiciones se crea una nueva partida
-        if (fila.getInt(0)==0 || fila.getString(1)!= null) {
-            idPartida++;
-
-            ContentValues registro = new ContentValues();
-            registro.put("id", idPartida);
-            registro.put("inicio", fila.getString(2));
-            db.insert("partidas",null, registro);
-
-            //generarCartas();
-            jugar.putExtra("nuevaPartida",true);
-        }
         startActivity(jugar);
     }
 
     /**
-     * Recupera la última partida Solo o Multi del usuario
+     * Recupera la última partida SOLO o MULTI del usuario
      */
     private Match getMatch(String mode) {
         //TODO: select revision https://www.youtube.com/watch?v=_17qiNSMDCA&list=PL2LFsAM2rdnxv8bLBZrMtd_f3fsfgLzH7&index=5
@@ -167,53 +149,22 @@ public class FragmentGame extends Fragment {
         return match;
     }
 
-    private Card[] generarCartasCulpables() {
-        String fich = "cartas.dat";
 
-        Carta per1 = new Carta(getString(R.string.tvPers1), R.drawable.pj_amapola,false); //0
-        Carta per2 = new Carta(getString(R.string.tvPers2), R.drawable.pj_blanco,false); //1
-        Carta per3 = new Carta(getString(R.string.tvPers3), R.drawable.pj_celeste,false); //2
-        Carta per4 = new Carta(getString(R.string.tvPers4), R.drawable.pj_mora,false); //3
-        Carta per5 = new Carta(getString(R.string.tvPers5), R.drawable.pj_prado,false); //4
-        Carta per6 = new Carta(getString(R.string.tvPers6), R.drawable.pj_rubio,false); //5
+    /**
+     * Seleccionamos las 3 cartas del asesinato en la nueva partida
+     * @param match Nueva partida donde se guardan las cartas
+     */
+    private void generarCartasCulpables(Match match) {
+        //numero de cartas de cada tipo(N)
+        int nCa = MatchHelper.Cards.D0.getNCardsByType();
+        DatabaseReference murderCards = firebaseConnection.getFirebase(getContext()).child("Match").child(String.valueOf(match.getName())).child("MurderCards");
+        // Asesino (10-15)
+        murderCards.child( String.valueOf( 10 + ((int) (Math.random()*nCa)) ) );
+        // Arma (20-25)
+        murderCards.child( String.valueOf( 20 + ((int) (Math.random()*nCa)) ) );
+        // Habitación (30-35)
+        murderCards.child( String.valueOf( 30 + ((int) (Math.random()*nCa)) ) );
 
-        Carta arm1 = new Carta(getString(R.string.tvArma1), R.drawable.arma_candelabro,false); //6
-        Carta arm2 = new Carta(getString(R.string.tvArma2), R.drawable.arma_cuerda,false); //7
-        Carta arm3 = new Carta(getString(R.string.tvArma3), R.drawable.arma_herramienta,false); //8
-        Carta arm4 = new Carta(getString(R.string.tvArma4), R.drawable.arma_pistola,false); //9
-        Carta arm5 = new Carta(getString(R.string.tvArma5), R.drawable.arma_punial,false); //10
-        Carta arm6 = new Carta(getString(R.string.tvArma6), R.drawable.arma_tuberia,false); //11
-
-        Carta hab1 = new Carta(getString(R.string.tvHab1),R.drawable.lugar_banio,false); //12
-        Carta hab2 = new Carta(getString(R.string.tvHab2),R.drawable.lugar_comedor,false); //13
-        Carta hab3 = new Carta(getString(R.string.tvHab3),R.drawable.lugar_dormitorio,false); //14
-        Carta hab4 = new Carta(getString(R.string.tvHab4),R.drawable.lugar_estudio,false); //15
-        Carta hab5 = new Carta(getString(R.string.tvHab5),R.drawable.lugar_garaje,false); //16
-        Carta hab6 = new Carta(getString(R.string.tvHab6),R.drawable.lugar_patio,false); //17
-
-        Carta[] cartas = {per1,per2,per3,per4,per5,per6,arm1,arm2,arm3,arm4,arm5,arm6,hab1,hab2,hab3,hab4,hab5,hab6};
-
-        //numero de cartas de cada tipo(N), M*N
-        int nCa = 6,fCa=nCa-1;
-        //Seleccinamos 1 arma, 1 personaje y 1 habitacion
-        int v1 = (int) (Math.random()*nCa),v2 = (int) (Math.random()*fCa+nCa),v3 = (int) (Math.random()*fCa+(nCa*2));
-        Card[] MurderCards = new Card[3];
-        for (int i=0 ; i<cartas.length ; i++) {
-            if (i==v1) {
-                cartas[i].setCulpable(true);
-            }
-            if (i==v2) cartas[i].setCulpable(true);
-            if (i==v3) cartas[i].setCulpable(true);
-        }
-
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(getContext().openFileOutput(fich, Context.MODE_PRIVATE));
-            oos.writeObject(cartas);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return MurderCards;
     }
 
     //Método del botón Iniciar partida Solo
