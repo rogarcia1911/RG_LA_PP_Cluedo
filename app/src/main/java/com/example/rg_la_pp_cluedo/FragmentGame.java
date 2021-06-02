@@ -123,7 +123,7 @@ public class FragmentGame extends Fragment {
 
             match.setBeginningDate(System.currentTimeMillis()); //Con un new Date convertimos los milisegundos a fecha
             match.setEndingDate(null);
-            match.setMode(MatchHelper.Mode.SOLO.name());
+            match.setIsSolo(true);
             match.setDifficulty(MatchHelper.Difficulty.EASY.name());
             firebaseConnection.getFirebase(getContext()).child("Match").child(String.valueOf(match.getName())).setValue(match);
 

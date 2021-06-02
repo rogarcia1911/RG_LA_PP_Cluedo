@@ -26,7 +26,7 @@ public class Match {
      /**
       * Modo de juego (Solo/Multi)
       */
-     private String mode;
+     private Boolean isSolo;
      /**
       * Dificultad de partida de modo Solo
       */
@@ -34,7 +34,7 @@ public class Match {
      /**
       * Las 3 cartas correctas (culpables del asesinato)
       */
-     //private Card[] murderCards;
+     private Card[] murderCards;
      //private Long matchTime;   //Calcular tiempo jugado /Solo/ (fin-inico-(pausa.fin-pausa.inicio))
 
      public Match(){
@@ -43,19 +43,20 @@ public class Match {
           beginningDate = null;
           endingDate = null;
           resultGame = null;
-          mode = null;
+          isSolo = null;
           difficulty = null;
      }
 
-     public Match(String name, Integer num, Long beginningDate, Long endingDate, Boolean resultGame, String mode,
-                  String difficulty) {
+     public Match(String name, Integer num, Long beginningDate, Long endingDate, Boolean resultGame, Boolean isSolo,
+                  String difficulty, Card[] murderCards) {
           this.name = name;
           this.num = num;
           this.beginningDate = beginningDate;
           this.endingDate = endingDate;
           this.resultGame = resultGame;
-          this.mode = mode;
+          this.isSolo = isSolo;
           this.difficulty = difficulty;
+          this.murderCards = murderCards;
      }
 
      public String getName() {
@@ -94,16 +95,16 @@ public class Match {
           return resultGame;
      }
 
+     public Boolean getIsSolo() {
+          return isSolo;
+     }
+
+     public void setIsSolo(Boolean isSolo) {
+          this.isSolo = isSolo;
+     }
+
      public void setResultGame(Boolean resultGame) {
           this.resultGame = resultGame;
-     }
-
-     public String getMode() {
-          return mode;
-     }
-
-     public void setMode(String mode) {
-          this.mode = mode;
      }
 
      public String getDifficulty() {
@@ -114,6 +115,14 @@ public class Match {
           this.difficulty = difficulty;
      }
 
+     public Card[] getMurderCards() {
+          return murderCards;
+     }
+
+     public void setMurderCards(Card[] murderCards) {
+          this.murderCards = murderCards;
+     }
+
      @Override
      public String toString() {
           return "Match{" +
@@ -122,8 +131,9 @@ public class Match {
                   ", beginningDate=" + beginningDate +
                   ", endingDate=" + endingDate +
                   ", resultGame=" + resultGame +
-                  ", mode='" + mode + '\'' +
+                  ", solo='" + isSolo + '\'' +
                   ", difficulty='" + difficulty + "'" +
+                  ", Murdered cards='" + murderCards + "'" +
                   '}';
      }
 }

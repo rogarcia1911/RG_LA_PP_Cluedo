@@ -1,6 +1,7 @@
 package com.example.rg_la_pp_cluedo;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,13 +21,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rg_la_pp_cluedo.BBDD.Card;
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.List;
 
 public class ActivityJuego extends AppCompatActivity {
 
@@ -38,11 +47,14 @@ public class ActivityJuego extends AppCompatActivity {
 
     DataBaseConnection firebaseConection = null;
 
+    private Boolean solo;
     private String fich = "cartas.dat";
     private int oportunidades = 10, contador;
     private int imagen_personaje, imagen_arma, imagen_lugar;
     //nombre de SharedPreferences de los ActivityElegir...
     private String spEP = "datosEP",spEH = "datosEH",spEA = "datosEA";
+    private Card[] murderedCards;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,12 +141,11 @@ public class ActivityJuego extends AppCompatActivity {
                     Toast.makeText(ActivityJuego.this, getString(R.string.msj3Cartas), Toast.LENGTH_SHORT).show();
                 else{
 
-
-                    //if(solo){
-                    comprobarIndividual(imagen_personaje, imagen_arma, imagen_lugar);
-                    //}else{
-                        // comprobarMultijugador(imagen_personaje, imagen_arma, imagen_lugar);
-                    //}
+                    if(solo){
+                        comprobarIndividual(imagen_personaje, imagen_arma, imagen_lugar);
+                    }else{
+                        comprobarMultijugador(imagen_personaje, imagen_arma, imagen_lugar);
+                    }
                 }
 
 
@@ -282,6 +293,83 @@ public class ActivityJuego extends AppCompatActivity {
     }//FIN comprobar
 
 
+    private void comprobarMultijugador(int person, int weapon, int place) {
+        reiniciarCartas();
+        contador--;
+        cambiar_cont(contador);
+        Card card1 = null, card2 = null, card3 = null;
+
+        cardList(); //Contains murdered cards
+
+        if(murderedCards[0].getImage() == person && murderedCards[1].getImage() == weapon && murderedCards[2].getImage() == place){
+            terminarPartida(true); //Modificamos la base de datos
+
+            Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
+            startActivity(win);
+
+        } else {
+            //Si el contador es 0 termina la partida
+            if(contador == 0){
+                terminarPartida(false); //Modificamos la base de datos
+
+                Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
+                startActivity(lose);
+            } else{
+
+                //Metemos las imagenes de las cartas incorrectas en un array
+                ArrayList<Integer> incorrectCards = new ArrayList<Integer>();
+                if(murderedCards[0].getImage() != imagen_personaje) incorrectCards.add(person);
+                if (murderedCards[1].getImage() != imagen_arma) incorrectCards.add(weapon);
+                if (murderedCards[2].getImage() != imagen_lugar) incorrectCards.add(place);
+
+                //Llamamos el método incorecta para mostrar las cartas incorrectas
+                incorrecta(incorrectCards);
+            }
+
+        }
+
+
+    }
+
+    private DatabaseReference inizializeFirebase(){
+        FirebaseApp.initializeApp(this);
+        FirebaseDatabase firebaseObj = FirebaseDatabase.getInstance();
+        DatabaseReference databaseRefObj = firebaseObj.getReference();
+        if(databaseRefObj != null){
+            return databaseRefObj;
+        }
+        return null;
+    }
+
+
+    /**
+     * Check if this node is != null and transform array in arrayList
+     */
+    private void cardList() {
+        try{
+            this.inizializeFirebase().child("Match").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    murderedCards = null;
+                    for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
+                        Match currentMatch = objSnapshot.getValue(Match.class);//String.class
+
+                        if (currentMatch != null){
+                            murderedCards = currentMatch.getMurderCards();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
 
     //Modifica fin, tiempoTot y Resultado de la última partida
     public void terminarPartida(boolean resultado) {
@@ -291,7 +379,6 @@ public class ActivityJuego extends AppCompatActivity {
         //TODO: filter for update object
         //Update Final date and resultGame
         Match currentMatch = new Match();
-        //currentMatch.setMatchId(Integer.valueOf(UUID.randomUUID().toString())); // TODO: primary key method revision
         currentMatch.setEndingDate(System.currentTimeMillis());// Con un new Date convertimos los milisegundos a fecha
         currentMatch.setResultGame(resultado);
         firebaseConection.getFirebase(getApplicationContext()).child("Match").child(String.valueOf(currentMatch.getNum())).setValue(currentMatch);
