@@ -82,7 +82,6 @@ public class FragmentGame extends Fragment {
             namePlayer = getArguments().getString(NAME_PLAYER);
         }
         firebaseConnection = DataBaseConnection.getInstance();
-        
         //user = firebaseConnection.getFirebase().child("Users").child(NAME_PLAYER);
     }
 
@@ -97,9 +96,8 @@ public class FragmentGame extends Fragment {
      * Lleva al fragment Rules
      * @param view
      */
-    public void reglas(View view) {
-        Intent reglas = new Intent(getContext(), ActivityReglas.class);
-        startActivity(reglas);
+    public void changeFragment(View view) {
+        // Usa el método del ActivityMain.
     }
 
     /**

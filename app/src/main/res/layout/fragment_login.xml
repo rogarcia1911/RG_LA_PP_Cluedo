@@ -48,7 +48,7 @@
             app:layout_constraintTop_toBottomOf="@+id/nameUser" />
 
         <EditText
-            android:id="@+id/TextoIncio"
+            android:id="@+id/etUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
@@ -56,13 +56,13 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Name"
-            app:layout_constraintBottom_toBottomOf="@+id/TextoContraseña"
+            app:layout_constraintBottom_toBottomOf="@+id/etPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInicio" />
 
         <EditText
-            android:id="@+id/TextoContraseña"
+            android:id="@+id/etPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="180dp"

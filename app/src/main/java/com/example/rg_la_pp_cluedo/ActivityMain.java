@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -30,11 +31,11 @@ import java.util.UUID;
 
 public class ActivityMain extends AppCompatActivity {
 
-    Fragment fragmentMain;
-    Fragment fragmentMenu;
-    private String fich = "cartas.dat";
+    FragmentTransaction transaction;
+    Fragment fragmentStore, fragmentGame, fragmentHistory, fragmentAccount, fragmentRules;
 
     DataBaseConnection firebaseConnection = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,15 @@ public class ActivityMain extends AppCompatActivity {
 
         //firebaseConnection = DataBaseConnection.getInstance();
         //firebaseConnection.getFirebase(getApplicationContext);
+
+        fragmentStore = new FragmentStore();
+        fragmentGame = new FragmentGame();
+        fragmentHistory = new FragmentHistory();
+        fragmentAccount = new LoginFragment();
+        fragmentRules = new RulesFragment();
+
+
+        getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer,fragmentGame).commit();
 
         //Si pulsa el boton Back saldrá un dialog preguntando si esta seguro de quiere salir de la aplicación
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -75,10 +85,26 @@ public class ActivityMain extends AppCompatActivity {
 
     }
 
-    //Método del botón Historial
-    public void historial(View view) {
-        Intent historial = new Intent(this, ActivityHistorial.class);
-        startActivity(historial);
+    public void changeFragment(View view) {
+        transaction = getSupportFragmentManager().beginTransaction();
+        switch (view.getId())
+        {
+            case R.id.btAccount:
+                transaction.replace(R.id.fragmentContainer, fragmentAccount).commit();
+                break;
+            case R.id.btHistorial:
+                transaction.replace(R.id.fragmentContainer, fragmentHistory).commit();
+                break;
+            case R.id.btPlay:
+                transaction.replace(R.id.fragmentContainer, fragmentGame).commit();
+                break;
+            case R.id.btStore:
+                transaction.replace(R.id.fragmentContainer, fragmentStore).commit();
+                break;
+            default:
+                transaction.replace(R.id.fragmentContainer, fragmentRules).commit();
+                break;
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RG_LA_Cluedo</string>
+    <string name="app_name">RG_LA_PP_Cluedo</string>
     <string name="tvTituloMain">¿Quién es el asesino?</string>
     <string name="btIniciar">Jugar</string>
     <string name="btReglas">Reglas</string>
