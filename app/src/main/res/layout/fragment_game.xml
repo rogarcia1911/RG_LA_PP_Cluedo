@@ -38,7 +38,7 @@
             android:layout_width="125dp"
             android:layout_height="116dp"
             android:layout_marginTop="14dp"
-            android:background='android:background="@null"'
+            android:background="#00FFFFFF"
             android:scaleType="fitStart"
             android:src="@drawable/play"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
             android:layout_width="218dp"
             android:layout_height="62dp"
             android:layout_marginTop="16dp"
-            android:background='android:background="@null"'
+            android:background="#00FFFFFF"
             android:src="@drawable/multi"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -64,7 +64,8 @@
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
-            android:background='android:background="@null"'
+            android:background="#00FFFFFF"
+            android:onClick="changeFragment"
             android:src="@drawable/i"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

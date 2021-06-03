@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">RG_LA_PP_Cluedo</string>
+    <!-- SharedPreferences -->
+    <string name="PREFsoloGame" translatable="false">PREFsoloGame</string>
+    <string name="PREFmultiGame" translatable="false">PREFmultiGame</string>
+    <string name="PREFapp" translatable="false">PREFapp</string>
+
     <!-- activity_main -->
     <string name="tvTituloMain">Who is the murderer?</string>
     <string name="btIniciar">Play</string>
@@ -48,6 +53,9 @@
     <string name="msj3Cartas">Chose 3 cards</string>
     <string name="btNext">Next</string>
 
+
+    <!-- MatchHelper -->
+    <string name="tvCardDefault">Carta</string>
     <!-- activity_elegir_personaje -->
     <string name="tvPers1">Amapola</string>
     <string name="tvPers2">Blanco</string>
@@ -55,7 +63,6 @@
     <string name="tvPers4">Mora</string>
     <string name="tvPers5">Prado</string>
     <string name="tvPers6">Rubio</string>
-
     <!-- activity_elegir_arma -->
     <string name="tvArma1">Candelabra</string>
     <string name="tvArma2">String</string>
@@ -63,7 +70,6 @@
     <string name="tvArma4">Handgun</string>
     <string name="tvArma5">Dagger</string>
     <string name="tvArma6">Pipe</string>
-
     <!-- activity_elegir_habitación -->
     <string name="tvHab1">Bathroom</string>
     <string name="tvHab2">Dining Room</string>
@@ -76,8 +82,10 @@
     <string name="msjSalir">Are you sure you want to exit ClueCards?</string>
     <string name="btNgtv">Cancel</string>
     <string name="btPstv">Okay</string>
-  
+
     <!-- activity_login -->
     <string name="nameUser">NameUser</string>
     <string name="switchMusica">Musica</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 </resources>

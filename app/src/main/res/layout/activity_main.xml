@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F44336"
+    android:background="@drawable/fondo_ok"
     tools:context=".ActivityMain">
 
     <LinearLayout
@@ -12,14 +12,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <fragment
-            android:id="@+id/fragmentMain"
-            android:name="com.example.rg_la_pp_cluedo.FragmentGame"
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
-            tools:layout="@layout/fragment_game" />
+            android:layout_weight="12"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="changeFragment"
                 android:text="Store" />
 
             <Button
@@ -40,33 +38,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="changeFragment"
                 android:text="Play" />
 
             <Button
                 android:id="@+id/btHistorial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/btReglas"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_weight="1"
-                android:onClick="historial"
+                android:onClick="changeFragment"
                 android:text="@string/btHistorial"
-                android:textSize="@dimen/M_textoBoton"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.7" />
+                android:textSize="@dimen/M_textoBoton" />
 
             <Button
                 android:id="@+id/btAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="changeFragment"
                 android:text="Account" />
         </LinearLayout>
 

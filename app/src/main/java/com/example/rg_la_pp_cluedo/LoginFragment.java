@@ -25,6 +25,7 @@ public class LoginFragment extends Fragment {
 
 
     EditText editText;
+    EditText password;
     Button button;
     User user;
 
@@ -35,36 +36,42 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+        editText = view.findViewById(R.id.etUserName);
+        password = view.findViewById(R.id.etPassword);
+
+        return view;
     }
-  @Override
+
+    @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        user=new User();
-        getView().findViewById(R.id.textInicio);
-     button=   getView().findViewById(R.id.textInicio);
+        user = new User();
+        //getView().findViewById(R.id.etUserName);
+        //button = getView().findViewById(R.id.etPassword);
 
-        database=FirebaseDatabase.getInstance();
+        //database=FirebaseDatabase.getInstance();
+        String pref = getString(R.string.PREFapp);
         // miramos si existe el usuario
-      SharedPreferences preferences=this.getActivity().getSharedPreferences("PREFS",0);
-      user.setName(preferences.getString("Users",""));
-      if(!user.getName().equals("")){
-          playerRef=database.getReference("Users/"+user.getName());
-          addEventListener();
-          playerRef.setValue("");
-      }
-      button.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              user.setName(editText.getText().toString());
-              editText.setText("");
-              if(!user.getName().equals("")){
-                button.setText("Logging in");
-              };
-          }
-      });
-  }
+        //SharedPreferences preferences = this.getActivity().getSharedPreferences(pref,0);
+        //user.setName(preferences.getString("Users",""));
+        if(user != null && user.getName() != null && !user.getName().equals("")){
+              playerRef=database.getReference("Users/"+user.getName());
+              addEventListener();
+              playerRef.setValue("");
+        }
+    }
+
+    private void logIn(View view) {
+        user.setName(editText.getText().toString());
+        editText.setText("");
+        if(!user.getName().equals("")){
+            button.setText("Logging in");
+        };
+    }
+
     private void addEventListener() {
         final Context context=getContext();
         final SharedPreferences preferences=this.getActivity().getSharedPreferences("PREFS",0);
