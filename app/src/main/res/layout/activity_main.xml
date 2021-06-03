@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondo_ok"
+    android:background="#F44336"
     tools:context=".ActivityMain">
 
     <LinearLayout
@@ -17,8 +17,9 @@
             android:name="com.example.rg_la_pp_cluedo.FragmentGame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="12"
-            tools:layout="@layout/fragment_game"/>
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            tools:layout="@layout/fragment_game" />
 
         <LinearLayout
             android:layout_width="match_parent"

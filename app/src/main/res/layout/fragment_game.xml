@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondo_ok"
+    android:background="@drawable/cluecards"
     tools:context=".FragmentGame">
 
     <!-- TODO: Update blank fragment layout -->
@@ -13,103 +13,62 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/ivDer"
-            android:layout_width="@dimen/M_imgAncho"
-            android:layout_height="@dimen/M_imgAncho"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="96dp"
-            android:layout_marginLeft="96dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tvTituloMain"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.100000024"
-            app:srcCompat="@drawable/luz_inicio"
-            tools:srcCompat="@drawable/luz_inicio" />
-
-        <ImageView
-            android:id="@+id/ivIzq"
-            android:layout_width="@dimen/M_imgAncho"
-            android:layout_height="@dimen/M_imgAncho"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="96dp"
-            android:layout_marginRight="96dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/tvTituloMain"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.100000024"
-            app:srcCompat="@drawable/rocio_inicio"
-            tools:srcCompat="@drawable/rocio_inicio" />
-
         <TextView
             android:id="@+id/tvTituloMain"
-            android:layout_width="@dimen/M_textoAncho"
-            android:layout_height="@dimen/M_textoAlto"
+            android:layout_width="151dp"
+            android:layout_height="117dp"
             android:layout_alignParentTop="true"
             android:layout_toStartOf="@+id/ivDer"
             android:layout_toLeftOf="@+id/ivDer"
             android:layout_toEndOf="@+id/ivIzq"
             android:layout_toRightOf="@+id/ivIzq"
+            android:fontFamily="@font/coolvetica"
             android:gravity="center"
             android:text="@string/tvTituloMain"
             android:textColor="#FFFFFF"
-            android:textSize="@dimen/M_textoTitulo"
+            android:textSize="35dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
+            app:layout_constraintVertical_bias="0.425" />
 
-        <Button
-            android:id="@+id/btIniciar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvTituloMain"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="@string/btIniciar"
-            android:textSize="@dimen/M_textoBoton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btReglas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btIniciar"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:onClick="reglas"
-            android:text="@string/btReglas"
-            android:textSize="@dimen/M_textoBoton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.9"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.9" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Multiplayer"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <ImageButton
+            android:id="@+id/idPlay"
+            android:layout_width="125dp"
+            android:layout_height="116dp"
+            android:layout_marginTop="14dp"
+            android:background='android:background="@null"'
+            android:scaleType="fitStart"
+            android:src="@drawable/play"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.6" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTituloMain" />
+
+        <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="218dp"
+            android:layout_height="62dp"
+            android:layout_marginTop="16dp"
+            android:background='android:background="@null"'
+            android:src="@drawable/multi"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idPlay" />
+
+        <ImageButton
+            android:id="@+id/imageButton5"
+            android:layout_width="38dp"
+            android:layout_height="47dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:background='android:background="@null"'
+            android:src="@drawable/i"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
