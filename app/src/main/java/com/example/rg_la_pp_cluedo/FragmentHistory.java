@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,8 +73,24 @@ public class FragmentHistory extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // TODO : No le gusta los findViewByID
+        // TODO: la vista que recupera es la del FrameLayout y no el del Fragment
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_history, null);
+        // TODO: havciendo esto como he visto devuelve null
+        View view = getView();
+        View view2 = inflater.inflate(R.layout.fragment_history, container, false);
+        View view3 = root.getFocusedChild();
+        View view4 = view2.getRootView();
+        View view5 = view2.findFocus();
+        //Como la vista es FrameLayout no existe un tvId
+        tvId = view2.findViewById(R.id.tvId);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_history, container, false);
+    }
+
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
     }
 
     @Override
@@ -84,11 +101,12 @@ public class FragmentHistory extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        tvId = getView().findViewById(R.id.tvId);
-        tvTiempo = getView().findViewById(R.id.tvTiempo);
-        tvResultado = getView().findViewById(R.id.tvResultado);
+        // TODO : No le gusta los findViewByID
+        //tvId = getView().findViewById(R.id.tvI);
+        //tvTiempo = getView().findViewById(R.id.tvTiempo);
+        //tvResultado = getView().findViewById(R.id.tvResultado);
 
-        iniciar();
+        //iniciar();
 
         firebaseConnection = DataBaseConnection.getInstance();
 
@@ -121,7 +139,7 @@ public class FragmentHistory extends Fragment {
             }
         } else Toast.makeText(this.getContext(),getString(R.string.msjNoPartidas),Toast.LENGTH_SHORT).show();
 */
-
+/*
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this.getContext(), "administracion",null,1);
         SQLiteDatabase db = admin.getWritableDatabase();
 
@@ -141,7 +159,7 @@ public class FragmentHistory extends Fragment {
         } else Toast.makeText(this.getContext(),getString(R.string.msjNoPartidas),Toast.LENGTH_SHORT).show();
 
         db.close();
-
+*/
     }
 
 
