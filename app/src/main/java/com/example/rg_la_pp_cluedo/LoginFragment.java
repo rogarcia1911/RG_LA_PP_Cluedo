@@ -55,7 +55,7 @@ public class LoginFragment extends Fragment {
         //database=FirebaseDatabase.getInstance();
         String pref = getString(R.string.PREFapp);
         // miramos si existe el usuario
-        //SharedPreferences preferences = this.getActivity().getSharedPreferences(pref,0);
+        //SharedPreferences preferences = this.getActivity().getSharedPreferences(pref,Context.MODE_PRIVATE);
         //user.setName(preferences.getString("Users",""));
         if(user != null && user.getName() != null && !user.getName().equals("")){
               playerRef=database.getReference("Users/"+user.getName());
