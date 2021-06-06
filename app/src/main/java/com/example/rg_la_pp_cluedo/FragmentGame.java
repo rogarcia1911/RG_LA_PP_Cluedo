@@ -82,7 +82,7 @@ public class FragmentGame extends Fragment {
             namePlayer = getArguments().getString(NAME_PLAYER);
         }
         firebaseConnection = DataBaseConnection.getInstance();
-        user = firebaseConnection.getFirebase(getContext()).child("Users").child(NAME_PLAYER);
+        user = firebaseConnection.getFirebase().child("Users").child(NAME_PLAYER);
     }
 
     @Override

@@ -8,8 +8,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class DataBaseConnection  {
 
-    private FirebaseDatabase firebaseObj = null;
-    private DatabaseReference databaseRefObj = null;
+    private static FirebaseDatabase firebaseObj = null;
+    private static DatabaseReference databaseRefObj = null;
     private static DataBaseConnection connection = null;
 
     private DataBaseConnection(){
@@ -24,13 +24,17 @@ public class DataBaseConnection  {
     }
 
 
-    public DatabaseReference getFirebase(Context context){
+    public static DatabaseReference getFirebase(Context context){
         FirebaseApp.initializeApp(context);
         firebaseObj = FirebaseDatabase.getInstance();
         firebaseObj.setPersistenceEnabled(true);
         databaseRefObj = firebaseObj.getReference();
 
         return databaseRefObj;
+    }
+
+    public static DatabaseReference getFirebase(){
+        return databaseRefObj = firebaseObj.getReference();
     }
 
 }
