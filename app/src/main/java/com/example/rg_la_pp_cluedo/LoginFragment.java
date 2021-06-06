@@ -23,12 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginFragment extends Fragment {
 
-
-    EditText editText;
-    EditText password;
-    Button button;
+    EditText etUserName, etPassword;
+    Button btLogIn,btSignIn;
     User user;
-
 
     FirebaseDatabase database;
     DatabaseReference playerRef;
@@ -36,57 +33,51 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-
-        editText = view.findViewById(R.id.etUserName);
-        password = view.findViewById(R.id.etPassword);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_login, container, false);
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        etUserName = getView().findViewById(R.id.etUserName);
+        etPassword = getView().findViewById(R.id.etPassword);
+        btLogIn = getView().findViewById(R.id.btLogIn);
 
         user = new User();
-        //getView().findViewById(R.id.etUserName);
-        //button = getView().findViewById(R.id.etPassword);
 
-        //database=FirebaseDatabase.getInstance();
+        //database = FirebaseDatabase.getInstance();
         String pref = getString(R.string.PREFapp);
         // miramos si existe el usuario
-        //SharedPreferences preferences = this.getActivity().getSharedPreferences(pref,Context.MODE_PRIVATE);
-        //user.setName(preferences.getString("Users",""));
-        if(user != null && user.getName() != null && !user.getName().equals("")){
-              playerRef=database.getReference("Users/"+user.getName());
-              addEventListener();
-              playerRef.setValue("");
+        SharedPreferences preferences = this.getActivity().getSharedPreferences(pref,Context.MODE_PRIVATE);
+        user.setName(preferences.getString("userName",""));
+        if(user != null && !user.getName().equals("")){
+            playerRef = database.getReference("Users/"+user.getName());
+            addEventListener();
+            playerRef.setValue("");
         }
     }
 
-    private void logIn(View view) {
-        user.setName(editText.getText().toString());
-        editText.setText("");
+    public void logIn(View view) {
+        user.setName(etUserName.getText().toString());
+        etUserName.setText("");
         if(!user.getName().equals("")){
-            button.setText("Logging in");
-        };
+            btLogIn.setText("Logging in");
+        }
     }
 
     private void addEventListener() {
-        final Context context=getContext();
+        final Context context = getContext();
         final SharedPreferences preferences=this.getActivity().getSharedPreferences("PREFS",0);
         playerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(!user.getName().equals("")){
-                  SharedPreferences.Editor editor=preferences.edit();
+                  SharedPreferences.Editor editor = preferences.edit();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                    button.setText("LOG IN");
-                    button.setEnabled(true);
+                btLogIn.setText("LOG IN");
+                btLogIn.setEnabled(true);
                 Toast.makeText(context,"Error",Toast.LENGTH_SHORT).show();
             }
         });
