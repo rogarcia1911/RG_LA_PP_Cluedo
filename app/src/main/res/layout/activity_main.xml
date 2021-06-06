@@ -31,51 +31,50 @@
 
         <ImageView
             android:id="@+id/btStore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:background="@drawable/tienda_logo_es"
-            android:contentDescription="Tienda"
             android:onClick="changeFragment"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btPlay"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btHistorial"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/btPlay"
-            android:layout_width="101dp"
-            android:layout_height="93dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:onClick="changeFragment"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btAccount"
+            app:layout_constraintEnd_toStartOf="@+id/btHistorial"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btStore"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.487"
             app:srcCompat="@drawable/game_logo_es" />
 
         <ImageView
             android:id="@+id/btHistorial"
-            android:layout_width="93dp"
-            android:layout_height="99dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:onClick="changeFragment"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btStore"
+            app:layout_constraintEnd_toStartOf="@+id/btAccount"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btAccount"
+            app:layout_constraintStart_toEndOf="@+id/btPlay"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/historial_logo_es" />
 
         <ImageView
             android:id="@+id/btAccount"
-            android:layout_width="83dp"
-            android:layout_height="87dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:onClick="changeFragment"
-            android:text="Account"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btHistorial"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btPlay"
+            app:layout_constraintStart_toEndOf="@+id/btHistorial"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/usuario_logo_es" />
 

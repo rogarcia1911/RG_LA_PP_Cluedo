@@ -43,6 +43,7 @@ public class ActivityMain extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         firebaseConnection = DataBaseConnection.getInstance();
+        DataBaseConnection.getFirebase(getApplicationContext());
         FragmentGame fragmentGame = new FragmentGame();
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer,fragmentGame).commit();
 
