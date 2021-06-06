@@ -1,13 +1,10 @@
 package com.example.rg_la_pp_cluedo.BBDD;
 
-
 import android.content.Context;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-
 
 public class DataBaseConnection  {
 
