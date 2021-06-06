@@ -11,7 +11,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/fondo_ok">
+        android:background="@drawable/fondo_pp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="fill_parent"

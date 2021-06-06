@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondo_perder"
+    android:background="@drawable/fondo_pp"
     android:onClick="tapScreen"
     tools:context=".ActivityPerder">
 
     <ImageView
         android:id="@+id/ivBobiMuerto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="242dp"
+        android:layout_height="184dp"
         android:layout_margin="@dimen/P_margenBobi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
