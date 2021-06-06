@@ -83,6 +83,9 @@
     <string name="btNgtv">Cancel</string>
     <string name="btPstv">Okay</string>
 
+    <!-- activity_chat -->
+    <string name="etMessage">Write a message</string>
+
     <!-- activity_login -->
     <string name="nameUser">NameUser</string>
     <string name="switchMusica">Musica</string>

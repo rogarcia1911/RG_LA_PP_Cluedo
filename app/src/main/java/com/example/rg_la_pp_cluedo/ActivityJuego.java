@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,7 +43,7 @@ public class ActivityJuego extends AppCompatActivity {
     private ImageView mostrarimagen;
     private LinearLayout llhCartas;
     private LinearLayout llvCartas;
-    private Button btnSuponer;
+    private Button btnSuponer, btnChat, btnGame;
     private TextView tvCont;
 
     DataBaseConnection firebaseConection = null;
@@ -76,6 +77,8 @@ public class ActivityJuego extends AppCompatActivity {
         imBtLugar = findViewById(R.id.imBtHabitacion);
         tvCont = findViewById(R.id.txtV2);
         btnSuponer = findViewById(R.id.btnSuponer);
+        btnChat = findViewById(R.id.btnChat);
+        btnGame = findViewById(R.id.btnGame);
 
         if(getIntent().getBooleanExtra("nuevaPartida",false)) {
             reiniciarCartas();
@@ -149,6 +152,16 @@ public class ActivityJuego extends AppCompatActivity {
                 }
 
 
+            }
+        });
+
+        btnGame.setEnabled(false);
+
+        btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent chat = new Intent(getApplicationContext(), ActivityChat.class);
+                startActivity(chat);
             }
         });
 
@@ -352,7 +365,7 @@ public class ActivityJuego extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     murderedCards = null;
                     for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
-                        Match currentMatch = objSnapshot.getValue(Match.class);//String.class
+                        Match currentMatch = objSnapshot.getValue(Match.class);
 
                         if (currentMatch != null){
                             murderedCards = currentMatch.getMurderCards();

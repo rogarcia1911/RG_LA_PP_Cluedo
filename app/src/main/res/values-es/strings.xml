@@ -79,6 +79,9 @@
     <string name="btPstv">Ok</string>
     <string name="btVolverMain">Menú</string>
 
+    <!-- activity_chat -->
+    <string name="etMessage">Escribe un mensaje</string>
+
     <!-- activity_perder -->
     <!-- activity_login -->
     <string name="nameUser">NameUser</string>

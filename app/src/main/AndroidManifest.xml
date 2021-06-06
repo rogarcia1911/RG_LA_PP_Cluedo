@@ -13,7 +13,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".ActivityLobby"></activity>
+        <activity android:name=".ActivityChat"></activity>
+        <activity android:name=".ActivityLobby" />
         <activity
             android:name=".ActivityElegirHabitacion"
             android:configChanges="orientation"

@@ -4,7 +4,8 @@ public class ChatMessage {
 
     private String messagePlayer;
     private String messageText;
-    private Long messageTime;
+    private String messageTime;
+    //private String profilePhoto
 
     public ChatMessage() {
 
@@ -13,7 +14,6 @@ public class ChatMessage {
     public ChatMessage(String messagePlayer, String messageText) {
         this.messagePlayer = messagePlayer;
         this.messageText = messageText;
-        this.messageTime = System.currentTimeMillis();
     }
 
     public String getMessagePlayer() {
@@ -32,11 +32,4 @@ public class ChatMessage {
         this.messageText = messageText;
     }
 
-    public Long getMessageTime() {
-        return messageTime;
-    }
-
-    public void setMessageTime(Long messageTime) {
-        this.messageTime = messageTime;
-    }
 }
