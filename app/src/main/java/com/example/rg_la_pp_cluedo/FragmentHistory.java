@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,12 +32,10 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class FragmentHistory extends Fragment {
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -70,27 +69,22 @@ public class FragmentHistory extends Fragment {
         return fragment;
     }
 
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        tvId = getView().findViewById(R.id.tvId);
+        tvTiempo = getView().findViewById(R.id.tvTiempo);
+        tvResultado = getView().findViewById(R.id.tvResultado);
+
+        iniciar();
+        ListSQL();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        // TODO : No le gusta los findViewByID
-        // TODO: la vista que recupera es la del FrameLayout y no el del Fragment
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_history, null);
-        // TODO: havciendo esto como he visto devuelve null
-        View view = getView();
-        View view2 = inflater.inflate(R.layout.fragment_history, container, false);
-        View view3 = root.getFocusedChild();
-        View view4 = view2.getRootView();
-        View view5 = view2.findFocus();
-        //Como la vista es FrameLayout no existe un tvId
-        tvId = view2.findViewById(R.id.tvId);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_history, container, false);
-    }
-
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-
     }
 
     @Override
@@ -100,18 +94,34 @@ public class FragmentHistory extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        // TODO : No le gusta los findViewByID
-        //tvId = getView().findViewById(R.id.tvI);
-        //tvTiempo = getView().findViewById(R.id.tvTiempo);
-        //tvResultado = getView().findViewById(R.id.tvResultado);
-
-        //iniciar();
-
         firebaseConnection = DataBaseConnection.getInstance();
+    }
 
-        //dataList();
-/*
+    private void ListSQL() {
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this.getContext(), "administracion",null,1);
+        SQLiteDatabase db = admin.getWritableDatabase();
+
+        Cursor fila = db.rawQuery("SELECT id, IFNULL(tiempoTot,'"+getString(R.string.tvTTNull)+"'), resultado, fin FROM partidas ORDER BY id DESC LIMIT 20",null);
+        if(fila.moveToFirst()){
+            do {
+                tvId.setText( ((String) tvId.getText()) + fila.getString(0) + "\n" );
+                tvTiempo.setText( ((String) tvTiempo.getText()) + fila.getString(1) + "\n" );
+                if (fila.getInt(2)==1) //resultado=true
+                    tvResultado.setText( ((String) tvResultado.getText()) + getString(R.string.tvResultadoGanar) + "\n" );
+                else if (fila.getInt(2)==0 && fila.getString(3)==null) //resultado=false y fin==null
+                    tvResultado.setText( ((String) tvResultado.getText()) + "------" + "\n" );
+                else //resultado=false y fin!=null
+                    tvResultado.setText( ((String) tvResultado.getText()) + getString(R.string.tvResultadoPerder) + "\n" );
+            }while(fila.moveToNext());
+
+        } else Toast.makeText(this.getContext(),getString(R.string.msjNoPartidas),Toast.LENGTH_SHORT).show();
+
+        db.close();
+    }
+
+    private void ListFirebase() {
+        dataList();
+
         //TODO: linear layout data revision (add player number?) and show all data
         //TODO: insert revision
         if (!matchList.isEmpty() && matchList != null) {
@@ -138,34 +148,12 @@ public class FragmentHistory extends Fragment {
                     tvResultado.setText( ((String) tvResultado.getText()) + getString(R.string.tvResultadoPerder) + "\n" );
             }
         } else Toast.makeText(this.getContext(),getString(R.string.msjNoPartidas),Toast.LENGTH_SHORT).show();
-*/
-/*
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this.getContext(), "administracion",null,1);
-        SQLiteDatabase db = admin.getWritableDatabase();
 
-        Cursor fila = db.rawQuery("SELECT id, IFNULL(tiempoTot,'"+getString(R.string.tvTTNull)+"'), resultado, fin FROM partidas ORDER BY id DESC LIMIT 20",null);
-        if(fila.moveToFirst()){
-            do {
-                tvId.setText( ((String) tvId.getText()) + fila.getString(0) + "\n" );
-                tvTiempo.setText( ((String) tvTiempo.getText()) + fila.getString(1) + "\n" );
-                if (fila.getInt(2)==1) //resultado=true
-                    tvResultado.setText( ((String) tvResultado.getText()) + getString(R.string.tvResultadoGanar) + "\n" );
-                else if (fila.getInt(2)==0 && fila.getString(3)==null) //resultado=false y fin==null
-                    tvResultado.setText( ((String) tvResultado.getText()) + "------" + "\n" );
-                else //resultado=false y fin!=null
-                    tvResultado.setText( ((String) tvResultado.getText()) + getString(R.string.tvResultadoPerder) + "\n" );
-            }while(fila.moveToNext());
-
-        } else Toast.makeText(this.getContext(),getString(R.string.msjNoPartidas),Toast.LENGTH_SHORT).show();
-
-        db.close();
-*/
     }
 
 
     private void dataList() {
         //TODO: select revision https://www.youtube.com/watch?v=_17qiNSMDCA&list=PL2LFsAM2rdnxv8bLBZrMtd_f3fsfgLzH7&index=5
-
 
         firebaseConnection.getFirebase(this.getActivity().getApplicationContext()).child("Match").addValueEventListener(new ValueEventListener() {
             @Override
@@ -190,7 +178,6 @@ public class FragmentHistory extends Fragment {
             }
         });
     }
-
 
     //Método para borrar todas las partidas
     public void iniciar() {

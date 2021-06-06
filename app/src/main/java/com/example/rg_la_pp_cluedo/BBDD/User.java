@@ -8,16 +8,21 @@ import java.util.ArrayList;
 public class User {
 
     private String name;
-    private Integer numMatchs;
+    private Integer numSoloMatchs;
+    private Integer numMultiMatchs;
     private Integer points;
 
     public User(){
-
+        this.name = null;
+        this.numSoloMatchs = null;
+        this.numMultiMatchs = null;
+        this.points = null;
     }
 
-    public User(String name, Integer numMatchs, Integer points) {
+    public User(String name, Integer numSoloMatchs, Integer numMultiMatchs, Integer points) {
         this.name = name;
-        this.numMatchs = numMatchs;
+        this.numSoloMatchs = numSoloMatchs;
+        this.numMultiMatchs = numMultiMatchs;
         this.points = points;
     }
 
@@ -29,12 +34,20 @@ public class User {
         this.name = name;
     }
 
-    public Integer getNumMatchs() {
-        return numMatchs;
+    public Integer getNumSoloMatchs() {
+        return numSoloMatchs;
     }
 
-    public void setNumMatchs(Integer numMatchs) {
-        this.numMatchs = numMatchs;
+    public void setNumSoloMatchs(Integer numSoloMatchs) {
+        this.numSoloMatchs = numSoloMatchs;
+    }
+
+    public Integer getNumMultiMatchs() {
+        return numMultiMatchs;
+    }
+
+    public void setNumMultiMatchs(Integer numMultiMatchs) {
+        this.numMultiMatchs = numMultiMatchs;
     }
 
     public Integer getPoints() {
@@ -49,7 +62,8 @@ public class User {
     public String toString() {
         return "User{" +
                 "  name='" + name + "'"   +
-                ", numMatch=" + numMatchs +
+                ", numMatch=" + numSoloMatchs +
+                ", numMatch=" + numMultiMatchs +
                 ", points='" + points + "'" +
                 '}';
     }

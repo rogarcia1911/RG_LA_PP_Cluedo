@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
@@ -32,7 +33,6 @@ import java.util.UUID;
 public class ActivityMain extends AppCompatActivity {
 
     FragmentTransaction transaction;
-    Fragment fragmentStore, fragmentGame, fragmentHistory, fragmentAccount, fragmentRules;
 
     DataBaseConnection firebaseConnection = null;
 
@@ -42,16 +42,9 @@ public class ActivityMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //firebaseConnection = DataBaseConnection.getInstance();
-        //firebaseConnection.getFirebase(getApplicationContext);
-
-        fragmentStore = new FragmentStore();
-        fragmentGame = new FragmentGame();
-        fragmentHistory = new FragmentHistory();
-        fragmentAccount = new LoginFragment();
-        fragmentRules = new RulesFragment();
-
-
+        firebaseConnection = DataBaseConnection.getInstance();
+        //firebaseConnection.getFirebase(this);
+        FragmentGame fragmentGame = new FragmentGame();
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer,fragmentGame).commit();
 
         //Si pulsa el boton Back saldrá un dialog preguntando si esta seguro de quiere salir de la aplicación
@@ -90,21 +83,25 @@ public class ActivityMain extends AppCompatActivity {
         switch (view.getId())
         {
             case R.id.btAccount:
+                LoginFragment fragmentAccount = new LoginFragment();
                 transaction.replace(R.id.fragmentContainer, fragmentAccount).commit();
                 break;
             case R.id.btHistorial:
+                FragmentHistory fragmentHistory = new FragmentHistory();
                 transaction.replace(R.id.fragmentContainer, fragmentHistory).commit();
                 break;
             case R.id.btPlay:
+                FragmentGame fragmentGame = new FragmentGame();
                 transaction.replace(R.id.fragmentContainer, fragmentGame).commit();
                 break;
             case R.id.btStore:
+                FragmentStore fragmentStore = new FragmentStore();
                 transaction.replace(R.id.fragmentContainer, fragmentStore).commit();
                 break;
             default:
+                RulesFragment fragmentRules = new RulesFragment();
                 transaction.replace(R.id.fragmentContainer, fragmentRules).commit();
                 break;
         }
     }
-
 }
