@@ -7,6 +7,7 @@ public class User {
     private Integer numSoloMatchs;
     private Integer numMultiMatchs;
     private Integer points;
+    private Icon icon;
 
     public User(){
         this.name = "";

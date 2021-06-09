@@ -276,7 +276,6 @@ public class LoginFragment extends Fragment {
         icon = new Icon(true,R.drawable.personaje_amapola);
 
         userPlayerRef = database.getDatabase().getReference("Players/"+userName+"/User");
-        iconPlayerRef = database.getDatabase().getReference("Players/"+userName+"/Icons/"+0);
         addEventListener();
 
         userPlayerRef.setValue(player);
