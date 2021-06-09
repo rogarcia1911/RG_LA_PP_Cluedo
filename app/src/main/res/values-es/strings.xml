@@ -86,4 +86,9 @@
     <!-- activity_login -->
     <string name="nameUser">NameUser</string>
     <string name="switchMusica">Musica</string>
+    <!-- activity_store -->
+    <string name="tienda">tienda</string>
+    <string name="button_text2">100</string>
+    <string name="button_text1">200</string>
+    <string name="button_text3">300</string>
 </resources>
