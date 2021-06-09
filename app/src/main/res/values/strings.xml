@@ -3,7 +3,7 @@
     <!-- SharedPreferences -->
     <string name="PREFsoloGame" translatable="false">PREFsoloGame</string>
     <string name="PREFmultiGame" translatable="false">PREFmultiGame</string>
-    <string name="PREFapp" translatable="false">PREFapp</string>
+    <string name="PREFapp" translatable="false">PREFS</string>
 
     <!-- activity_main -->
     <string name="tvTituloMain">Who is the murderer?</string>

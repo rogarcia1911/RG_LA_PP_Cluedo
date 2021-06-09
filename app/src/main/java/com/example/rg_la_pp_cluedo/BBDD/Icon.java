@@ -1,5 +1,7 @@
 package com.example.rg_la_pp_cluedo.BBDD;
 
+import com.example.rg_la_pp_cluedo.R;
+
 import java.util.ArrayList;
 
 public class Icon {
@@ -8,7 +10,8 @@ public class Icon {
     private Integer image;
 
     public Icon(){
-
+        selected = null;
+        image = null;
     }
 
     public Icon(Boolean selected, Integer image) {
@@ -16,7 +19,7 @@ public class Icon {
         this.image = image;
     }
 
-    public Boolean getSelected() {
+    public Boolean isSelected() {
         return selected;
     }
 

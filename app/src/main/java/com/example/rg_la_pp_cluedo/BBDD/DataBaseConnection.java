@@ -27,7 +27,9 @@ public class DataBaseConnection  {
     public static DatabaseReference getFirebase(Context context){
         FirebaseApp.initializeApp(context);
         firebaseObj = FirebaseDatabase.getInstance();
-        firebaseObj.setPersistenceEnabled(true);
+        if ( firebaseObj == null ) {
+            firebaseObj.setPersistenceEnabled(true);
+        }
         databaseRefObj = firebaseObj.getReference();
 
         return databaseRefObj;
