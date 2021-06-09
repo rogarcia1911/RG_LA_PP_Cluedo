@@ -38,11 +38,11 @@ public class Match {
      //private Long matchTime;   //Calcular tiempo jugado /Solo/ (fin-inico-(pausa.fin-pausa.inicio))
 
      public Match(){
-          name = null;
-          num = null;
-          beginningDate = null;
-          endingDate = null;
-          resultGame = null;
+          name = "";
+          num = 0;
+          beginningDate = 0L;
+          endingDate = 0L;
+          resultGame = false;
           isSolo = null;
           difficulty = null;
      }
