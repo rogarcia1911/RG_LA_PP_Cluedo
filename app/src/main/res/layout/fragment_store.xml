@@ -46,7 +46,6 @@
                     android:id="@+id/imageView1"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:layout_weight="1"
                     android:src="@drawable/pista3"
                      />
 
@@ -54,7 +53,6 @@
                     android:id="@+id/imageView2"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:layout_weight="1"
                     android:src="@drawable/pista_2"
                    />
 
@@ -62,9 +60,7 @@
                     android:id="@+id/imageView12"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/pista13"
-                    android:contentDescription="TODO" />
+                    android:src="@drawable/pista13" />
 
             </LinearLayout>
 
@@ -78,7 +74,6 @@
                     android:layout_width="131dp"
                     android:layout_height="49dp"
                     android:layout_margin="3dp"
-                    android:layout_padding="2dp"
                     android:background="@android:color/darker_gray"
                     android:drawableRight="@drawable/coint"
                     android:paddingLeft="8dp"
@@ -93,7 +88,6 @@
                     android:layout_width="127dp"
                     android:layout_height="match_parent"
                     android:layout_margin="3dp"
-                    android:layout_padding="2dp"
                     android:background="@android:color/darker_gray"
                     android:drawableRight="@drawable/coint"
                     android:paddingLeft="8dp"
@@ -111,12 +105,14 @@
                     android:layout_width="128dp"
                     android:layout_height="match_parent"
                     android:layout_margin="3dp"
-                    android:layout_padding="2dp"
                     android:background="@android:color/darker_gray"
                     android:drawableRight="@drawable/coint"
+                    android:drawableEnd="@drawable/coint"
                     android:paddingLeft="8dp"
+                    android:paddingStart="8dp"
                     android:paddingTop="8dp"
                     android:paddingRight="0dp"
+                    android:paddingEnd="0dp"
                     android:paddingBottom="8dp"
                     android:text="@string/button_text3" />
             </LinearLayout>
@@ -159,9 +155,9 @@
                         android:layout_width="99dp"
                         android:layout_height="32dp"
                         android:layout_margin="3dp"
-                        android:layout_padding="2dp"
                         android:background="@android:color/darker_gray"
                         android:drawableRight="@drawable/coint"
+                        android:drawableEnd="@drawable/coint"
                         android:paddingLeft="8dp"
                         android:paddingTop="0dp"
                         android:paddingRight="8dp"
@@ -177,9 +173,9 @@
                         android:layout_width="99dp"
                         android:layout_height="32dp"
                         android:layout_margin="3dp"
-                        android:layout_padding="2dp"
                         android:background="@android:color/darker_gray"
                         android:drawableRight="@drawable/coint"
+                        android:drawableEnd="@drawable/coint"
                         android:paddingLeft="8dp"
                         android:paddingTop="0dp"
                         android:paddingRight="8dp"
@@ -219,9 +215,9 @@
                         android:layout_width="99dp"
                         android:layout_height="32dp"
                         android:layout_margin="3dp"
-                        android:layout_padding="2dp"
                         android:background="@android:color/darker_gray"
                         android:drawableRight="@drawable/coint"
+                        android:drawableEnd="@drawable/coint"
                         android:paddingLeft="8dp"
                         android:paddingTop="0dp"
                         android:paddingRight="8dp"
@@ -237,9 +233,9 @@
                         android:layout_width="99dp"
                         android:layout_height="32dp"
                         android:layout_margin="3dp"
-                        android:layout_padding="2dp"
                         android:background="@android:color/darker_gray"
                         android:drawableRight="@drawable/coint"
+                        android:drawableEnd="@drawable/coint"
                         android:paddingLeft="8dp"
                         android:paddingTop="0dp"
                         android:paddingRight="8dp"
@@ -255,8 +251,7 @@
                         android:id="@+id/imageView8"
                         android:layout_width="wrap_content"
                         android:layout_height="167dp"
-                        android:src="@drawable/avatar9"
-                        android:contentDescription="TODO" />
+                        android:src="@drawable/avatar9"/>
 
                     <Space
                         android:layout_width="@dimen/H_margen"
@@ -279,9 +274,9 @@
                         android:layout_width="99dp"
                         android:layout_height="32dp"
                         android:layout_margin="3dp"
-                        android:layout_padding="2dp"
                         android:background="@android:color/darker_gray"
                         android:drawableRight="@drawable/coint"
+                        android:drawableEnd="@drawable/coint"
                         android:paddingLeft="8dp"
                         android:paddingTop="0dp"
                         android:paddingRight="8dp"
@@ -297,9 +292,9 @@
                         android:layout_width="99dp"
                         android:layout_height="32dp"
                         android:layout_margin="3dp"
-                        android:layout_padding="2dp"
                         android:background="@android:color/darker_gray"
                         android:drawableRight="@drawable/coint"
+                        android:drawableEnd="@drawable/coint"
                         android:paddingLeft="8dp"
                         android:paddingTop="0dp"
                         android:paddingRight="8dp"
