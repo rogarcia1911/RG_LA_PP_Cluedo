@@ -19,21 +19,23 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="411dp"
                 android:layout_height="match_parent"
                 android:layout_margin="20dp"
                 android:layout_weight="1"
+                android:background="@drawable/fondo_tienda"
                 android:gravity="center"
                 android:text="@string/tienda"
                 android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
+                android:layout_width="399dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                />
+                android:text="@string/pista"
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,8 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:src="@drawable/pista13"
-                    android:contentDescription="TODO" />
+                    android:src="@drawable/pista13" />
 
             </LinearLayout>
 
@@ -74,11 +75,10 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btn_pista2"
+                    android:id="@+id/btn_pista1"
                     android:layout_width="131dp"
                     android:layout_height="49dp"
                     android:layout_margin="3dp"
-                    android:layout_padding="2dp"
                     android:background="@android:color/darker_gray"
                     android:drawableRight="@drawable/coint"
                     android:paddingLeft="8dp"
@@ -89,11 +89,10 @@
                     android:drawableEnd="@drawable/coint" />
 
                 <Button
-                    android:id="@+id/btn_pista3"
+                    android:id="@+id/btn_pista2"
                     android:layout_width="127dp"
                     android:layout_height="match_parent"
                     android:layout_margin="3dp"
-                    android:layout_padding="2dp"
                     android:background="@android:color/darker_gray"
                     android:drawableRight="@drawable/coint"
                     android:paddingLeft="8dp"
@@ -106,215 +105,214 @@
                     android:paddingEnd="0dp" />
 
                 <Button
-                    android:id="@+id/btn_pista1"
+                    android:id="@+id/btn_pista3"
                     style="@style/Widget.AppCompat.Button.Small"
                     android:layout_width="128dp"
                     android:layout_height="match_parent"
                     android:layout_margin="3dp"
-                    android:layout_padding="2dp"
                     android:background="@android:color/darker_gray"
                     android:drawableRight="@drawable/coint"
                     android:paddingLeft="8dp"
                     android:paddingTop="8dp"
                     android:paddingRight="0dp"
                     android:paddingBottom="8dp"
-                    android:text="@string/button_text3" />
+                    android:text="@string/button_text3"
+                    android:drawableEnd="@drawable/coint"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="0dp" />
+
             </LinearLayout>
 
-            <TableLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <TableRow
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
+                    android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/avatar1" />
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="398dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/avatares"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <Space
-                        android:layout_width="@dimen/H_margen"
-                        android:layout_height="@dimen/H_margen" />
+            </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/imageView5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="167dp"
-                        android:src="@drawable/avatar2" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-
-                    <Button
-                        android:id="@+id/ico_btn1"
-                        android:layout_width="99dp"
-                        android:layout_height="32dp"
-                        android:layout_margin="3dp"
-                        android:layout_padding="2dp"
-                        android:background="@android:color/darker_gray"
-                        android:drawableRight="@drawable/coint"
-                        android:paddingLeft="8dp"
-                        android:paddingTop="0dp"
-                        android:paddingRight="8dp"
-                        android:paddingBottom="2dp"
-                        android:text="@string/button_text2" />
-
-                    <Space
-                        android:layout_width="@dimen/H_margen"
-                        android:layout_height="@dimen/H_margen" />
-
-                    <Button
-                        android:id="@+id/ico_btn2"
-                        android:layout_width="99dp"
-                        android:layout_height="32dp"
-                        android:layout_margin="3dp"
-                        android:layout_padding="2dp"
-                        android:background="@android:color/darker_gray"
-                        android:drawableRight="@drawable/coint"
-                        android:paddingLeft="8dp"
-                        android:paddingTop="0dp"
-                        android:paddingRight="8dp"
-                        android:paddingBottom="2dp"
-                        android:text="@string/button_text2" />
-                </TableRow>
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:id="@+id/imageView6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="167dp"
-                        android:src="@drawable/avatar3" />
-
-                    <Space
-                        android:layout_width="@dimen/H_margen"
-                        android:layout_height="@dimen/H_margen" />
-
-                    <ImageView
-                        android:id="@+id/imageView7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="167dp"
-                        android:src="@drawable/avatar6" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-
-                    <Button
-                        android:id="@+id/ico_btn3"
-                        android:layout_width="99dp"
-                        android:layout_height="32dp"
-                        android:layout_margin="3dp"
-                        android:layout_padding="2dp"
-                        android:background="@android:color/darker_gray"
-                        android:drawableRight="@drawable/coint"
-                        android:paddingLeft="8dp"
-                        android:paddingTop="0dp"
-                        android:paddingRight="8dp"
-                        android:paddingBottom="2dp"
-                        android:text="@string/button_text2" />
-
-                    <Space
-                        android:layout_width="@dimen/H_margen"
-                        android:layout_height="@dimen/H_margen" />
-
-                    <Button
-                        android:id="@+id/ico_btn4"
-                        android:layout_width="99dp"
-                        android:layout_height="32dp"
-                        android:layout_margin="3dp"
-                        android:layout_padding="2dp"
-                        android:background="@android:color/darker_gray"
-                        android:drawableRight="@drawable/coint"
-                        android:paddingLeft="8dp"
-                        android:paddingTop="0dp"
-                        android:paddingRight="8dp"
-                        android:paddingBottom="2dp"
-                        android:text="@string/button_text2" />
-                </TableRow>
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:id="@+id/imageView8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="167dp"
-                        android:src="@drawable/avatar9"
-                        android:contentDescription="TODO" />
-
-                    <Space
-                        android:layout_width="@dimen/H_margen"
-                        android:layout_height="@dimen/H_margen" />
-
-                    <ImageView
-                        android:id="@+id/imageView9"
-                        android:layout_width="wrap_content"
-                        android:layout_height="167dp"
-                        android:src="@drawable/avatar10" />
-
-                </TableRow>
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-
-                    <Button
-                        android:id="@+id/ico_btn5"
-                        android:layout_width="99dp"
-                        android:layout_height="32dp"
-                        android:layout_margin="3dp"
-                        android:layout_padding="2dp"
-                        android:background="@android:color/darker_gray"
-                        android:drawableRight="@drawable/coint"
-                        android:paddingLeft="8dp"
-                        android:paddingTop="0dp"
-                        android:paddingRight="8dp"
-                        android:paddingBottom="2dp"
-                        android:text="@string/button_text2" />
-
-                    <Space
-                        android:layout_width="@dimen/H_margen"
-                        android:layout_height="@dimen/H_margen" />
-
-                    <Button
-                        android:id="@+id/ico_btn6"
-                        android:layout_width="99dp"
-                        android:layout_height="32dp"
-                        android:layout_margin="3dp"
-                        android:layout_padding="2dp"
-                        android:background="@android:color/darker_gray"
-                        android:drawableRight="@drawable/coint"
-                        android:paddingLeft="8dp"
-                        android:paddingTop="0dp"
-                        android:paddingRight="8dp"
-                        android:paddingBottom="2dp"
-                        />
-                </TableRow>
-            </TableLayout>
-
-            <TextView
-                android:id="@+id/textView2"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:text="TextView" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/avatar1" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/avatar10" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/avatar2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_pista4"
+                    android:layout_width="131dp"
+                    android:layout_height="49dp"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray"
+                    android:drawableEnd="@drawable/coint"
+                    android:drawableRight="@drawable/coint"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:text="@string/button_text2" />
+
+                <Button
+                    android:id="@+id/btn_pista5"
+                    android:layout_width="127dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray"
+                    android:drawableEnd="@drawable/coint"
+                    android:drawableRight="@drawable/coint"
+                    android:paddingStart="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/button_text1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/avatar3" />
+
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/avatar6" />
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/avatar9" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_pista9"
+                    android:layout_width="131dp"
+                    android:layout_height="49dp"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray"
+                    android:drawableEnd="@drawable/coint"
+                    android:drawableRight="@drawable/coint"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:text="@string/button_text2" />
+
+                <Button
+                    android:id="@+id/btn_pista8"
+                    android:layout_width="131dp"
+                    android:layout_height="49dp"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray"
+                    android:drawableEnd="@drawable/coint"
+                    android:drawableRight="@drawable/coint"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:text="@string/button_text2" />
+
+                <Button
+                    android:id="@+id/btn_pista7"
+                    android:layout_width="131dp"
+                    android:layout_height="49dp"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray"
+                    android:drawableEnd="@drawable/coint"
+                    android:drawableRight="@drawable/coint"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:text="@string/button_text2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="426dp"
+                        android:layout_height="21dp"
+                        android:text="Puntos Jugador"
+                        tools:ignore="MissingConstraints" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
