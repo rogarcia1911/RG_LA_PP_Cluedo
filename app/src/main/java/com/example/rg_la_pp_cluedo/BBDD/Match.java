@@ -43,6 +43,12 @@ public class Match {
       */
      private Integer cont;
 
+     /**
+      * Guarda las cartas que sabes que son incorrectas
+      */
+     private ArrayList<Integer> incorrectCards;
+
+
      public Match(){
           name = "";
           num = 0;
@@ -67,7 +73,7 @@ public class Match {
       * @param cont
       */
      public Match(String name, Integer num, Long beginningDate, Long endingDate, Boolean resultGame, Boolean isSolo,
-                  String difficulty, ArrayList<Integer> murderCards, Integer cont) {
+                  String difficulty, ArrayList<Integer> murderCards, Integer cont, ArrayList<Integer> incorrectCards) {
           this.name = name;
           this.num = num;
           this.beginningDate = beginningDate;
@@ -77,6 +83,7 @@ public class Match {
           this.difficulty = difficulty;
           this.cont = cont;
           this.murderCards = murderCards;
+          this.incorrectCards = incorrectCards;
      }
 
      public String getName() {
@@ -149,6 +156,14 @@ public class Match {
 
      public ArrayList<Integer> getMurderCards() {
           return murderCards;
+     }
+
+     public ArrayList<Integer> getIncorrectCards() {
+          return incorrectCards;
+     }
+
+     public void setIncorrectCards(ArrayList<Integer> incorrectCards) {
+          this.incorrectCards = incorrectCards;
      }
 
      @Override
