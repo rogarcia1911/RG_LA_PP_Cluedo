@@ -1,5 +1,6 @@
 package com.example.rg_la_pp_cluedo;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -128,10 +129,16 @@ public class LoginFragment extends Fragment {
         btLogOut.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             SharedPreferences.Editor editor = shPreferences.edit();
-            editor.putString("userName", "");
-            editor.putString("userData", "");
             editor.clear();
             editor.apply();
+
+            SharedPreferences.Editor editorGameSolo = getActivity().getSharedPreferences( getString(R.string.PREFsoloGame), Context.MODE_PRIVATE).edit();
+            editorGameSolo.clear();
+            editorGameSolo.apply();
+
+            SharedPreferences.Editor editorGameMulti = getActivity().getSharedPreferences( getString(R.string.PREFmultiGame), Context.MODE_PRIVATE).edit();
+            editorGameMulti.clear();
+            editorGameMulti.apply();
 
             chargeUserData(null);
             ViewSingIn();
