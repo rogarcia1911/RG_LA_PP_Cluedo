@@ -49,11 +49,12 @@ public class ActivityJuego extends AppCompatActivity {
     private TextView tvCont;
 
     SharedPreferences shPreferences, gameSoloPref;
+    DataBaseConnection firebaseConnection = null;
     DatabaseReference database, matchDataRef;
     Match match;
     String matchName;
 
-    private Boolean solo;
+    private Boolean isSolo;
     private String fich = "cartas.dat";
     private int oportunidades, contador;
     private int imagen_personaje, imagen_arma, imagen_lugar;
@@ -67,11 +68,15 @@ public class ActivityJuego extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juego);
         shPreferences = getSharedPreferences(getString(R.string.PREFapp),0);
-        database = DataBaseConnection.getFirebase();
+        gameSoloPref = getSharedPreferences( getString(R.string.PREFsoloGame), Context.MODE_PRIVATE);
+        firebaseConnection = DataBaseConnection.getInstance();
+        database = DataBaseConnection.getFirebase(getApplicationContext());
 
         //TODO: preferancias idioma y sonido
         shPreferences.getString("appLanguage","");
         shPreferences.getBoolean("appSound",true);
+
+        isSolo = getIntent().getBooleanExtra("gameMode",match.getIsSolo());
 
         //Si pulsa el boton Back le llevará al ActivityMain
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -90,8 +95,6 @@ public class ActivityJuego extends AppCompatActivity {
         btnSuponer = findViewById(R.id.btnSuponer);
         btnChat = findViewById(R.id.btnChat);
         btnGame = findViewById(R.id.btnGame);
-
-        gameSoloPref = getSharedPreferences( getString(R.string.PREFsoloGame), Context.MODE_PRIVATE);
 
         if(getIntent().getBooleanExtra("gameNew",false)) {
             reiniciarCartas();
@@ -160,7 +163,7 @@ public class ActivityJuego extends AppCompatActivity {
                     Toast.makeText(ActivityJuego.this, getString(R.string.msj3Cartas), Toast.LENGTH_SHORT).show();
                 else{
 
-                    if(solo){
+                    if(isSolo){
                         comprobarIndividual(imagen_personaje, imagen_arma, imagen_lugar);
                     }else{
                         comprobarMultijugador(imagen_personaje, imagen_arma, imagen_lugar);
@@ -400,7 +403,7 @@ public class ActivityJuego extends AppCompatActivity {
         match.setResultGame(resultado);
         match.setEndingDate(System.currentTimeMillis());
 
-
+        matchDataRef.setValue(match);
 
         /*
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(
