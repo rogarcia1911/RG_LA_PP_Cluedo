@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.example.rg_la_pp_cluedo.BBDD.Card;
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -41,14 +43,15 @@ import java.util.List;
 public class ActivityJuego extends AppCompatActivity {
 
     private ImageButton imBtPersonaje, imBtLugar, imBtArma;
-    private ImageView mostrarimagen;
     private LinearLayout llhCartas;
     private LinearLayout llvCartas;
     private Button btnSuponer, btnChat, btnGame;
     private TextView tvCont;
 
     SharedPreferences shPreferences, gameSoloPref;
-    DatabaseReference database;
+    DatabaseReference database, matchDataRef;
+    Match match;
+    String matchName;
 
     private Boolean solo;
     private String fich = "cartas.dat";
@@ -56,7 +59,7 @@ public class ActivityJuego extends AppCompatActivity {
     private int imagen_personaje, imagen_arma, imagen_lugar;
     //nombre de SharedPreferences de los ActivityElegir...
     private String spEP = "datosEP",spEH = "datosEH",spEA = "datosEA";
-    private ArrayList murderedCards;
+    private ArrayList<Integer> murderedCards;
 
 
     @Override
@@ -96,6 +99,7 @@ public class ActivityJuego extends AppCompatActivity {
             reiniciarBtMarc(spEP);
             reiniciarBtMarc(spEH);
             reiniciarBtMarc(spEA);
+            oportunidades = shPreferences.getInt("gameSoloCont",0);
             cambiar_cont(shPreferences.getInt("gameSoloCont",0)); //reiniciamos el contador
         }
 
@@ -119,6 +123,7 @@ public class ActivityJuego extends AppCompatActivity {
         imagen_lugar = getIntent().getIntExtra("imagen_lugar", imagen3Int);
         elegir_lug(imagen_lugar);
 
+        getMatch();
 
         //Boton abre activity de elegir personaje
         imBtPersonaje.setOnClickListener(new View.OnClickListener() {
@@ -166,8 +171,6 @@ public class ActivityJuego extends AppCompatActivity {
             }
         });
 
-        btnGame.setEnabled(false);
-
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -178,6 +181,29 @@ public class ActivityJuego extends AppCompatActivity {
 
     }//FIN onCreate
 
+    private void getMatch() {
+        String userName = shPreferences.getString("userName","");
+        String matchName = shPreferences.getString("gameSoloName",""); // o recuperar la de Multi
+        matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+matchName);
+        matchDataRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                match = snapshot.getValue(Match.class);
+                if (murderedCards== null)
+                    murderedCards = match.getMurderCards();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(),"No se ha podido recuperar la partida.",Toast.LENGTH_SHORT).show();
+            }
+        });
+        if( match == null )
+            matchDataRef.get();
+        else
+            matchDataRef.setValue(match);
+    }
+
     //Método que modifica el tvCont
     public void cambiar_cont(int num){
         tvCont.setText(String.valueOf(num));
@@ -186,6 +212,9 @@ public class ActivityJuego extends AppCompatActivity {
         SharedPreferences.Editor editCont = spCont.edit();
         editCont.putInt( "cont", num);
         editCont.commit();
+
+        match.setCont(num);
+        getMatch();
     }
 
     //Método que modifica el imBtPersonaje
@@ -265,29 +294,10 @@ public class ActivityJuego extends AppCompatActivity {
         contador--;
         cambiar_cont(contador);
 
-        Integer ca1 = null, ca2 = null, ca3 = null;
-
-        try {
-            ObjectInputStream ois = new ObjectInputStream(openFileInput(fich));
-            ArrayList<Integer> cartas = (ArrayList<Integer>) ois.readObject();
-
-            for (int i=0 ; i<cartas.size() ; i++) {
-                if(i<6 && cartas.get(i)==MatchHelper.Cards.D0.getRef()) ca1 = cartas.get(i);
-               // if(i>=6 && i<=11 && cartas[i].isCulpable()) ca2 = cartas.get(i);
-               // if(i>11 && cartas.get(i).isCulpable()) ca3 = cartas.get(i);
-            }
-
-            ois.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        //Array con las 3 cartas culpables
-        Integer[] c = {ca1, ca2, ca3};
-
         //comprobar si hay 1 correcta, comprobar si hay dos correctas o si estan todas correctas
-        if(c[0] == imagen_personaje && c[1] == imagen_arma && c[2] == imagen_lugar){
+        if(MatchHelper.Cards.getImgByRef(murderedCards.get(0)) == imagen_personaje &&
+                MatchHelper.Cards.getImgByRef(murderedCards.get(1)) == imagen_arma &&
+                MatchHelper.Cards.getImgByRef(murderedCards.get(2)) == imagen_lugar){
             terminarPartida(true); //Modificamos la base de datos
 
             Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
@@ -303,9 +313,9 @@ public class ActivityJuego extends AppCompatActivity {
             } else{
                 //Metemos las imagenes de las cartas incorrectas en un array
                 ArrayList<Integer> cartasInc = new ArrayList<Integer>();
-                if (MatchHelper.Cards.getImgByRef(c[0]) != imagen_personaje) cartasInc.add(imagen_personaje);
-                if (c[1] != imagen_arma)cartasInc.add(imagen_arma);
-                if (c[2] != imagen_lugar)cartasInc.add(imagen_lugar);
+                if (MatchHelper.Cards.getImgByRef(murderedCards.get(0)) != imagen_personaje) cartasInc.add(imagen_personaje);
+                if (MatchHelper.Cards.getImgByRef(murderedCards.get(1)) != imagen_arma) cartasInc.add(imagen_arma);
+                if (MatchHelper.Cards.getImgByRef(murderedCards.get(2)) != imagen_lugar) cartasInc.add(imagen_lugar);
 
                 //Llamamos el método incorecta para mostrar las cartas incorrectas
                 incorrecta(cartasInc);
@@ -323,6 +333,7 @@ public class ActivityJuego extends AppCompatActivity {
         Card card1 = null, card2 = null, card3 = null;
 
         cardList(); //Contains murdered cards
+
 
         if(MatchHelper.Cards.getImgByRef((Integer) murderedCards.get(0)) == person &&
                 MatchHelper.Cards.getImgByRef((Integer) murderedCards.get(1)) == weapon &&
@@ -356,23 +367,12 @@ public class ActivityJuego extends AppCompatActivity {
 
     }
 
-    private DatabaseReference inizializeFirebase(){
-        FirebaseApp.initializeApp(this);
-        FirebaseDatabase firebaseObj = FirebaseDatabase.getInstance();
-        DatabaseReference databaseRefObj = firebaseObj.getReference();
-        if(databaseRefObj != null){
-            return databaseRefObj;
-        }
-        return null;
-    }
-
-
     /**
      * Check if this node is != null and transform array in arrayList
      */
     private void cardList() {
-        try{
-            this.inizializeFirebase().child("Match").addValueEventListener(new ValueEventListener() {
+        matchDataRef
+            .child("Match").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     murderedCards = null;
@@ -390,23 +390,15 @@ public class ActivityJuego extends AppCompatActivity {
 
                 }
             });
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
     }
 
 
     //Modifica fin, tiempoTot y Resultado de la última partida
     public void terminarPartida(boolean resultado) {
-    /*
-        firebaseConection = DataBaseConnection.getInstance();
-        //TODO: update revision  https://www.youtube.com/watch?v=mI3ZjifIlPk&list=PL2LFsAM2rdnxv8bLBZrMtd_f3fsfgLzH7&index=7
-        //TODO: filter for update object
-        //Update Final date and resultGame
-        Match currentMatch = new Match();
-        currentMatch.setEndingDate(System.currentTimeMillis());// Con un new Date convertimos los milisegundos a fecha
-        currentMatch.setResultGame(resultado);
-        firebaseConection.getFirebase(getApplicationContext()).child("Match").child(String.valueOf(currentMatch.getNum())).setValue(currentMatch);
+        match.setResultGame(resultado);
+        match.setEndingDate(System.currentTimeMillis());
+
+
 
         /*
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(
@@ -435,12 +427,6 @@ public class ActivityJuego extends AppCompatActivity {
         admin.close();
         */
     }//FIN terminarPartida
-
-    public void reiniciar() {
-        SharedPreferences.Editor editor = gameSoloPref.edit();
-        editor.clear();
-        editor.apply();
-    }
 
     //Método reinicia todas las imagenes
     public void reiniciarCartas() {
