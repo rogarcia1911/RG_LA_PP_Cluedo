@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
@@ -71,6 +72,14 @@ public class FragmentGame extends Fragment {
             //TODO: Traducir textos
             Toast.makeText(getContext(), "No hay sesión iniciada", Toast.LENGTH_SHORT).show();
         }
+        ibtRules.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                RulesFragment fragmentRules = new RulesFragment();
+                transaction.replace(R.id.fragmentContainer, fragmentRules).commit();
+            }
+        });
     }
 
     private void setupLogged() {
@@ -208,31 +217,6 @@ public class FragmentGame extends Fragment {
             continueMatch(userName, gameMultiName);
         else {
             Toast.makeText(getContext(),"ActivityLobby", Toast.LENGTH_SHORT).show();
-
-            userDataRef = database.getDatabase().getReference("Users/"+userName+"/User/numMultiMatchs");
-            userDataRef.get().addOnCompleteListener(task -> {
-                Integer num = -1;
-                num = task.getResult().getValue(num.getClass());
-
-                if (num==0 ){
-                    newMatch(userName, MatchHelper.Mode.MULTI.name(),num+1);
-                } else {
-                    //Recuperar lastMatchRef con num match==Null =>new & match.Ending==Null =>new else continuePlaying
-                    DatabaseReference lastMatchRef = getMatch(userName, MatchHelper.Mode.MULTI.name(),num);
-                    Integer finalNum = num+1;
-                    lastMatchRef.get().addOnCompleteListener(task1 -> {
-                        // Comprobar si la última partida guardada ha terminado o no
-                        Match match = task1.getResult().getValue(Match.class);
-                        if (match == null && match.getEndingDate() == null)
-                            newMatch(userName,MatchHelper.Mode.MULTI.name(), finalNum);
-                        else if (match != null)
-                            continueMatch(userName,match.getName());
-                    });
-
-                }
-            });
-
-
             Intent lobby = new Intent(getContext(), ActivityLobby.class);
             startActivity(lobby);
         }
