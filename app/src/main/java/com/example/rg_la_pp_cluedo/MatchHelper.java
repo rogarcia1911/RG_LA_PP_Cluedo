@@ -12,13 +12,19 @@ public class MatchHelper {
         MEDIUM(8),
         HARD(5);
 
-        private int cont;
+        public int cont;
 
-        public int getCont(){
-            return cont;
+        public static int getContByName(String name) {
+            if (name.equals(EASY.name()))
+                return EASY.cont;
+            if (name.equals(MEDIUM.name()))
+                return MEDIUM.cont;
+            if (name.equals(HARD.name()))
+                return HARD.cont;
+            return 0;
         }
 
-        private Difficulty(int cont) {
+        Difficulty(int cont) {
             this.cont = cont;
         }
     }
@@ -47,12 +53,12 @@ public class MatchHelper {
         R4(33, R.drawable.lugar_estudio, R.string.tvHab4),
         R5(34, R.drawable.lugar_garaje, R.string.tvHab5),
         R6(35, R.drawable.lugar_patio, R.string.tvHab6);
-
+//TODO: Repasar codigo
         private int ref;
         private int img;
         private int text;
 
-        private int nCardsByType = 6;
+        public static int nCardsByType = 6;
 
         public int getRef(){
             return ref;
@@ -63,8 +69,52 @@ public class MatchHelper {
         public int getText(){
             return text;
         }
-        public int getNCardsByType() {
-            return nCardsByType;
+
+        public static int getImgByRef(int ref){
+            switch (ref){
+                // M - Murders
+                case 10:
+                    return M1.img;
+                case 11:
+                    return M2.img;
+                case 12:
+                    return M3.img;
+                case 13:
+                    return M4.img;
+                case 14:
+                    return M5.img;
+                case 15:
+                    return M6.img;
+                // T - Tools
+                case 20:
+                    return T1.img;
+                case 21:
+                    return T2.img;
+                case 22:
+                    return T3.img;
+                case 23:
+                    return T4.img;
+                case 24:
+                    return T5.img;
+                case 25:
+                    return T6.img;
+                // R - Room
+                case 30:
+                    return R1.img;
+                case 31:
+                    return R2.img;
+                case 32:
+                    return R3.img;
+                case 33:
+                    return R4.img;
+                case 34:
+                    return R5.img;
+                case 35:
+                    return R6.img;
+                // D - Default
+                default:
+                    return D0.img;
+            }
         }
 
         private Cards(int ref, int img, int text) {
