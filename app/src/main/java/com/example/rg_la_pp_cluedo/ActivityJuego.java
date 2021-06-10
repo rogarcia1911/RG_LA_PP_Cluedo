@@ -54,8 +54,7 @@ public class ActivityJuego extends AppCompatActivity {
     Match match;
     String matchName;
 
-    private Boolean isSolo;
-    private String fich = "cartas.dat";
+    private Boolean isSolo, isNewMatch;
     private int oportunidades, contador;
     private int imagen_personaje, imagen_arma, imagen_lugar;
     //nombre de SharedPreferences de los ActivityElegir...
@@ -76,7 +75,8 @@ public class ActivityJuego extends AppCompatActivity {
         shPreferences.getString("appLanguage","");
         shPreferences.getBoolean("appSound",true);
 
-        isSolo = getIntent().getBooleanExtra("gameMode",match.getIsSolo());
+        isNewMatch = getIntent().getBooleanExtra("gameNew",false);
+        isSolo = getIntent().getBooleanExtra("gameMode",true);
 
         //Si pulsa el boton Back le llevará al ActivityMain
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -96,7 +96,7 @@ public class ActivityJuego extends AppCompatActivity {
         btnChat = findViewById(R.id.btnChat);
         btnGame = findViewById(R.id.btnGame);
 
-        if(getIntent().getBooleanExtra("gameNew",false)) {
+        if(isNewMatch) {
             reiniciarCartas();
             //reiniciamos los marcadores de los 3 ActivtyElegir...
             reiniciarBtMarc(spEP);
@@ -114,7 +114,6 @@ public class ActivityJuego extends AppCompatActivity {
         int imagen1Int = imagen1.getInt("img_per",  R.drawable.carta_interrogante);
         imagen_personaje = getIntent().getIntExtra("imagen_personaje", imagen1Int);
         elegir_per(imagen_personaje);
-
 
         SharedPreferences imagen2 = getSharedPreferences("img2", Context.MODE_PRIVATE);
         int imagen2Int = imagen2.getInt("img_ar", R.drawable.carta_interrogante);
@@ -192,8 +191,11 @@ public class ActivityJuego extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 match = snapshot.getValue(Match.class);
-                if (murderedCards== null)
-                    murderedCards = match.getMurderCards();
+                if (match!=null){
+                    if (murderedCards== null)
+                        murderedCards = match.getMurderCards();
+                    Toast.makeText(getApplicationContext(), "isNewMatch  "+isNewMatch + " isSolo" + match.getIsSolo(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -403,7 +405,7 @@ public class ActivityJuego extends AppCompatActivity {
         match.setResultGame(resultado);
         match.setEndingDate(System.currentTimeMillis());
 
-        matchDataRef.setValue(match);
+        //matchDataRef.setValue(match);
 
         /*
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(
