@@ -54,7 +54,7 @@ public class ActivityJuego extends AppCompatActivity {
     private int imagen_personaje, imagen_arma, imagen_lugar;
     //nombre de SharedPreferences de los ActivityElegir...
     private String spEP = "datosEP",spEH = "datosEH",spEA = "datosEA";
-    private Card[] murderedCards;
+    private ArrayList murderedCards;
 
 
     @Override
@@ -314,7 +314,9 @@ public class ActivityJuego extends AppCompatActivity {
 
         cardList(); //Contains murdered cards
 
-        if(murderedCards[0].getImage() == person && murderedCards[1].getImage() == weapon && murderedCards[2].getImage() == place){
+        if(MatchHelper.Cards.getImgByRef((Integer) murderedCards.get(0)) == person &&
+                MatchHelper.Cards.getImgByRef((Integer) murderedCards.get(1)) == weapon &&
+                MatchHelper.Cards.getImgByRef((Integer) murderedCards.get(2)) == place){
             terminarPartida(true); //Modificamos la base de datos
 
             Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
@@ -331,9 +333,9 @@ public class ActivityJuego extends AppCompatActivity {
 
                 //Metemos las imagenes de las cartas incorrectas en un array
                 ArrayList<Integer> incorrectCards = new ArrayList<Integer>();
-                if(murderedCards[0].getImage() != imagen_personaje) incorrectCards.add(person);
-                if (murderedCards[1].getImage() != imagen_arma) incorrectCards.add(weapon);
-                if (murderedCards[2].getImage() != imagen_lugar) incorrectCards.add(place);
+                if(MatchHelper.Cards.getImgByRef((Integer) murderedCards.get(0)) != imagen_personaje) incorrectCards.add(person);
+                if (MatchHelper.Cards.getImgByRef((Integer) murderedCards.get(1)) != imagen_arma) incorrectCards.add(weapon);
+                if (MatchHelper.Cards.getImgByRef((Integer) murderedCards.get(2)) != imagen_lugar) incorrectCards.add(place);
 
                 //Llamamos el método incorecta para mostrar las cartas incorrectas
                 incorrecta(incorrectCards);

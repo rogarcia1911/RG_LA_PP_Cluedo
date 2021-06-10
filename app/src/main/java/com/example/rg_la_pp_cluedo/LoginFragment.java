@@ -124,8 +124,10 @@ public class LoginFragment extends Fragment {
             SharedPreferences.Editor editor = shPreferences.edit();
             editor.putString("userName", "");
             editor.putString("userData", "");
+            editor.clear();
             editor.apply();
 
+            chargeUserData(null);
             ViewSingIn();
         });
     }

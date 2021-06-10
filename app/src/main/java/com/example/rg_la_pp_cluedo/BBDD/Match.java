@@ -1,5 +1,8 @@
 package com.example.rg_la_pp_cluedo.BBDD;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Match {
 
 
@@ -34,8 +37,11 @@ public class Match {
      /**
       * Las 3 cartas correctas (culpables del asesinato)
       */
-     private Card[] murderCards;
-     //private Long matchTime;   //Calcular tiempo jugado /Solo/ (fin-inico-(pausa.fin-pausa.inicio))
+     private ArrayList<Integer> murderCards;
+     /**
+      * Contador de la partida en modo Solo
+      */
+     private Integer cont;
 
      public Match(){
           name = "";
@@ -45,10 +51,23 @@ public class Match {
           resultGame = false;
           isSolo = null;
           difficulty = null;
+          cont = 0;
      }
 
+
+     /**
+      * @param name
+      * @param num
+      * @param beginningDate
+      * @param endingDate
+      * @param resultGame
+      * @param isSolo
+      * @param difficulty
+      * @param murderCards
+      * @param cont
+      */
      public Match(String name, Integer num, Long beginningDate, Long endingDate, Boolean resultGame, Boolean isSolo,
-                  String difficulty, Card[] murderCards) {
+                  String difficulty, ArrayList<Integer> murderCards, Integer cont) {
           this.name = name;
           this.num = num;
           this.beginningDate = beginningDate;
@@ -56,6 +75,7 @@ public class Match {
           this.resultGame = resultGame;
           this.isSolo = isSolo;
           this.difficulty = difficulty;
+          this.cont = cont;
           this.murderCards = murderCards;
      }
 
@@ -115,12 +135,20 @@ public class Match {
           this.difficulty = difficulty;
      }
 
-     public Card[] getMurderCards() {
-          return murderCards;
+     public void setCont(Integer cont) {
+          this.cont = cont;
      }
 
-     public void setMurderCards(Card[] murderCards) {
+     public Integer getCont() {
+          return cont;
+     }
+
+     public void setMurderCards(ArrayList<Integer> murderCards) {
           this.murderCards = murderCards;
+     }
+
+     public ArrayList<Integer> getMurderCards() {
+          return murderCards;
      }
 
      @Override
@@ -133,7 +161,7 @@ public class Match {
                   ", resultGame=" + resultGame +
                   ", solo='" + isSolo + '\'' +
                   ", difficulty='" + difficulty + "'" +
-                  ", Murdered cards='" + murderCards + "'" +
+                  ", murderCards=" + murderCards +
                   '}';
      }
 }
