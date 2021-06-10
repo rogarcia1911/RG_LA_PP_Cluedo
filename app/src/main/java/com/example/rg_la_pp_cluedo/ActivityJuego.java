@@ -213,8 +213,10 @@ public class ActivityJuego extends AppCompatActivity {
         editCont.putInt( "cont", num);
         editCont.commit();
 
-        match.setCont(num);
-        getMatch();
+        if (match!=null) {
+            match.setCont(num);
+            getMatch();
+        }
     }
 
     //Método que modifica el imBtPersonaje
