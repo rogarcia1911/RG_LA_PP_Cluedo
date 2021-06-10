@@ -95,7 +95,7 @@ public class FragmentGame extends Fragment {
         ibtMulti.setOnClickListener(v -> Toast.makeText(getContext(), "Para jugar MULTI tienes que haber iniciado sesión.",Toast.LENGTH_SHORT).show());
     }
 
-    private void addEventListener() {
+    private void addEventListener(Boolean newGame) {
         // Leer de la base de datos
         if (matchDataRef != null)
         matchDataRef.addValueEventListener(new ValueEventListener() {
@@ -118,7 +118,7 @@ public class FragmentGame extends Fragment {
 
                     Toast.makeText(getContext(),"ActivityJuego", Toast.LENGTH_SHORT).show();
                     Intent jugar = new Intent(getContext(), ActivityJuego.class);
-                    jugar.putExtra("gameNew", match.getEndingDate() == 0L);
+                    jugar.putExtra("gameNew", newGame);
                     jugar.putExtra("gameMode",match.getIsSolo());
                     startActivity(jugar);
 
@@ -250,7 +250,7 @@ public class FragmentGame extends Fragment {
         }
         matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+match.getName());
         match.setMurderCards(generarCartasCulpables());
-        addEventListener();
+        addEventListener(true);
         matchDataRef.setValue(match);
         userDataRef.setValue(num);
 
@@ -259,7 +259,7 @@ public class FragmentGame extends Fragment {
 
     private void continueMatch(String userName, String gameSoloName) {
         matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+gameSoloName);
-        addEventListener();
+        addEventListener(false);
         matchDataRef.get();
         Toast.makeText(getContext(),"Continuamos: "+gameSoloName, Toast.LENGTH_SHORT).show();
     }
