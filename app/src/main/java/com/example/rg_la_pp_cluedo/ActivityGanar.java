@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 public class ActivityGanar extends AppCompatActivity {
 
@@ -45,17 +46,17 @@ public class ActivityGanar extends AppCompatActivity {
 
         try {
             ObjectInputStream ois = new ObjectInputStream(openFileInput(fich));
-            Carta[] cartas = (Carta[]) ois.readObject();
+            ArrayList<Integer> cartas = (ArrayList<Integer>) ois.readObject();
 
             String ca = "";
-            for (int i=0 ; i<cartas.length ; i++) {
-                if(i<6 && cartas[i].isCulpable())
-                    ivPers.setImageResource(cartas[i].getImagen());
-                if(i>=6 && i<=11 && cartas[i].isCulpable())
-                    ivArma.setImageResource(cartas[i].getImagen());
-                if(i>11 && cartas[i].isCulpable())
-                    ivHab.setImageResource(cartas[i].getImagen());
-            }
+            /*for (int i=0 ; i<cartas.length ; i++) {
+                if(i<6 && cartas.get(i).isCulpable())
+                    ivPers.setImageResource(cartas.get(i).getImagen());
+                if(i>=6 && i<=11 && cartas.get(i).isCulpable())
+                    ivArma.setImageResource(cartas.get(i).getImagen());
+                if(i>11 && cartas.get(i).isCulpable())
+                    ivHab.setImageResource(cartas.get(i).getImagen());
+            }*/
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

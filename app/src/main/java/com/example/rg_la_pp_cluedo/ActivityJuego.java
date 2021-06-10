@@ -91,6 +91,8 @@ public class ActivityJuego extends AppCompatActivity {
 
         gameSoloPref = getSharedPreferences( getString(R.string.PREFsoloGame), Context.MODE_PRIVATE);
         // 3 botones carta
+        setupCards();
+        // 3 botones carta
         imagen_personaje = gameSoloPref.getInt("imgM", MatchHelper.Cards.D0.getImg());
         imagen_arma = gameSoloPref.getInt("imgT", MatchHelper.Cards.D0.getImg());
         imagen_lugar = gameSoloPref.getInt("imgR", MatchHelper.Cards.D0.getImg());
@@ -103,15 +105,13 @@ public class ActivityJuego extends AppCompatActivity {
             reiniciarBtMarc(spEA);
             cambiar_cont(shPreferences.getInt("gameSoloCont",0)); //reiniciamos el contador
         }
-        
-        SharedPreferences spCont = getSharedPreferences("juegoDatos", Context.MODE_PRIVATE);
-        contador = spCont.getInt("cont", oportunidades);
+
+        contador = gameSoloPref.getInt("gameSoloCont", oportunidades);
         cambiar_cont(contador);
 
-        SharedPreferences imagen1 = getSharedPreferences("img1", Context.MODE_PRIVATE);
-        int imagen1Int = imagen1.getInt("img_per",  R.drawable.carta_interrogante);
-        imagen_personaje = getIntent().getIntExtra("imagen_personaje", imagen1Int);
-        elegir_per(imagen_personaje);
+        imagen_personaje = getIntent().getIntExtra("imagen_personaje", imagen_personaje);
+        chooseImage(imagen_personaje, "imgM");
+
 
         SharedPreferences imagen2 = getSharedPreferences("img2", Context.MODE_PRIVATE);
         int imagen2Int = imagen2.getInt("img_ar", R.drawable.carta_interrogante);
@@ -184,23 +184,29 @@ public class ActivityJuego extends AppCompatActivity {
 
     //Método que modifica el tvCont
     public void cambiar_cont(int num){
-
         tvCont.setText(String.valueOf(num));
 
-        SharedPreferences spCont = getSharedPreferences("juegoDatos", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editCont = spCont.edit();
-        editCont.putInt( "cont", num);
+        SharedPreferences.Editor editCont = shPreferences.edit();
+        editCont.putInt( "gameSoloCont", num);
         editCont.commit();
+    }
+    public void chooseImage(int imagen, String shKey){
+        SharedPreferences.Editor edit1 = gameSoloPref.edit();
+        edit1.putInt( shKey, imagen);
+        edit1.commit();
+    }
+
+    public void setupCards() {
+        imBtPersonaje.setBackgroundResource(gameSoloPref.getInt("imgM", MatchHelper.Cards.D0.getImg()));
+        imBtArma.setBackgroundResource(gameSoloPref.getInt("imgT", MatchHelper.Cards.D0.getImg()));
+        imBtLugar.setBackgroundResource(gameSoloPref.getInt("imgR", MatchHelper.Cards.D0.getImg()));
     }
 
     //Método que modifica el imBtPersonaje
     public void elegir_per(int imagen_personaje){
-
         imBtPersonaje.setBackgroundResource(imagen_personaje);
-
-        SharedPreferences pref1 = getSharedPreferences("img1", Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit1 = pref1.edit();
-        edit1.putInt( "img_per", imagen_personaje);
+        SharedPreferences.Editor edit1 = gameSoloPref.edit();
+        edit1.putInt( "imgM", imagen_personaje);
         edit1.commit();
     }
 
@@ -270,16 +276,16 @@ public class ActivityJuego extends AppCompatActivity {
         contador--;
         cambiar_cont(contador);
 
-        Carta ca1 = null, ca2 = null, ca3 = null;
+        Integer ca1 = null, ca2 = null, ca3 = null;
 
         try {
             ObjectInputStream ois = new ObjectInputStream(openFileInput(fich));
-            Carta[] cartas = (Carta[]) ois.readObject();
+            ArrayList<Integer> cartas = (ArrayList<Integer>) ois.readObject();
 
-            for (int i=0 ; i<cartas.length ; i++) {
-                if(i<6 && cartas[i].isCulpable()) ca1 = cartas[i];
-                if(i>=6 && i<=11 && cartas[i].isCulpable()) ca2 = cartas[i];
-                if(i>11 && cartas[i].isCulpable()) ca3 = cartas[i];
+            for (int i=0 ; i<cartas.size() ; i++) {
+                if(i<6 && cartas.get(i)==MatchHelper.Cards.D0.getRef()) ca1 = cartas.get(i);
+               // if(i>=6 && i<=11 && cartas[i].isCulpable()) ca2 = cartas.get(i);
+               // if(i>11 && cartas.get(i).isCulpable()) ca3 = cartas.get(i);
             }
 
             ois.close();
@@ -289,10 +295,10 @@ public class ActivityJuego extends AppCompatActivity {
             e.printStackTrace();
         }
         //Array con las 3 cartas culpables
-        Carta[] c = {ca1, ca2, ca3};
+        Integer[] c = {ca1, ca2, ca3};
 
         //comprobar si hay 1 correcta, comprobar si hay dos correctas o si estan todas correctas
-        if(c[0].getImagen() == imagen_personaje && c[1].getImagen() == imagen_arma && c[2].getImagen() == imagen_lugar){
+        if(c[0] == imagen_personaje && c[1] == imagen_arma && c[2] == imagen_lugar){
             terminarPartida(true); //Modificamos la base de datos
 
             Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
@@ -308,9 +314,9 @@ public class ActivityJuego extends AppCompatActivity {
             } else{
                 //Metemos las imagenes de las cartas incorrectas en un array
                 ArrayList<Integer> cartasInc = new ArrayList<Integer>();
-                if(c[0].getImagen() != imagen_personaje) cartasInc.add(imagen_personaje);
-                if (c[1].getImagen() != imagen_arma)cartasInc.add(imagen_arma);
-                if (c[2].getImagen() != imagen_lugar)cartasInc.add(imagen_lugar);
+                if (MatchHelper.Cards.getImgByRef(c[0]) != imagen_personaje) cartasInc.add(imagen_personaje);
+                if (c[1] != imagen_arma)cartasInc.add(imagen_arma);
+                if (c[2] != imagen_lugar)cartasInc.add(imagen_lugar);
 
                 //Llamamos el método incorecta para mostrar las cartas incorrectas
                 incorrecta(cartasInc);
