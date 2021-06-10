@@ -31,7 +31,7 @@ public class ActivityElegirPersonaje extends AppCompatActivity {
         imgbtn_per1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity_ppl(R.drawable.pj_amapola);
+                activity_ppl(MatchHelper.Cards.M1.getImg());
             }
         });
 
