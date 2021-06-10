@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
@@ -71,6 +72,14 @@ public class FragmentGame extends Fragment {
             //TODO: Traducir textos
             Toast.makeText(getContext(), "No hay sesión iniciada", Toast.LENGTH_SHORT).show();
         }
+        ibtRules.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                RulesFragment fragmentRules = new RulesFragment();
+                transaction.replace(R.id.fragmentContainer, fragmentRules).commit();
+            }
+        });
     }
 
     private void setupLogged() {
