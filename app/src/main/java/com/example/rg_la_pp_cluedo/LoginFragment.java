@@ -124,8 +124,10 @@ public class LoginFragment extends Fragment {
             SharedPreferences.Editor editor = shPreferences.edit();
             editor.putString("userName", "");
             editor.putString("userData", "");
+            editor.clear();
             editor.apply();
 
+            chargeUserData(null);
             ViewSingIn();
         });
     }
@@ -304,6 +306,7 @@ public class LoginFragment extends Fragment {
 
         ivAvatar.setImageResource((user!=null) ? user.getAvatar() : R.drawable.personaje_amapola);
         UserName.setText((user!=null) ? user.getName() : shPreferences.getString("userName", "NotFound"));
+        //TODO: Traducir textos
         tvDataLabel.setText("Email\n" +
                             "Puntos\n" +
                             "Partidas Solo\n" +
