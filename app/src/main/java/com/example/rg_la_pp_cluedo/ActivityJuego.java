@@ -48,8 +48,7 @@ public class ActivityJuego extends AppCompatActivity {
     private TextView tvCont;
 
     SharedPreferences shPreferences, gameSoloPref;
-    FirebaseAuth mAuth;
-    DatabaseReference database, userDataRef;
+    DatabaseReference database;
 
     private Boolean solo;
     private String fich = "cartas.dat";
@@ -90,12 +89,6 @@ public class ActivityJuego extends AppCompatActivity {
         btnGame = findViewById(R.id.btnGame);
 
         gameSoloPref = getSharedPreferences( getString(R.string.PREFsoloGame), Context.MODE_PRIVATE);
-        // 3 botones carta
-        setupCards();
-        // 3 botones carta
-        imagen_personaje = gameSoloPref.getInt("imgM", MatchHelper.Cards.D0.getImg());
-        imagen_arma = gameSoloPref.getInt("imgT", MatchHelper.Cards.D0.getImg());
-        imagen_lugar = gameSoloPref.getInt("imgR", MatchHelper.Cards.D0.getImg());
 
         if(getIntent().getBooleanExtra("gameNew",false)) {
             reiniciarCartas();
@@ -193,12 +186,6 @@ public class ActivityJuego extends AppCompatActivity {
         SharedPreferences.Editor editCont = spCont.edit();
         editCont.putInt( "cont", num);
         editCont.commit();
-    }
-
-    public void setupCards() {
-        imBtPersonaje.setBackgroundResource(gameSoloPref.getInt("imgM", MatchHelper.Cards.D0.getImg()));
-        imBtArma.setBackgroundResource(gameSoloPref.getInt("imgT", MatchHelper.Cards.D0.getImg()));
-        imBtLugar.setBackgroundResource(gameSoloPref.getInt("imgR", MatchHelper.Cards.D0.getImg()));
     }
 
     //Método que modifica el imBtPersonaje
