@@ -48,8 +48,7 @@ public class ActivityJuego extends AppCompatActivity {
     private TextView tvCont;
 
     SharedPreferences shPreferences, gameSoloPref;
-    FirebaseAuth mAuth;
-    DatabaseReference database, userDataRef;
+    DatabaseReference database;
 
     private Boolean solo;
     private String fich = "cartas.dat";
