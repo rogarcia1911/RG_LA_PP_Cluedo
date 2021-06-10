@@ -23,10 +23,6 @@ public class Match {
       */
      private Long endingDate;
      /**
-      * Tiempo de incio de partida
-      */
-     private Long totalTime;
-     /**
       * Resultado de la partida
       */
      private Boolean resultGame;
@@ -58,7 +54,6 @@ public class Match {
           num = 0;
           beginningDate = 0L;
           endingDate = 0L;
-          totalTime = 0L;
           resultGame = false;
           isSolo = null;
           difficulty = null;
@@ -72,20 +67,18 @@ public class Match {
       * @param num
       * @param beginningDate
       * @param endingDate
-      * @param totalTime
       * @param resultGame
       * @param isSolo
       * @param difficulty
       * @param murderCards
       * @param cont
       */
-     public Match(String name, Integer num, Long beginningDate, Long totalTime, Long endingDate, Boolean resultGame, Boolean isSolo,
+     public Match(String name, Integer num, Long beginningDate, Long endingDate, Boolean resultGame, Boolean isSolo,
                   String difficulty, ArrayList<Integer> murderCards, Integer cont, ArrayList<Integer> incorrectCards) {
           this.name = name;
           this.num = num;
           this.beginningDate = beginningDate;
           this.endingDate = endingDate;
-          this.totalTime = totalTime;
           this.resultGame = resultGame;
           this.isSolo = isSolo;
           this.difficulty = difficulty;
@@ -126,16 +119,12 @@ public class Match {
           this.endingDate = endingDate;
      }
 
-     public Long getTotalTime() {
-          return totalTime;
-     }
-
-     public void setTotalTime(Long totalTime) {
-          this.endingDate = totalTime;
-     }
-
      public Boolean getResultGame() {
           return resultGame;
+     }
+
+     public void setResultGame(Boolean resultGame) {
+          this.resultGame = resultGame;
      }
 
      public Boolean getIsSolo() {
@@ -144,10 +133,6 @@ public class Match {
 
      public void setIsSolo(Boolean isSolo) {
           this.isSolo = isSolo;
-     }
-
-     public void setResultGame(Boolean resultGame) {
-          this.resultGame = resultGame;
      }
 
      public String getDifficulty() {
@@ -189,7 +174,6 @@ public class Match {
                   ", num=" + num +
                   ", beginningDate=" + beginningDate +
                   ", endingDate=" + endingDate +
-                  ", totalTime=" + totalTime +
                   ", resultGame=" + resultGame +
                   ", solo='" + isSolo + '\'' +
                   ", difficulty='" + difficulty + "'" +
