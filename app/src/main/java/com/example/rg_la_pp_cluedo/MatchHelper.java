@@ -12,13 +12,19 @@ public class MatchHelper {
         MEDIUM(8),
         HARD(5);
 
-        private int cont;
+        public int cont;
 
-        public int getCont(){
-            return cont;
+        public static int getContByName(String name) {
+            if (name.equals(EASY.name()))
+                return EASY.cont;
+            if (name.equals(MEDIUM.name()))
+                return MEDIUM.cont;
+            if (name.equals(HARD.name()))
+                return HARD.cont;
+            return 0;
         }
 
-        private Difficulty(int cont) {
+        Difficulty(int cont) {
             this.cont = cont;
         }
     }
