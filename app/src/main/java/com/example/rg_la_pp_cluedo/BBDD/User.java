@@ -7,7 +7,7 @@ public class User {
     private Integer numSoloMatchs;
     private Integer numMultiMatchs;
     private Integer points;
-    private Icon icon;
+    private Integer avatar;
 
     public User(){
         this.name = "";
@@ -15,14 +15,16 @@ public class User {
         this.numSoloMatchs = 0;
         this.numMultiMatchs = 0;
         this.points = 0;
+        this.avatar = null;
     }
 
-    public User(String name, String email, Integer numSoloMatchs, Integer numMultiMatchs, Integer points) {
+    public User(String name, String email, Integer numSoloMatchs, Integer numMultiMatchs, Integer points, Integer avatar) {
         this.name = name;
         this.email = email;
         this.numSoloMatchs = numSoloMatchs;
         this.numMultiMatchs = numMultiMatchs;
         this.points = points;
+        this.avatar = avatar;
     }
 
     public String getName() {
@@ -65,13 +67,23 @@ public class User {
         this.points = points;
     }
 
+    public Integer getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Integer avatar) {
+        this.avatar = avatar;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "  name='" + name + "'"   +
-                ", numMatch=" + numSoloMatchs +
-                ", numMatch=" + numMultiMatchs +
-                ", points='" + points + "'" +
+                ", email='" + email + "'"   +
+                ", numSoloMatchs=" + numSoloMatchs +
+                ", numMultiMatchs=" + numMultiMatchs +
+                ", points=" + points +
+                ", avatar=" + avatar +
                 '}';
     }
 }

@@ -1,39 +1,26 @@
 package com.example.rg_la_pp_cluedo;
 
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.Toast;
 
-import com.example.rg_la_pp_cluedo.BBDD.Card;
+import androidx.fragment.app.Fragment;
+
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.example.rg_la_pp_cluedo.BBDD.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentGame#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FragmentGame extends Fragment {
 
     private DataBaseConnection firebaseConnection;
@@ -41,63 +28,39 @@ public class FragmentGame extends Fragment {
     private ArrayAdapter<Match> arrayAdapterMatch;
     private Match match;
 
-    DatabaseReference user;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String LOG_IN = "logIn";
-    private static final String NAME_PLAYER = "namePlayer";
-
-    // TODO: Rename and change types of parameters
-    private Boolean logIn;
-    private String namePlayer;
-
-    public FragmentGame() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param logIn Señala si hay una sesión iniciada.
-     * @param namePlayer Nombre del usuario con sesión inicida.
-     * @return A new instance of fragment FragmentGame.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentGame newInstance(Boolean logIn , String namePlayer) {
-        FragmentGame fragment = new FragmentGame();
-        Bundle args = new Bundle();
-        args.putBoolean(LOG_IN, logIn);
-        args.putString(NAME_PLAYER, namePlayer);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    SharedPreferences shPreferences;
+    FirebaseAuth mAuth;
+    DatabaseReference database, userDataRef;
+    User user;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            logIn = getArguments().getBoolean(LOG_IN);
-            namePlayer = getArguments().getString(NAME_PLAYER);
-        }
-        firebaseConnection = DataBaseConnection.getInstance();
-        user = firebaseConnection.getFirebase().child("Users").child(NAME_PLAYER);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game, container, false);
     }
 
-    /**
-     * Lleva al fragment Rules
-     * @param view
-     */
-    public void changeFragment(View view) {
-        // Usa el método del ActivityMain.
+    @Override
+    public void onStart() {
+        super.onStart();
+        shPreferences = this.getActivity().getSharedPreferences(getString(R.string.PREFapp),0);
+        database = DataBaseConnection.getFirebase();
+        mAuth = FirebaseAuth.getInstance();
+
+        //TODO: preferancias idioma y sonido
+        shPreferences.getString("appLanguage","");
+        shPreferences.getBoolean("appSound",true);
+
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+
+            //TODO: Traducir textos
+            Toast.makeText(getContext(), "Sesión ya iniciada", Toast.LENGTH_SHORT).show();
+        } else {
+
+            //TODO: Traducir textos
+            Toast.makeText(getContext(), "No hay sesión iniciada", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -123,7 +86,7 @@ public class FragmentGame extends Fragment {
             match.setEndingDate(null);
             match.setIsSolo(true);
             match.setDifficulty(MatchHelper.Difficulty.EASY.name());
-            firebaseConnection.getFirebase(getContext()).child("Match").child(String.valueOf(match.getName())).setValue(match);
+            firebaseConnection.getFirebase().child("Match").child(String.valueOf(match.getName())).setValue(match);
 
             generarCartasCulpables(match); // Guardamos las 3 cartas culpables
 
@@ -142,7 +105,7 @@ public class FragmentGame extends Fragment {
         DatabaseReference db = firebaseConnection.getFirebase(getContext());
         Match match = null;
 
-        DatabaseReference macthRef = db.child("Matchs").child(NAME_PLAYER+"Match");
+        DatabaseReference macthRef = db.child("Matchs");
 
         return match;
     }

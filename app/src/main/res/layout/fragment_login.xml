@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/ivAvatar"
             android:layout_width="@dimen/J_imgJugadorAncho"
             android:layout_height="@dimen/J_imgJugadorAlto"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -38,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+            app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
 
         <Spinner
             android:id="@+id/idiomSpinner"
@@ -79,7 +79,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                tools:visibility="gone">
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tvDataTitle"
@@ -129,18 +129,18 @@
                     android:layout_height="wrap_content"
                     android:text="¿Ya estás registrado?"
                     android:textSize="30sp"
-                    app:layout_constraintBottom_toTopOf="@+id/etEmail"
+                    app:layout_constraintBottom_toTopOf="@+id/etUserName"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/etEmail"
+                    android:id="@+id/etUserName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="E-mail"
+                    android:hint="User Name"
                     android:inputType="textPersonName"
                     app:layout_constraintBottom_toTopOf="@+id/etPassword"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -158,7 +158,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+                    app:layout_constraintTop_toBottomOf="@+id/etUserName" />
 
                 <Button
                     android:id="@+id/btSignIn"
@@ -173,7 +173,6 @@
                     android:id="@+id/btLogIn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="logIn"
                     android:text="Log In"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
