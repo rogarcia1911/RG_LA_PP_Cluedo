@@ -12,10 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +32,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class LoginFragment extends Fragment {
 
     LinearLayout llvDataUser;
@@ -37,6 +42,7 @@ public class LoginFragment extends Fragment {
     TextView UserName, tvDataLabel,tvDataContent;
     EditText etUserName, etPassword;
     Button btLogIn, btSignIn, btLogOut;
+    private Spinner idiomSpinner;
 
     SharedPreferences shPreferences;
     FirebaseAuth mAuth;
@@ -346,4 +352,47 @@ public class LoginFragment extends Fragment {
         }
         return Validate(email, password);
     }
+    public void onCreate(LayoutInflater inflater,ViewGroup cotainer,
+                         Bundle saveInstanceState){
+
+        idiomSpinner= idiomSpinner.findViewById(R.id.idiomSpinner);
+        ArrayList<String> idiomas= new ArrayList<>();
+        idiomas.add("Español");
+        idiomas.add("Ingles");
+        ArrayAdapter<String> abp= new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_spinner_item,idiomas);
+        idiomSpinner.setAdapter(abp);
+        idiomSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String elemento= (String)idiomSpinner.getAdapter().getItem(position);
+                Toast.makeText(getActivity().getApplicationContext() ,"Seleccionaste"+ elemento, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+    public void onCreateSonido(LayoutInflater inflater,ViewGroup cotainer,
+                         Bundle saveInstanceState){
+
+        idiomSpinner= idiomSpinner.findViewById(R.id.idiomSpinner);
+        ArrayList<String> idiomas= new ArrayList<>();
+        idiomas.add("Español");
+        idiomas.add("Ingles");
+        ArrayAdapter<String> abp= new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_spinner_item,idiomas);
+        idiomSpinner.setAdapter(abp);
+        idiomSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String elemento= (String)idiomSpinner.getAdapter().getItem(position);
+                Toast.makeText(getActivity().getApplicationContext() ,"Seleccionaste"+ elemento, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
 }

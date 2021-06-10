@@ -17,8 +17,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
@@ -104,4 +107,32 @@ public class ActivityMain extends AppCompatActivity {
                 break;
         }
     }
+    public void buy(View view) {
+        transaction = getSupportFragmentManager().beginTransaction();
+        switch (view.getId())
+        {
+            case R.id.btAccount:
+                LoginFragment fragmentAccount = new LoginFragment();
+                transaction.replace(R.id.fragmentContainer, fragmentAccount).commit();
+                break;
+            case R.id.btHistorial:
+                FragmentHistory fragmentHistory = new FragmentHistory();
+                transaction.replace(R.id.fragmentContainer, fragmentHistory).commit();
+                break;
+            case R.id.btPlay:
+                FragmentGame fragmentGame = new FragmentGame();
+                transaction.replace(R.id.fragmentContainer, fragmentGame).commit();
+                break;
+            case R.id.btStore:
+                FragmentStore fragmentStore = new FragmentStore();
+                transaction.replace(R.id.fragmentContainer, fragmentStore).commit();
+                break;
+            default:
+                RulesFragment fragmentRules = new RulesFragment();
+                transaction.replace(R.id.fragmentContainer, fragmentRules).commit();
+                break;
+        }
+    }
+
+
 }
