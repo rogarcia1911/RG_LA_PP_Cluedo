@@ -106,11 +106,14 @@ public class ActivityJuego extends AppCompatActivity {
             cambiar_cont(shPreferences.getInt("gameSoloCont",0)); //reiniciamos el contador
         }
 
-        contador = gameSoloPref.getInt("gameSoloCont", oportunidades);
+        SharedPreferences spCont = getSharedPreferences("juegoDatos", Context.MODE_PRIVATE);
+        contador = spCont.getInt("cont", oportunidades);
         cambiar_cont(contador);
 
-        imagen_personaje = getIntent().getIntExtra("imagen_personaje", imagen_personaje);
-        chooseImage(imagen_personaje, "imgM");
+        SharedPreferences imagen1 = getSharedPreferences("img1", Context.MODE_PRIVATE);
+        int imagen1Int = imagen1.getInt("img_per",  R.drawable.carta_interrogante);
+        imagen_personaje = getIntent().getIntExtra("imagen_personaje", imagen1Int);
+        elegir_per(imagen_personaje);
 
 
         SharedPreferences imagen2 = getSharedPreferences("img2", Context.MODE_PRIVATE);
@@ -186,14 +189,10 @@ public class ActivityJuego extends AppCompatActivity {
     public void cambiar_cont(int num){
         tvCont.setText(String.valueOf(num));
 
-        SharedPreferences.Editor editCont = shPreferences.edit();
-        editCont.putInt( "gameSoloCont", num);
+        SharedPreferences spCont = getSharedPreferences("juegoDatos", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editCont = spCont.edit();
+        editCont.putInt( "cont", num);
         editCont.commit();
-    }
-    public void chooseImage(int imagen, String shKey){
-        SharedPreferences.Editor edit1 = gameSoloPref.edit();
-        edit1.putInt( shKey, imagen);
-        edit1.commit();
     }
 
     public void setupCards() {
@@ -204,9 +203,12 @@ public class ActivityJuego extends AppCompatActivity {
 
     //Método que modifica el imBtPersonaje
     public void elegir_per(int imagen_personaje){
+
         imBtPersonaje.setBackgroundResource(imagen_personaje);
-        SharedPreferences.Editor edit1 = gameSoloPref.edit();
-        edit1.putInt( "imgM", imagen_personaje);
+
+        SharedPreferences pref1 = getSharedPreferences("img1", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit1 = pref1.edit();
+        edit1.putInt( "img_per", imagen_personaje);
         edit1.commit();
     }
 
