@@ -35,7 +35,7 @@ public class ActivityJuego extends AppCompatActivity {
     private ImageButton imBtPersonaje, imBtLugar, imBtArma;
     private LinearLayout llhCartas;
     private LinearLayout llvCartas;
-    private ImageButton btnSuponer;
+    private Button btnSuponer;
     private TextView tvCont;
 
     SharedPreferences shPreferences, gameSoloPref;

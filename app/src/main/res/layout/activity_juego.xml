@@ -116,10 +116,9 @@
         android:id="@+id/imBtArma"
         android:layout_width="@dimen/J_cartaAncho"
         android:layout_height="@dimen/J_cartaAlto"
+        android:layout_marginTop="68dp"
         android:background="@drawable/carta_interrogante"
-        app:layout_constraintBottom_toTopOf="@+id/btnSuponer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivJugador" />
 
@@ -150,29 +149,28 @@
         android:id="@+id/imageButton5"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginBottom="148dp"
         android:background="@drawable/boton_rendirse"
         android:onClick="rendirse"
         android:text="@string/btRendirse"
         android:textSize="@dimen/J_subtexto"
-        app:layout_constraintBottom_toBottomOf="@+id/btnSuponer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnSuponer"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnSuponer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="138dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginBottom="148dp"
         android:background="@drawable/boton_averiguar"
         android:onClick="rendirse"
         android:text="@string/btSospechar"
         android:textSize="@dimen/J_texto"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton5"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 
