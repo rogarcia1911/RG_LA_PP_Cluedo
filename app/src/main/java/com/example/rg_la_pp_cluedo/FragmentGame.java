@@ -109,7 +109,10 @@ public class FragmentGame extends Fragment {
 
                     Toast.makeText(getContext(),"ActivityJuego", Toast.LENGTH_SHORT).show();
                     Intent jugar = new Intent(getContext(), ActivityJuego.class);
+                    jugar.putExtra("gameNew", match.getEndingDate() == 0L);
+                    jugar.putExtra("gameMode",match.getIsSolo());
                     startActivity(jugar);
+
                 }
             }
 

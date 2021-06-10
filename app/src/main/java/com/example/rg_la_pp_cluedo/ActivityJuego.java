@@ -26,6 +26,7 @@ import com.example.rg_la_pp_cluedo.BBDD.Card;
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,11 +47,13 @@ public class ActivityJuego extends AppCompatActivity {
     private Button btnSuponer, btnChat, btnGame;
     private TextView tvCont;
 
-    DataBaseConnection firebaseConection = null;
+    SharedPreferences shPreferences, gameSoloPref;
+    FirebaseAuth mAuth;
+    DatabaseReference database, userDataRef;
 
     private Boolean solo;
     private String fich = "cartas.dat";
-    private int oportunidades = 10, contador;
+    private int oportunidades, contador;
     private int imagen_personaje, imagen_arma, imagen_lugar;
     //nombre de SharedPreferences de los ActivityElegir...
     private String spEP = "datosEP",spEH = "datosEH",spEA = "datosEA";
@@ -61,6 +64,12 @@ public class ActivityJuego extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juego);
+        shPreferences = getSharedPreferences(getString(R.string.PREFapp),0);
+        database = DataBaseConnection.getFirebase();
+
+        //TODO: preferancias idioma y sonido
+        shPreferences.getString("appLanguage","");
+        shPreferences.getBoolean("appSound",true);
 
         //Si pulsa el boton Back le llevará al ActivityMain
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -80,13 +89,19 @@ public class ActivityJuego extends AppCompatActivity {
         btnChat = findViewById(R.id.btnChat);
         btnGame = findViewById(R.id.btnGame);
 
-        if(getIntent().getBooleanExtra("nuevaPartida",false)) {
+        gameSoloPref = getSharedPreferences( getString(R.string.PREFsoloGame), Context.MODE_PRIVATE);
+        // 3 botones carta
+        imagen_personaje = gameSoloPref.getInt("imgM", MatchHelper.Cards.D0.getImg());
+        imagen_arma = gameSoloPref.getInt("imgT", MatchHelper.Cards.D0.getImg());
+        imagen_lugar = gameSoloPref.getInt("imgR", MatchHelper.Cards.D0.getImg());
+
+        if(getIntent().getBooleanExtra("gameNew",false)) {
             reiniciarCartas();
             //reiniciamos los marcadores de los 3 ActivtyElegir...
             reiniciarBtMarc(spEP);
             reiniciarBtMarc(spEH);
             reiniciarBtMarc(spEA);
-            cambiar_cont(oportunidades); //reiniciamos el contador
+            cambiar_cont(shPreferences.getInt("gameSoloCont",0)); //reiniciamos el contador
         }
         
         SharedPreferences spCont = getSharedPreferences("juegoDatos", Context.MODE_PRIVATE);
@@ -388,7 +403,7 @@ public class ActivityJuego extends AppCompatActivity {
 
     //Modifica fin, tiempoTot y Resultado de la última partida
     public void terminarPartida(boolean resultado) {
-
+    /*
         firebaseConection = DataBaseConnection.getInstance();
         //TODO: update revision  https://www.youtube.com/watch?v=mI3ZjifIlPk&list=PL2LFsAM2rdnxv8bLBZrMtd_f3fsfgLzH7&index=7
         //TODO: filter for update object
@@ -426,52 +441,10 @@ public class ActivityJuego extends AppCompatActivity {
         */
     }//FIN terminarPartida
 
-
-    private String calcTiempodeSeg(int seg) {
-        String segS,minS = null,horS = null;
-        int min = 0, hor = 0, di;
-        if (seg>60) { //Calculamos minutos y segundos restantes
-            seg = seg%60;
-            min = seg/60;
-
-            if(min>60) { //Calculamos horas y minutos restantes
-                min = min%60;
-                hor = min/60;
-
-                //Si ha pasado 24h devuelve el string dentro del if
-                //Si no devuelve el String al final del metodo fuera de todos los if
-                if(hor>24) { //Calculamos dias y horas restantes
-                    hor = hor%24;
-                    di = hor/24;
-
-                    if(seg<10) segS = "0"+seg;
-                    else segS= String.valueOf(seg);
-
-                    if(min<10) minS = "0"+min;
-                    else minS= String.valueOf(min);
-
-                    if(hor<10) horS = "0"+hor;
-                    else horS= String.valueOf(hor);
-
-                    return di+"D  "+horS+":"+minS+":"+segS;
-                }
-
-            }
-        }
-
-        if(seg<10) segS= "0"+seg;
-        else segS= String.valueOf(seg);
-        if(min<10) minS= "0"+min;
-        else minS= String.valueOf(min);
-        if(hor<10) horS= "0"+hor;
-        else horS= String.valueOf(hor);
-
-        //devolvemos tiempo sin dias
-        if (segS!=null)
-            return horS+":"+minS+":"+segS;
-        else
-            return null;
-
+    public void reiniciar() {
+        SharedPreferences.Editor editor = gameSoloPref.edit();
+        editor.clear();
+        editor.apply();
     }
 
     //Método reinicia todas las imagenes
