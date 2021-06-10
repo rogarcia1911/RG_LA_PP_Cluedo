@@ -98,7 +98,7 @@ public class FragmentGame extends Fragment {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Incia sesión - almacenamos el usuario en el sharedPreferences
+                // Incia sesión - almacenasmo el usuario en el sharedPreferences
                 Match match = dataSnapshot.getValue(Match.class);
                 if(!match.getName().equals("")){
                     SharedPreferences.Editor editor = shPreferences.edit();
@@ -113,11 +113,8 @@ public class FragmentGame extends Fragment {
                     editor.apply();
 
                     Toast.makeText(getContext(),"ActivityJuego", Toast.LENGTH_SHORT).show();
-                    //TODO: descomentar si funciona
-                    /*
                     Intent jugar = new Intent(getContext(), ActivityJuego.class);
                     startActivity(jugar);
-                     */
                 }
             }
 
@@ -129,14 +126,14 @@ public class FragmentGame extends Fragment {
             }
         });
 
-        if(userDataRef!=null)
-            userDataRef.addValueEventListener(new ValueEventListener() {
+        if(userDataRef!=null){
+            DatabaseReference parent = userDataRef.getParent();
+            parent.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    // Incia sesión - almacenasmo el usuario en el sharedPreferences
-                    Integer numSolo = 0;
-                    numSolo = snapshot.getValue(numSolo.getClass());
-                    if(numSolo!=0){
+                    // Incia sesión - almacenamos el usuario en el sharedPreferences
+                    User user = snapshot.getValue(User.class);
+                    if(!user.getName().equals("")){
                         SharedPreferences.Editor editor = shPreferences.edit();
                         editor.putString("userData", user.getEmail() + "\n" +
                                 user.getPoints() + "\n" +
@@ -152,6 +149,7 @@ public class FragmentGame extends Fragment {
 
                 }
             });
+        }
     }
 
     /**
@@ -173,7 +171,7 @@ public class FragmentGame extends Fragment {
 
         if (!gameSoloName.isEmpty() && gameSoloNum!=0 && gameSoloCont!=0)
             continueMatch(userName, gameSoloName);
-        else
+        else {
             userDataRef = database.getDatabase().getReference("Users/"+userName+"/User/numSoloMatchs");
             userDataRef.get().addOnCompleteListener(task -> {
                 Integer num = -1;
@@ -196,6 +194,7 @@ public class FragmentGame extends Fragment {
 
                 }
             });
+        }
     }
 
     /**
@@ -211,10 +210,8 @@ public class FragmentGame extends Fragment {
             continueMatch(userName, gameMultiName);
         else {
             Toast.makeText(getContext(),"ActivityLobby", Toast.LENGTH_SHORT).show();
-            //TODO: descomentar si funciona
-            /*
             Intent lobby = new Intent(getContext(), ActivityLobby.class);
-            startActivity(lobby);*/
+            startActivity(lobby);
         }
     }
 
