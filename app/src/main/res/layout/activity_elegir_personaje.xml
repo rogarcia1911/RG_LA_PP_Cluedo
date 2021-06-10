@@ -76,7 +76,6 @@
         android:id="@+id/ivDer"
         android:layout_width="@dimen/E_pergaminoAncho"
         android:layout_height="@dimen/E_pergaminoAlto"
-        android:rotation="90"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

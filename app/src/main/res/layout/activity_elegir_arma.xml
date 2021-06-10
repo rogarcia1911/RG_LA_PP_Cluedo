@@ -74,9 +74,8 @@
 
     <ImageView
         android:id="@+id/ivDer"
-        android:layout_width="@dimen/E_pergaminoAncho"
-        android:layout_height="@dimen/E_pergaminoAlto"
-        android:rotation="90"
+        android:layout_width="358dp"
+        android:layout_height="318dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

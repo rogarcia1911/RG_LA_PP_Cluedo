@@ -208,31 +208,6 @@ public class FragmentGame extends Fragment {
             continueMatch(userName, gameMultiName);
         else {
             Toast.makeText(getContext(),"ActivityLobby", Toast.LENGTH_SHORT).show();
-
-            userDataRef = database.getDatabase().getReference("Users/"+userName+"/User/numMultiMatchs");
-            userDataRef.get().addOnCompleteListener(task -> {
-                Integer num = -1;
-                num = task.getResult().getValue(num.getClass());
-
-                if (num==0 ){
-                    newMatch(userName, MatchHelper.Mode.MULTI.name(),num+1);
-                } else {
-                    //Recuperar lastMatchRef con num match==Null =>new & match.Ending==Null =>new else continuePlaying
-                    DatabaseReference lastMatchRef = getMatch(userName, MatchHelper.Mode.MULTI.name(),num);
-                    Integer finalNum = num+1;
-                    lastMatchRef.get().addOnCompleteListener(task1 -> {
-                        // Comprobar si la última partida guardada ha terminado o no
-                        Match match = task1.getResult().getValue(Match.class);
-                        if (match == null && match.getEndingDate() == null)
-                            newMatch(userName,MatchHelper.Mode.MULTI.name(), finalNum);
-                        else if (match != null)
-                            continueMatch(userName,match.getName());
-                    });
-
-                }
-            });
-
-
             Intent lobby = new Intent(getContext(), ActivityLobby.class);
             startActivity(lobby);
         }

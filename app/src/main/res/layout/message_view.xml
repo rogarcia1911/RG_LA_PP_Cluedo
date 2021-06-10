@@ -22,25 +22,29 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/tvPlayerName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="TextView"
-                    android:layout_weight="1"/>
+                    android:textColor="#FFFFFF" />
 
                 <TextView
                     android:id="@+id/tvMessageDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fecha" />
+                    android:text="Fecha"
+                    android:textColor="#FFFFFF" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tvMessageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hols Bienvenido" />
+                android:text="Hols Bienvenido"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
 
 
