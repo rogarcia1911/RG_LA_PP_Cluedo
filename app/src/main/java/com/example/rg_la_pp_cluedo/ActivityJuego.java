@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,31 +22,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.rg_la_pp_cluedo.BBDD.Card;
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.List;
-
 public class ActivityJuego extends AppCompatActivity {
 
     private ImageButton imBtPersonaje, imBtLugar, imBtArma;
     private LinearLayout llhCartas;
     private LinearLayout llvCartas;
-    private Button btnSuponer, btnChat, btnGame;
+    private ImageButton btnSuponer;
     private TextView tvCont;
 
     SharedPreferences shPreferences, gameSoloPref;
@@ -62,6 +52,7 @@ public class ActivityJuego extends AppCompatActivity {
     private ArrayList<Integer> murderedCards;
 
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,8 +84,8 @@ public class ActivityJuego extends AppCompatActivity {
         imBtLugar = findViewById(R.id.imBtHabitacion);
         tvCont = findViewById(R.id.txtV2);
         btnSuponer = findViewById(R.id.btnSuponer);
-        btnChat = findViewById(R.id.btnChat);
-        btnGame = findViewById(R.id.btnGame);
+
+
 
         if(isNewMatch) {
             reiniciarCartas();
@@ -173,13 +164,13 @@ public class ActivityJuego extends AppCompatActivity {
             }
         });
 
-        btnChat.setOnClickListener(new View.OnClickListener() {
+     /*   btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent chat = new Intent(getApplicationContext(), ActivityChat.class);
                 startActivity(chat);
             }
-        });
+        });*/
 
     }//FIN onCreate
 

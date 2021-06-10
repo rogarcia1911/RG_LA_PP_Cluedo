@@ -12,33 +12,13 @@
         android:id="@+id/imgbtn_lugar1"
         android:layout_width="@dimen/E_cartaAncho"
         android:layout_height="@dimen/E_cartaAlto"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
         android:background="@drawable/lugar_banio"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_lugar2"
-        app:layout_constraintEnd_toStartOf="@+id/imgbtn_lugar2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/ivDer"
-        app:layout_constraintTop_toTopOf="@+id/imgbtn_lugar2" />
-
-    <ImageButton
-        android:id="@+id/imgbtn_lugar2"
-        android:layout_width="@dimen/E_cartaAncho"
-        android:layout_height="@dimen/E_cartaAlto"
-        android:background="@drawable/lugar_comedor"
-        app:layout_constraintBottom_toTopOf="@+id/imgbtn_lugar5"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imgbtn_lugar3"
-        android:layout_width="@dimen/E_cartaAncho"
-        android:layout_height="@dimen/E_cartaAlto"
-        android:background="@drawable/lugar_dormitorio"
-        app:layout_constraintBottom_toBottomOf="@+id/imgbtn_lugar2"
-        app:layout_constraintEnd_toEndOf="@+id/ivDer"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/imgbtn_lugar2"
-        app:layout_constraintTop_toTopOf="@+id/imgbtn_lugar2" />
+        app:layout_constraintTop_toTopOf="@+id/imgbtn_lugar2"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
         android:id="@+id/imgbtn_lugar4"
@@ -47,32 +27,124 @@
         android:background="@drawable/lugar_estudio"
         android:rotation="0"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_lugar5"
-        app:layout_constraintEnd_toStartOf="@+id/imgbtn_lugar5"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/ivDer"
-        app:layout_constraintTop_toTopOf="@+id/imgbtn_lugar5" />
+        app:layout_constraintEnd_toEndOf="@+id/textView15"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="@+id/textView15"
+        app:layout_constraintTop_toTopOf="@+id/imgbtn_lugar5"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/tvHab4"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_lugar4"
+        app:layout_constraintHorizontal_bias="0.433"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_lugar4"
+        app:layout_constraintTop_toBottomOf="@+id/imgbtn_lugar4" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/tvHab1"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_lugar1"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_lugar1"
+        app:layout_constraintTop_toBottomOf="@+id/imgbtn_lugar1" />
+
+    <ImageButton
+        android:id="@+id/imgbtn_lugar2"
+        android:layout_width="@dimen/E_cartaAncho"
+        android:layout_height="@dimen/E_cartaAlto"
+        android:background="@drawable/lugar_comedor"
+        app:layout_constraintBottom_toBottomOf="@+id/imgbtn_lugar3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgbtn_lugar3"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvHab2"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView15"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_lugar2"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_lugar2"
+        app:layout_constraintTop_toTopOf="@+id/textView15" />
+
+    <ImageButton
+        android:id="@+id/imgbtn_lugar3"
+        android:layout_width="@dimen/E_cartaAncho"
+        android:layout_height="@dimen/E_cartaAlto"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
+        android:background="@drawable/lugar_dormitorio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imgbtn_lugar2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="@string/tvHab3"
+        app:layout_constraintBottom_toBottomOf="@+id/textView16"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_lugar3"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_lugar3"
+        app:layout_constraintTop_toTopOf="@+id/textView16" />
 
     <ImageButton
         android:id="@+id/imgbtn_lugar5"
         android:layout_width="@dimen/E_cartaAncho"
         android:layout_height="@dimen/E_cartaAlto"
         android:background="@drawable/lugar_garaje"
-        app:layout_constraintBottom_toTopOf="@+id/ivDer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintBottom_toBottomOf="@+id/imgbtn_lugar6"
+        app:layout_constraintEnd_toEndOf="@+id/textView16"
+        app:layout_constraintStart_toStartOf="@+id/textView16"
+        app:layout_constraintTop_toTopOf="@+id/imgbtn_lugar6" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvHab5"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView18"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_lugar5"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_lugar5"
+        app:layout_constraintTop_toTopOf="@+id/textView18" />
 
     <ImageButton
         android:id="@+id/imgbtn_lugar6"
         android:layout_width="@dimen/E_cartaAncho"
         android:layout_height="@dimen/E_cartaAlto"
+        android:layout_marginTop="28dp"
         android:background="@drawable/lugar_patio"
-        app:layout_constraintBottom_toBottomOf="@+id/imgbtn_lugar5"
-        app:layout_constraintEnd_toEndOf="@+id/ivDer"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/imgbtn_lugar5"
-        app:layout_constraintTop_toTopOf="@+id/imgbtn_lugar5" />
+        app:layout_constraintEnd_toEndOf="@+id/textView17"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="@+id/textView17"
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvHab6"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView19"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_lugar6"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_lugar6"
+        app:layout_constraintTop_toTopOf="@+id/textView19" />
 
     <ImageView
         android:id="@+id/ivDer"
@@ -103,8 +175,8 @@
                 android:id="@+id/txtV1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvHab1"
                 android:textColor="@color/negro"
@@ -142,8 +214,8 @@
                 android:id="@+id/txtV2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvHab2"
                 android:textColor="@color/negro"
@@ -181,8 +253,8 @@
                 android:id="@+id/txtV3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvHab3"
                 android:textColor="@color/negro"
@@ -220,8 +292,8 @@
                 android:id="@+id/txtV4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvHab4"
                 android:textColor="@color/negro"
@@ -259,8 +331,8 @@
                 android:id="@+id/txtV5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvHab5"
                 android:textColor="@color/negro"
@@ -298,8 +370,8 @@
                 android:id="@+id/txtV6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvHab6"
                 android:textColor="@color/negro"

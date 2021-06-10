@@ -11,33 +11,90 @@
         android:id="@+id/imgbtn_arma1"
         android:layout_width="@dimen/E_cartaAncho"
         android:layout_height="@dimen/E_cartaAlto"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
         android:background="@drawable/arma_candelabro"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_arma2"
-        app:layout_constraintEnd_toStartOf="@+id/imgbtn_arma2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/ivDer"
-        app:layout_constraintTop_toTopOf="@+id/imgbtn_arma2" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgbtn_arma2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/tvArma1"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_arma1"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_arma1"
+        app:layout_constraintTop_toBottomOf="@+id/imgbtn_arma1" />
 
     <ImageButton
         android:id="@+id/imgbtn_arma2"
         android:layout_width="@dimen/E_cartaAncho"
         android:layout_height="@dimen/E_cartaAlto"
         android:background="@drawable/arma_cuerda"
-        app:layout_constraintBottom_toTopOf="@+id/imgbtn_arma5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/imgbtn_arma3"
+        app:layout_constraintEnd_toStartOf="@+id/imgbtn_arma3"
+        app:layout_constraintStart_toEndOf="@+id/imgbtn_arma1"
+        app:layout_constraintTop_toTopOf="@+id/imgbtn_arma3" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:text="@string/tvArma2"
+        app:layout_constraintBottom_toBottomOf="@+id/textView9"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_arma2"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_arma2"
+        app:layout_constraintTop_toTopOf="@+id/textView9" />
 
     <ImageButton
         android:id="@+id/imgbtn_arma3"
         android:layout_width="@dimen/E_cartaAncho"
         android:layout_height="@dimen/E_cartaAlto"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/arma_herramienta"
-        app:layout_constraintBottom_toBottomOf="@+id/imgbtn_arma2"
-        app:layout_constraintEnd_toEndOf="@+id/ivDer"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/imgbtn_arma2"
-        app:layout_constraintTop_toTopOf="@+id/imgbtn_arma2" />
+        app:layout_constraintBottom_toTopOf="@+id/imgbtn_arma6"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imgbtn_arma6"
+        android:layout_width="@dimen/E_cartaAncho"
+        android:layout_height="@dimen/E_cartaAlto"
+        android:layout_marginBottom="410dp"
+        android:background="@drawable/arma_tuberia"
+        app:layout_constraintBottom_toBottomOf="@+id/ivDer"
+        app:layout_constraintEnd_toEndOf="@+id/textView11"
+        app:layout_constraintHorizontal_bias="0.527"
+        app:layout_constraintStart_toStartOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvArma3"
+        app:layout_constraintBottom_toBottomOf="@+id/textView10"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_arma3"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_arma3"
+        app:layout_constraintTop_toTopOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvArma6"
+        app:layout_constraintBottom_toBottomOf="@+id/textView13"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_arma6"
+        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_arma6"
+        app:layout_constraintTop_toTopOf="@+id/textView13" />
 
     <ImageButton
         android:id="@+id/imgbtn_arma4"
@@ -45,37 +102,46 @@
         android:layout_height="@dimen/E_cartaAlto"
         android:background="@drawable/arma_pistola"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_arma5"
-        app:layout_constraintEnd_toStartOf="@+id/imgbtn_arma5"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/ivDer"
+        app:layout_constraintEnd_toEndOf="@+id/textView9"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
         app:layout_constraintTop_toTopOf="@+id/imgbtn_arma5" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/tvArma4"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_arma4"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_arma4"
+        app:layout_constraintTop_toBottomOf="@+id/imgbtn_arma4" />
 
     <ImageButton
         android:id="@+id/imgbtn_arma5"
         android:layout_width="@dimen/E_cartaAncho"
         android:layout_height="@dimen/E_cartaAlto"
         android:background="@drawable/arma_punial"
-        app:layout_constraintBottom_toTopOf="@+id/ivDer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintBottom_toBottomOf="@+id/imgbtn_arma6"
+        app:layout_constraintEnd_toEndOf="@+id/textView10"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toTopOf="@+id/imgbtn_arma6" />
 
-    <ImageButton
-        android:id="@+id/imgbtn_arma6"
-        android:layout_width="@dimen/E_cartaAncho"
-        android:layout_height="@dimen/E_cartaAlto"
-        android:background="@drawable/arma_tuberia"
-        app:layout_constraintBottom_toBottomOf="@+id/imgbtn_arma5"
-        app:layout_constraintEnd_toEndOf="@+id/ivDer"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/imgbtn_arma5"
-        app:layout_constraintTop_toTopOf="@+id/imgbtn_arma5" />
+    <TextView
+        android:id="@+id/textView13"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:text="@string/tvArma5"
+        app:layout_constraintBottom_toBottomOf="@+id/textView12"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_arma5"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_arma5"
+        app:layout_constraintTop_toTopOf="@+id/textView12" />
 
     <ImageView
         android:id="@+id/ivDer"
-        android:layout_width="358dp"
-        android:layout_height="318dp"
+        android:layout_width="@dimen/E_pergaminoAncho"
+        android:layout_height="@dimen/E_pergaminoAlto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,8 +167,8 @@
                 android:id="@+id/txtV1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvArma1"
                 android:textColor="@color/negro"
@@ -140,8 +206,8 @@
                 android:id="@+id/txtV2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvArma2"
                 android:textColor="@color/negro"
@@ -179,8 +245,8 @@
                 android:id="@+id/txtV3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvArma3"
                 android:textColor="@color/negro"
@@ -218,8 +284,8 @@
                 android:id="@+id/txtV4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvArma4"
                 android:textColor="@color/negro"
@@ -257,8 +323,8 @@
                 android:id="@+id/txtV5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvArma5"
                 android:textColor="@color/negro"
@@ -296,8 +362,8 @@
                 android:id="@+id/txtV6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvArma6"
                 android:textColor="@color/negro"
