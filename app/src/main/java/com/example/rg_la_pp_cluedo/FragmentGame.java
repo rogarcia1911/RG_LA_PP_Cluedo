@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -27,6 +29,7 @@ public class FragmentGame extends Fragment {
     private List<Match> matchList = new ArrayList<>();
     private ArrayAdapter<Match> arrayAdapterMatch;
     private Match match;
+    private ImageButton btRules;
 
     SharedPreferences shPreferences;
     FirebaseAuth mAuth;
@@ -45,6 +48,8 @@ public class FragmentGame extends Fragment {
         shPreferences = this.getActivity().getSharedPreferences(getString(R.string.PREFapp),0);
         database = DataBaseConnection.getFirebase();
         mAuth = FirebaseAuth.getInstance();
+
+        btRules = getView().findViewById(R.id.ibtRules);
 
         //TODO: preferancias idioma y sonido
         shPreferences.getString("appLanguage","");

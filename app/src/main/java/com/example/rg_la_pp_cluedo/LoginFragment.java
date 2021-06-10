@@ -244,8 +244,8 @@ public class LoginFragment extends Fragment {
                             //TODO: Traducir textos
                             btSignIn.setText("Signing in");
                             btSignIn.setEnabled(false);
-                            User sUser = taskUser.getResult().getValue(User.class);
-                            if (user == null)
+                            User userTask = taskUser.getResult().getValue(User.class);
+                            if (userTask == null)
                                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         newPlayer(userName, email);
