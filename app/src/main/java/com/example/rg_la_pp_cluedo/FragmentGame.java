@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
 import com.example.rg_la_pp_cluedo.BBDD.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -67,11 +68,9 @@ public class FragmentGame extends Fragment {
         if(currentUser != null && !shSettings.getString("userName","").isEmpty()){
             setupLogged();
             //TODO: Traducir textos
-            Toast.makeText(getContext(), "Sesión ya iniciada", Toast.LENGTH_SHORT).show();
         } else {
             setupUnlogged();
             //TODO: Traducir textos
-            Toast.makeText(getContext(), "No hay sesión iniciada", Toast.LENGTH_SHORT).show();
         }
         ibtRules.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,13 +124,13 @@ public class FragmentGame extends Fragment {
                     jugar.putExtra("gameMode",match.getIsSolo());
                     startActivity(jugar);
 
-                } else {
-                    SharedPreferences.Editor edit = shPreferences.edit();
-                    edit.putString("gameSoloName", "");
-                    edit.putInt("gameSoloNum", 0);
-                    edit.putInt("gameSoloCont", 0);
-                    edit.apply();
-                }
+                }// else {
+                    //SharedPreferences.Editor edit = shPreferences.edit();
+                    //edit.putString("gameSoloName", "");
+                    //edit.putInt("gameSoloNum", 0);
+                    //edit.putInt("gameSoloCont", 0);
+                  //  edit.apply();
+                //}
             }
 
             @Override
@@ -190,7 +189,7 @@ public class FragmentGame extends Fragment {
         else {
             userDataRef = database.getDatabase().getReference("Users/"+userName+"/User/numSoloMatchs");
             userDataRef.get().addOnCompleteListener(task -> {
-                Integer num = -1;
+                Integer num = 0;
                 num = task.getResult().getValue(num.getClass());
 
                 if (num==0 ){
@@ -253,7 +252,7 @@ public class FragmentGame extends Fragment {
 
     private void newMatch(String userName, Boolean mode, Integer num) {
         Match match = new Match();
-        match.setName(MatchHelper.Mode.getTextByB(mode) +"-"+ num);
+        match.setName((MatchHelper.Mode.getTextByB(mode)) + "-"+ num);
         match.setNum(num);
         match.setBeginningDate(System.currentTimeMillis()); //Con un new Date convertimos los milisegundos a fecha
         match.setIsSolo(mode);
@@ -268,7 +267,7 @@ public class FragmentGame extends Fragment {
         matchDataRef.setValue(match);
         userDataRef.setValue(num);
 
-        Toast.makeText(getContext(),"Creamos: "+match.getName(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),"Creamos: "+match.getName(), Toast.LENGTH_SHORT).show();
     }
 
     private void continueMatch(String userName, String gameName) {

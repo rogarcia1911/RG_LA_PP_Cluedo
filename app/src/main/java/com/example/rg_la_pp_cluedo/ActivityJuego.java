@@ -27,6 +27,7 @@ import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
 import com.example.rg_la_pp_cluedo.BBDD.Player;
 import com.example.rg_la_pp_cluedo.BBDD.Room;
+import com.example.rg_la_pp_cluedo.BBDD.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -90,10 +91,19 @@ public class ActivityJuego extends AppCompatActivity {
                 Intent inicio = new Intent(ActivityJuego.this, ActivityMain.class);
                 startActivity(inicio);
                 if(!isSolo){
+                    String userName = shSettings.getString("userName","");
                     Match match = room.getMatch();
-                    match.setRoomName(room.getName());
+                    //match.setRoomName(room.getName());
                     match.setResultGame(false);
                     match.setEndingDate(System.currentTimeMillis());
+                    database.getDatabase().getReference("Users/"+userName+"/User").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            Integer num = task.getResult().getValue(User.class).getNumMultiMatchs();
+                            database.getDatabase().getReference("Users/"+userName+"/Matchs/MULTI-"+(num+1)).setValue(room.getMatch());
+                            roomRef.setValue(room);
+                        }
+                    });
                 }
             }
         };
@@ -174,7 +184,25 @@ public class ActivityJuego extends AppCompatActivity {
                 if(imagen_personaje == R.drawable.carta_interrogante || imagen_arma == R.drawable.carta_interrogante || imagen_lugar == R.drawable.carta_interrogante)
                     Toast.makeText(ActivityJuego.this, getString(R.string.msj3Cartas), Toast.LENGTH_SHORT).show();
                 else{
-                    comprobar(imagen_personaje, imagen_arma, imagen_lugar);
+                    if (murderedCards != null || !murderedCards.isEmpty())
+                        comprobar(imagen_personaje, imagen_arma, imagen_lugar);
+                    else if (isSolo)
+                        matchDataRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                murderedCards = task.getResult().getValue(Match.class).getMurderCards();
+
+                            }
+                        });
+                    else {
+                        roomRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                murderedCards = task.getResult().getValue(Match.class).getMurderCards();
+                            }
+                        });
+                    }
+
                 }
 
 
@@ -212,6 +240,8 @@ public class ActivityJuego extends AppCompatActivity {
         String roomName = getIntent().getStringExtra("roomName");
         String status = getIntent().getStringExtra("status");
         String myTurn = getIntent().getStringExtra("myTurn");
+        roomRef = database.getDatabase().getReference("Rooms/"+roomName);
+        ArrayList<Integer> murderCards = getIntent().getExtras().getIntegerArrayList("murderCards");
 
         if (!status.equals("Wait")) {
             if (myTurn.equals(room.getTurn())){
@@ -219,10 +249,11 @@ public class ActivityJuego extends AppCompatActivity {
                 btnSuponer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        comprobar(imagen_personaje, imagen_arma, imagen_lugar);
+                        sospecharMulti();
                     }
                 });
             } else {
+                roomRef.getParent().child("status").setValue(status);
                 btnSuponer.setText(R.string.btSospechar);
                 btnSuponer.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -231,7 +262,16 @@ public class ActivityJuego extends AppCompatActivity {
                     }
                 });
             }
-}
+        } else if (match == null) {
+            match = new Match();
+            match.setName("MULTI");
+            match.setBeginningDate(System.currentTimeMillis()); //Con un new Date convertimos los milisegundos a fecha
+            match.setIsSolo(false);
+            match.setMurderCards(murderCards);
+            room.setMatch(match);
+            room.setStatus(status);
+            roomRef.setValue(room);
+        }
 
         btnChat.setVisibility(View.VISIBLE);
         btnChat.setOnClickListener(new View.OnClickListener() {
@@ -246,6 +286,10 @@ public class ActivityJuego extends AppCompatActivity {
         tvCont.setVisibility(View.GONE);
 
         //Button btnPicked = findViewById(R.id.btnPicked);
+    }
+
+    private void sospecharMulti() {
+        comprobar(imagen_personaje, imagen_arma, imagen_lugar);
     }
 
     private void setupSolo() {
@@ -268,7 +312,7 @@ public class ActivityJuego extends AppCompatActivity {
                     if (!isSolo) {
 
                     }
-                    Toast.makeText(getApplicationContext(), "isNewMatch  "+isNewMatch + " isSolo" + match.getIsSolo(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "isNewMatch  "+isNewMatch + " isSolo" + match.getIsSolo(), Toast.LENGTH_SHORT).show();
 
                     if (match.getEndingDate()!=0L){
                         if (match.getResultGame()) {
@@ -286,7 +330,7 @@ public class ActivityJuego extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(),"No se ha podido recuperar la partida.",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"No se ha podido recuperar la partida.",Toast.LENGTH_SHORT).show();
             }
         });
         if( match == null )
@@ -304,7 +348,7 @@ public class ActivityJuego extends AppCompatActivity {
         editCont.putInt( "cont", num);
         editCont.commit();
 
-        if (match!=null && matchDataRef != null) {
+        if (match!=null && !match.getName().equals("") && matchDataRef != null) {
             match.setCont(num);
             matchDataRef.setValue(match);
         }
