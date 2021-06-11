@@ -4,6 +4,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -39,6 +40,9 @@ public class ActivityGanar extends AppCompatActivity {
             }
         };
         getOnBackPressedDispatcher().addCallback(callback);
+
+        ArrayList<Integer> murderCards = getIntent().getExtras().getIntegerArrayList("murderCards");
+        //TODO: mostrar las culpables
 
         ivPers = findViewById(R.id.ivPers);
         ivArma = findViewById(R.id.ivArma);

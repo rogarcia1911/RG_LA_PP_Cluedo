@@ -1,5 +1,6 @@
 package com.example.rg_la_pp_cluedo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -35,10 +36,9 @@ public class FragmentGame extends Fragment {
     private Match match;
     private ImageButton ibtRules, ibtSolo, ibtMulti;
 
-    SharedPreferences shPreferences;
+    SharedPreferences shSettings,shPreferences;
     FirebaseAuth mAuth;
     DatabaseReference database, userDataRef, matchDataRef;
-    User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class FragmentGame extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        shSettings = this.getActivity().getSharedPreferences(getString(R.string.PREFsetttings), 0);
         shPreferences = this.getActivity().getSharedPreferences(getString(R.string.PREFapp),0);
         database = DataBaseConnection.getFirebase();
         mAuth = FirebaseAuth.getInstance();
@@ -58,12 +59,12 @@ public class FragmentGame extends Fragment {
         ibtMulti = getView().findViewById(R.id.ibtMulti);
 
         //TODO: preferancias idioma y sonido
-        shPreferences.getString("appLanguage","");
-        shPreferences.getBoolean("appSound",true);
+        shSettings.getString("appLanguage","");
+        shSettings.getBoolean("appSound",true);
 
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null && !shPreferences.getString("userName","").isEmpty()){
+        if(currentUser != null && !shSettings.getString("userName","").isEmpty()){
             setupLogged();
             //TODO: Traducir textos
             Toast.makeText(getContext(), "Sesión ya iniciada", Toast.LENGTH_SHORT).show();
@@ -83,9 +84,9 @@ public class FragmentGame extends Fragment {
     }
 
     private void setupLogged() {
-        ibtSolo.setOnClickListener(v -> gameSolo(shPreferences.getString("userName","")));
+        ibtSolo.setOnClickListener(v -> gameSolo(shSettings.getString("userName","")));
 
-        ibtMulti.setOnClickListener(v -> gameMulti(shPreferences.getString("userName","")));
+        ibtMulti.setOnClickListener(v -> gameMulti(shSettings.getString("userName","")));
     }
 
     private void setupUnlogged() {
@@ -96,6 +97,7 @@ public class FragmentGame extends Fragment {
     }
 
     private void addEventListener(Boolean newGame) {
+        Context context = getContext();
         // Leer de la base de datos
         if (matchDataRef != null)
         matchDataRef.addValueEventListener(new ValueEventListener() {
@@ -104,7 +106,7 @@ public class FragmentGame extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Incia sesión - almacenasmo el usuario en el sharedPreferences
                 Match match = dataSnapshot.getValue(Match.class);
-                if(!match.getName().equals("")){
+                if(match != null && match.getEndingDate() == 0L){
                     SharedPreferences.Editor editor = shPreferences.edit();
                     if (match.getIsSolo()) {
                         editor.putString("gameSoloName", match.getName());
@@ -117,11 +119,17 @@ public class FragmentGame extends Fragment {
                     editor.apply();
 
                     Toast.makeText(getContext(),"ActivityJuego", Toast.LENGTH_SHORT).show();
-                    Intent jugar = new Intent(getContext(), ActivityJuego.class);
+                    Intent jugar = new Intent( context, ActivityJuego.class);
                     jugar.putExtra("gameNew", newGame);
                     jugar.putExtra("gameMode",match.getIsSolo());
                     startActivity(jugar);
 
+                } else {
+                    SharedPreferences.Editor edit = shPreferences.edit();
+                    edit.putString("gameSoloName", "");
+                    edit.putInt("gameSoloNum", 0);
+                    edit.putInt("gameSoloCont", 0);
+                    edit.apply();
                 }
             }
 
@@ -140,7 +148,7 @@ public class FragmentGame extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     // Incia sesión - almacenamos el usuario en el sharedPreferences
                     User user = snapshot.getValue(User.class);
-                    if(!user.getName().equals("")){
+                    if(user != null){
                         SharedPreferences.Editor editor = shPreferences.edit();
                         editor.putString("userData", user.getEmail() + "\n" +
                                 user.getPoints() + "\n" +
@@ -185,18 +193,20 @@ public class FragmentGame extends Fragment {
                 num = task.getResult().getValue(num.getClass());
 
                 if (num==0 ){
-                    newMatch(userName, MatchHelper.Mode.SOLO.name(),num+1);
+                    //TODO: en vez de newMatch tiene que ir abrir algo con 3 opciones para la DIFICULTAD
+                    newMatch(userName, MatchHelper.Mode.SOLO.getB(),num+1);
                 } else {
                     //Recuperar lastMatchRef con num match==Null =>new & match.Ending==Null =>new else continuePlaying
                     DatabaseReference lastMatchRef = getMatch(userName, MatchHelper.Mode.SOLO.name(),num);
                     Integer finalNum = num+1;
                     lastMatchRef.get().addOnCompleteListener(task1 -> {
                         // Comprobar si la última partida guardada ha terminado o no
+                        //TODO: en vez de newMatch tiene que ir abrir algo con 3 opciones para la DIFICULTAD
                         Match match = task1.getResult().getValue(Match.class);
-                        if (match == null && match.getEndingDate() == null)
-                            newMatch(userName,MatchHelper.Mode.SOLO.name(), finalNum);
-                        else if (match != null)
+                        if (match != null && match.getEndingDate() == 0L)
                             continueMatch(userName,match.getName());
+                        else
+                            newMatch(userName,MatchHelper.Mode.SOLO.getB(), finalNum);
                     });
 
                 }
@@ -210,6 +220,7 @@ public class FragmentGame extends Fragment {
      * @param userName
      */
     public void gameMulti(String userName) {
+        String roomName = shPreferences.getString("roomName","");
         String gameMultiName = shPreferences.getString("gameMultiName", "");
         Integer gameMultiNum = shPreferences.getInt("gameMultiNum", 0);
 
@@ -239,15 +250,17 @@ public class FragmentGame extends Fragment {
         return murderCards;
     }
 
-    private void newMatch(String userName, String mode, Integer num) {
+    private void newMatch(String userName, Boolean mode, Integer num) {
         Match match = new Match();
-        match.setName(mode +"-"+ num);
+        match.setName(MatchHelper.Mode.getTextByB(mode) +"-"+ num);
         match.setNum(num);
         match.setBeginningDate(System.currentTimeMillis()); //Con un new Date convertimos los milisegundos a fecha
-        if (mode.equals(MatchHelper.Mode.SOLO.name())) {
-            match.setIsSolo(true);
+        match.setIsSolo(mode);
+        if (mode) {
             match.setDifficulty(MatchHelper.Difficulty.EASY.name());
+            match.setCont(MatchHelper.Difficulty.EASY.cont);
         }
+
         matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+match.getName());
         match.setMurderCards(generarCartasCulpables());
         addEventListener(true);
@@ -257,11 +270,11 @@ public class FragmentGame extends Fragment {
         Toast.makeText(getContext(),"Creamos: "+match.getName(), Toast.LENGTH_SHORT).show();
     }
 
-    private void continueMatch(String userName, String gameSoloName) {
-        matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+gameSoloName);
+    private void continueMatch(String userName, String gameName) {
+        matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+gameName);
         addEventListener(false);
         matchDataRef.get();
-        Toast.makeText(getContext(),"Continuamos: "+gameSoloName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),"Continuamos: "+gameName, Toast.LENGTH_SHORT).show();
     }
 
 

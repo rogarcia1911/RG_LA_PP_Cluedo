@@ -1,26 +1,29 @@
 package com.example.rg_la_pp_cluedo.BBDD;
 
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Room {
 
     private String name;
     private Integer turn;
-    private Card[] CardsPicked;
-    private Array Players;
-    private Array Chat;
+    private Long endDate;
+    private ArrayList<Player> Players;
+    private ArrayList<Integer> CardsPicked;
+    private ArrayList<ChatMessage> Chat;
 
 
     public Room() {
-
+        name = "";
+        turn = 0;
+        endDate = 0L;
     }
 
 
-    public Room(String name, Integer turn, Card[] CardsPicked, Array Players, Array Chat) {
+    public Room(String name, Integer turn, Long endDate, ArrayList<Integer> CardsPicked,
+                ArrayList<Player> Players, ArrayList<ChatMessage> Chat) {
         this.name = name;
         this.turn = turn;
+        this.endDate = endDate;
         this.CardsPicked = CardsPicked;
         this.Players = Players;
 
@@ -42,19 +45,35 @@ public class Room {
         this.turn = turn;
     }
 
-    public Array getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return Players;
     }
 
-    public void setPlayers(Array Players) {
+    public void setPlayers(ArrayList<Player> Players) {
         this.Players = Players;
     }
 
-    public Array getChat() {
+    public ArrayList<ChatMessage> getChat() {
         return Chat;
     }
 
-    public void setChat(Array Chat) {
+    public void setChat(ArrayList<ChatMessage> Chat) {
         this.Chat = Chat;
+    }
+
+    public ArrayList<Integer> getCardsPicked() {
+        return CardsPicked;
+    }
+
+    public void setCardsPicked(ArrayList<Integer> CardsPicked) {
+        this.CardsPicked = CardsPicked;
+    }
+
+    public Long getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Long ended) {
+        this.endDate = endDate;
     }
 }
