@@ -4,6 +4,7 @@
     <string name="PREFsoloGame" translatable="false">PREFsoloGame</string>
     <string name="PREFmultiGame" translatable="false">PREFmultiGame</string>
     <string name="PREFapp" translatable="false">PREFS</string>
+    <string name="PREFsetttings" translatable="false">PREFsetttings</string>
 
     <!-- activity_main -->
     <string name="tvTituloMain">Who is the murderer?</string>

@@ -48,9 +48,9 @@ public class ActivityJuego extends AppCompatActivity {
     private Button btnSuponer, btnChat, btnGame;
     private TextView tvCont;
 
-    SharedPreferences shPreferences, gameSoloPref;
+    SharedPreferences shSettings, shPreferences, shGameSolo, shGameMulti;
     DataBaseConnection firebaseConnection = null;
-    DatabaseReference database, matchDataRef;
+    DatabaseReference database, matchDataRef, roomDataRef;
     Match match;
     String matchName;
 
@@ -61,19 +61,21 @@ public class ActivityJuego extends AppCompatActivity {
     private String spEP = "datosEP",spEH = "datosEH",spEA = "datosEA";
     private ArrayList<Integer> murderedCards;
 
-
+    //TODO: en el primer sospechar no cambia el contador
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juego);
+        shSettings = getSharedPreferences(getString(R.string.PREFsetttings), 0);
         shPreferences = getSharedPreferences(getString(R.string.PREFapp),0);
-        gameSoloPref = getSharedPreferences( getString(R.string.PREFsoloGame), Context.MODE_PRIVATE);
+        shGameSolo = getSharedPreferences(getString(R.string.PREFsoloGame), Context.MODE_PRIVATE);
+        shGameMulti = getSharedPreferences(getString(R.string.PREFmultiGame), Context.MODE_PRIVATE);
         firebaseConnection = DataBaseConnection.getInstance();
         database = DataBaseConnection.getFirebase(getApplicationContext());
 
         //TODO: preferancias idioma y sonido
-        shPreferences.getString("appLanguage","");
-        shPreferences.getBoolean("appSound",true);
+        shSettings.getString("appLanguage","");
+        shSettings.getBoolean("appSound",true);
 
         isNewMatch = getIntent().getBooleanExtra("gameNew",false);
         isSolo = getIntent().getBooleanExtra("gameMode",true);
@@ -102,13 +104,16 @@ public class ActivityJuego extends AppCompatActivity {
             reiniciarBtMarc(spEP);
             reiniciarBtMarc(spEH);
             reiniciarBtMarc(spEA);
-            oportunidades = shPreferences.getInt("gameSoloCont",0);
-            cambiar_cont(shPreferences.getInt("gameSoloCont",0)); //reiniciamos el contador
+            if (isSolo) {
+                oportunidades = shPreferences.getInt("gameSoloCont", 0);
+                cambiar_cont(shPreferences.getInt("gameSoloCont", 0)); //reiniciamos el contador
+            }
         }
-
-        SharedPreferences spCont = getSharedPreferences("juegoDatos", Context.MODE_PRIVATE);
-        contador = spCont.getInt("cont", oportunidades);
-        cambiar_cont(contador);
+        if (isSolo){
+            SharedPreferences spCont = getSharedPreferences("juegoDatos", Context.MODE_PRIVATE);
+            contador = spCont.getInt("cont", oportunidades);
+            cambiar_cont(contador);
+        }
 
         SharedPreferences imagen1 = getSharedPreferences("img1", Context.MODE_PRIVATE);
         int imagen1Int = imagen1.getInt("img_per",  R.drawable.carta_interrogante);
@@ -173,6 +178,27 @@ public class ActivityJuego extends AppCompatActivity {
             }
         });
 
+        if (isSolo)
+            setupSolo();
+        else
+            setupMulti();
+
+
+
+    }//FIN onCreate
+
+    private void setupMulti() {
+        roomDataRef = database.getDatabase().getReference("Rooms");
+        String set = "Playing";
+        switch(set) {
+            case "Playing":
+                break;
+            case "WaitAnotherPlayer":
+                break;
+            case "WaitYourturn":
+                break;
+        }
+        btnChat.setVisibility(View.VISIBLE);
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,10 +207,16 @@ public class ActivityJuego extends AppCompatActivity {
             }
         });
 
-    }//FIN onCreate
+        //Button btnPicked = findViewById(R.id.btnPicked);
+    }
+
+    private void setupSolo() {
+        findViewById(R.id.txtV1).setVisibility(View.VISIBLE);
+        tvCont.setVisibility(View.VISIBLE);
+    }
 
     private void getMatch() {
-        String userName = shPreferences.getString("userName","");
+        String userName = shSettings.getString("userName","");
         String matchName = shPreferences.getString("gameSoloName",""); // o recuperar la de Multi
         matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+matchName);
         matchDataRef.addValueEventListener(new ValueEventListener() {
@@ -194,7 +226,21 @@ public class ActivityJuego extends AppCompatActivity {
                 if (match!=null){
                     if (murderedCards== null)
                         murderedCards = match.getMurderCards();
+                    if (!isSolo) {
+
+                    }
                     Toast.makeText(getApplicationContext(), "isNewMatch  "+isNewMatch + " isSolo" + match.getIsSolo(), Toast.LENGTH_SHORT).show();
+
+                    if (match.getEndingDate()!=0L){
+                        if (match.getResultGame()) {
+                            Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
+                            startActivity(win);
+                        } else {
+                            Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
+                            startActivity(lose);
+                        }
+
+                    }
                 }
             }
 
@@ -218,9 +264,9 @@ public class ActivityJuego extends AppCompatActivity {
         editCont.putInt( "cont", num);
         editCont.commit();
 
-        if (match!=null) {
+        if (match!=null && matchDataRef != null) {
             match.setCont(num);
-            getMatch();
+            matchDataRef.setValue(match);
         }
     }
 
@@ -304,20 +350,13 @@ public class ActivityJuego extends AppCompatActivity {
         //comprobar si hay 1 correcta, comprobar si hay dos correctas o si estan todas correctas
         if(MatchHelper.Cards.getImgByRef(murderedCards.get(0)) == imagen_personaje &&
                 MatchHelper.Cards.getImgByRef(murderedCards.get(1)) == imagen_arma &&
-                MatchHelper.Cards.getImgByRef(murderedCards.get(2)) == imagen_lugar){
-            terminarPartida(true); //Modificamos la base de datos
-
-            Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
-            startActivity(win);
-
-        } else {
+                MatchHelper.Cards.getImgByRef(murderedCards.get(2)) == imagen_lugar)
+            terminarPartida(true); //Terminamos la partida ganando y vamos a ActivityGanar
+        else {
             //Si el contador es 0 termina la partida
-            if(contador == 0){
+            if(contador <= 0)
                 terminarPartida(false); //Modificamos la base de datos
-
-                Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
-                startActivity(lose);
-            } else{
+            else {
                 //Metemos las imagenes de las cartas incorrectas en un array
                 ArrayList<Integer> cartasInc = new ArrayList<Integer>();
                 if (MatchHelper.Cards.getImgByRef(murderedCards.get(0)) != imagen_personaje) cartasInc.add(imagen_personaje);
@@ -325,13 +364,18 @@ public class ActivityJuego extends AppCompatActivity {
                 if (MatchHelper.Cards.getImgByRef(murderedCards.get(2)) != imagen_lugar) cartasInc.add(imagen_lugar);
 
                 //Llamamos el método incorecta para mostrar las cartas incorrectas
-                incorrecta(cartasInc);
+                incorrecta(cartasInc); //TODO: para que no se cierre tan rapido algunas veces hay que ponerlo en el task de firebase
             }
 
         }
 
     }//FIN comprobar
 
+    //Método del botón Rendirse
+    public void rendirse(View view) {
+        terminarPartida(false);
+        reiniciarCartas();
+    }
 
     private void comprobarMultijugador(int person, int weapon, int place) {
         reiniciarCartas();
@@ -402,37 +446,24 @@ public class ActivityJuego extends AppCompatActivity {
 
     //Modifica fin, tiempoTot y Resultado de la última partida
     public void terminarPartida(boolean resultado) {
+        SharedPreferences.Editor editor = shPreferences.edit();
+        if (isSolo) {
+            editor.remove("gameSoloName");
+            editor.remove("gameSoloNum");
+            editor.remove("gameSoloCont");
+            shGameSolo.edit().clear().apply();
+        } else {
+            editor.remove("gameMultiName");
+            editor.remove("gameMultiNum");
+            shGameMulti.edit().clear().apply();
+        }
+        editor.apply();
         match.setResultGame(resultado);
         match.setEndingDate(System.currentTimeMillis());
 
-        //matchDataRef.setValue(match);
+        matchDataRef.setValue(match);
 
-        /*
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(
-                this, "administracion", null, 1);
-        SQLiteDatabase db = admin.getWritableDatabase();
-        Cursor fila = db.rawQuery("SELECT MAX(id), inicio, datetime()," +
-                "strftime('%s',datetime())-strftime('%s',inicio) " +
-                "FROM partidas",null);
-        fila.moveToFirst();
 
-        int idPartida = fila.getInt(0);
-        String inicio = fila.getString(1);
-        String time = fila.getString(2);
-        String diferencia = calcTiempodeSeg(fila.getInt(3));
-
-        ContentValues registro = new ContentValues();
-        registro.put("id",idPartida);
-        registro.put("inicio", inicio);
-        registro.put("fin", time);
-        registro.put("tiempoTot", diferencia);
-        registro.put("resultado", resultado);
-
-        db.update("partidas", registro,"id="+idPartida,null);
-
-        db.close();
-        admin.close();
-        */
     }//FIN terminarPartida
 
     //Método reinicia todas las imagenes
@@ -452,15 +483,6 @@ public class ActivityJuego extends AppCompatActivity {
 
         editor.clear();
         editor.commit();
-    }
-
-    //Método del botón Rendirse
-    public void rendirse(View view) {
-        Intent perder = new Intent(this, ActivityPerder.class);
-        startActivity(perder);
-
-        terminarPartida(false);
-        reiniciarCartas();
     }
 
 }

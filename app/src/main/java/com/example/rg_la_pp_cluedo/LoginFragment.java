@@ -39,7 +39,7 @@ public class LoginFragment extends Fragment {
     EditText etUserName, etPassword;
     Button btLogIn, btSignIn, btLogOut;
 
-    SharedPreferences shPreferences;
+    SharedPreferences shSettings,shPreferences;
     FirebaseAuth mAuth;
     DatabaseReference database, userDataRef;
 
@@ -52,13 +52,14 @@ public class LoginFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        shSettings = this.getActivity().getSharedPreferences(getString(R.string.PREFsetttings), 0);
         shPreferences = this.getActivity().getSharedPreferences(getString(R.string.PREFapp),0);
         database = DataBaseConnection.getFirebase();
         mAuth = FirebaseAuth.getInstance();
 
         //TODO: preferancias idioma y sonido
-        shPreferences.getString("appLanguage","");
-        shPreferences.getBoolean("appSound",true);
+        shSettings.getString("appLanguage","");
+        shSettings.getBoolean("appSound",true);
 
         ivAvatar = getView().findViewById(R.id.ivAvatar);
         UserName = getView().findViewById(R.id.UserName);
@@ -70,7 +71,7 @@ public class LoginFragment extends Fragment {
         if(currentUser != null){
             ViewDataUser();
             //Ningún userName puede tener @
-            userDataRef = database.getDatabase().getReference("Users/"+shPreferences.getString("userName","@")+"/User");
+            userDataRef = database.getDatabase().getReference("Users/"+shSettings.getString("userName","@")+"/User");
             addEventListener();
             userDataRef.get();
             UserName.setText("Recuperando datos ...");
@@ -122,6 +123,10 @@ public class LoginFragment extends Fragment {
         btLogOut = getView().findViewById(R.id.btLogOut);
         btLogOut.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
+            SharedPreferences.Editor editorSettings = shSettings.edit();
+            editorSettings.remove("userName");
+            editorSettings.apply();
+
             SharedPreferences.Editor editor = shPreferences.edit();
             editor.clear();
             editor.apply();
@@ -147,15 +152,23 @@ public class LoginFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Incia sesión - almacenasmo el usuario en el sharedPreferences
                 User user = dataSnapshot.getValue(User.class);
-                if(!user.getName().equals("")){
-                  SharedPreferences.Editor editor = shPreferences.edit();
-                  editor.putString("userName", user.getName());
-                  editor.putString("userData", user.getEmail() + "\n" +
-                                            user.getPoints() + "\n" +
-                                            user.getNumSoloMatchs() + "\n" +
-                                            user.getNumMultiMatchs());
-                  editor.apply();
-                  chargeUserData(user);
+                if(user != null){
+                    SharedPreferences.Editor edit = shSettings.edit();
+                    edit.putString("userName",user.getName());
+                    edit.apply();
+                    SharedPreferences.Editor editor = shPreferences.edit();
+                    editor.putString("userData", user.getEmail() + "\n" +
+                                                user.getPoints() + "\n" +
+                                                user.getNumSoloMatchs() + "\n" +
+                                                user.getNumMultiMatchs());
+                    editor.apply();
+                    chargeUserData(user);
+                } else {
+                    SharedPreferences.Editor edit = shSettings.edit();
+                    edit.putString("userName","");
+                    edit.apply();
+                    Toast.makeText(getContext(),"Error al recuperar la sesión. vuelve a iniciar sesión.",Toast.LENGTH_SHORT).show();
+                    ViewSingIn();
                 }
             }
 
@@ -312,7 +325,7 @@ public class LoginFragment extends Fragment {
         //TODO: traducir textos
 
         ivAvatar.setImageResource((user!=null) ? user.getAvatar() : R.drawable.personaje_amapola);
-        UserName.setText((user!=null) ? user.getName() : shPreferences.getString("userName", "NotFound"));
+        UserName.setText((user!=null) ? user.getName() : shSettings.getString("userName", "NotFound"));
         //TODO: Traducir textos
         tvDataLabel.setText("Email\n" +
                             "Puntos\n" +
