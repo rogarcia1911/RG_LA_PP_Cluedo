@@ -113,6 +113,7 @@ public class FragmentGame extends Fragment {
                         editor.putInt("gameSoloNum", match.getNum());
                         editor.putInt("gameSoloCont", MatchHelper.Difficulty.getContByName(match.getDifficulty()));
                     } else if (!match.getIsSolo()) {
+                        editor.putString("roomName",match.getRoomName());
                         editor.putString("gameMultiName", match.getName());
                         editor.putInt("gameMultiNum", match.getNum());
                     }
@@ -274,7 +275,7 @@ public class FragmentGame extends Fragment {
         matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+gameName);
         addEventListener(false);
         matchDataRef.get();
-        Toast.makeText(getContext(),"Continuamos: "+gameName, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),"Continuamos: "+gameName, Toast.LENGTH_SHORT).show();
     }
 
 

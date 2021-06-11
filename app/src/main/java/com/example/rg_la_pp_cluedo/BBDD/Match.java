@@ -44,6 +44,7 @@ public class Match {
      private Integer cont;
 
      private String roomName;
+     private String myTurn;
 
 
      public Match(){
