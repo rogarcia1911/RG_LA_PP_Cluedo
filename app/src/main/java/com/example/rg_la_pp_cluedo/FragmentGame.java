@@ -1,5 +1,6 @@
 package com.example.rg_la_pp_cluedo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -96,6 +97,7 @@ public class FragmentGame extends Fragment {
     }
 
     private void addEventListener(Boolean newGame) {
+        Context context = getContext();
         // Leer de la base de datos
         if (matchDataRef != null)
         matchDataRef.addValueEventListener(new ValueEventListener() {
@@ -117,7 +119,7 @@ public class FragmentGame extends Fragment {
                     editor.apply();
 
                     Toast.makeText(getContext(),"ActivityJuego", Toast.LENGTH_SHORT).show();
-                    Intent jugar = new Intent(getContext(), ActivityJuego.class);
+                    Intent jugar = new Intent( context, ActivityJuego.class);
                     jugar.putExtra("gameNew", newGame);
                     jugar.putExtra("gameMode",match.getIsSolo());
                     startActivity(jugar);
@@ -192,7 +194,7 @@ public class FragmentGame extends Fragment {
 
                 if (num==0 ){
                     //TODO: en vez de newMatch tiene que ir abrir algo con 3 opciones para la DIFICULTAD
-                    newMatch(userName, MatchHelper.Mode.SOLO.name(),num+1);
+                    newMatch(userName, MatchHelper.Mode.SOLO.getB(),num+1);
                 } else {
                     //Recuperar lastMatchRef con num match==Null =>new & match.Ending==Null =>new else continuePlaying
                     DatabaseReference lastMatchRef = getMatch(userName, MatchHelper.Mode.SOLO.name(),num);
@@ -204,7 +206,7 @@ public class FragmentGame extends Fragment {
                         if (match != null && match.getEndingDate() == 0L)
                             continueMatch(userName,match.getName());
                         else
-                            newMatch(userName,MatchHelper.Mode.SOLO.name(), finalNum);
+                            newMatch(userName,MatchHelper.Mode.SOLO.getB(), finalNum);
                     });
 
                 }
@@ -248,15 +250,17 @@ public class FragmentGame extends Fragment {
         return murderCards;
     }
 
-    private void newMatch(String userName, String mode, Integer num) {
+    private void newMatch(String userName, Boolean mode, Integer num) {
         Match match = new Match();
-        match.setName(mode +"-"+ num);
+        match.setName(MatchHelper.Mode.getTextByB(mode) +"-"+ num);
         match.setNum(num);
         match.setBeginningDate(System.currentTimeMillis()); //Con un new Date convertimos los milisegundos a fecha
-        if (mode.equals(MatchHelper.Mode.SOLO.name())) {
-            match.setIsSolo(true);
+        match.setIsSolo(mode);
+        if (mode) {
             match.setDifficulty(MatchHelper.Difficulty.EASY.name());
+            match.setCont(MatchHelper.Difficulty.EASY.cont);
         }
+
         matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+match.getName());
         match.setMurderCards(generarCartasCulpables());
         addEventListener(true);
@@ -266,11 +270,11 @@ public class FragmentGame extends Fragment {
         Toast.makeText(getContext(),"Creamos: "+match.getName(), Toast.LENGTH_SHORT).show();
     }
 
-    private void continueMatch(String userName, String gameSoloName) {
-        matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+gameSoloName);
+    private void continueMatch(String userName, String gameName) {
+        matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+gameName);
         addEventListener(false);
         matchDataRef.get();
-        Toast.makeText(getContext(),"Continuamos: "+gameSoloName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),"Continuamos: "+gameName, Toast.LENGTH_SHORT).show();
     }
 
 

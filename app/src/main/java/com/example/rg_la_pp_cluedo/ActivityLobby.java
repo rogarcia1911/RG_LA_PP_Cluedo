@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rg_la_pp_cluedo.BBDD.ChatMessage;
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
 import com.example.rg_la_pp_cluedo.BBDD.Player;
@@ -54,6 +55,7 @@ public class ActivityLobby extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
         shSettings = getSharedPreferences(getString(R.string.PREFsetttings), 0);
+        shPreferences = getSharedPreferences(getString(R.string.PREFapp),0);
         database = DataBaseConnection.getFirebase();
 
         playerName = shSettings.getString("userName", "");
@@ -62,6 +64,7 @@ public class ActivityLobby extends AppCompatActivity {
         listViewLobby = findViewById(R.id.listView_lobby);
         btCreate = findViewById(R.id.buttonCreate);
 
+        listViewLobby.setEnabled(true);
         roomsList = new ArrayList<String>();
 
         //Ya estaba en una partida
@@ -94,6 +97,7 @@ public class ActivityLobby extends AppCompatActivity {
         });
 
         addRoomsEventListener();
+        roomRef.get();
     }
 
     private void addRoomEventListener(){
@@ -109,15 +113,37 @@ public class ActivityLobby extends AppCompatActivity {
                 if (players.size()<2) {
                    btCreate.setText("WaitAnotherPlayer");
                    btCreate.setEnabled(false);
-                }else{
+                   listViewLobby.setEnabled(false);
+                } else {
+                    updateRoom(playerName, roomName);
                     btCreate.setText("");
                     btCreate.setEnabled(true);
-                    Intent intent = new Intent(getApplicationContext(), ActivityJuego.class);
-                    shPreferences.edit().putString("roomName",roomName).apply();
-                    //newMultiMatch(playerName,false);
-                    intent.putExtra("gameNew",true);
-                    intent.putExtra("gameMode",false);
-                    startActivity(intent);
+
+                    userDataRef = database.getDatabase().getReference("Users/"+playerName+"/User/numMultiMatchs");
+                    userDataRef.get().addOnCompleteListener(task -> {
+                        Integer num = -1;
+                        num = task.getResult().getValue(num.getClass());
+
+                        if (num==0 ){
+                            //TODO: en vez de newMatch tiene que ir abrir algo con 3 opciones para la DIFICULTAD
+                            newMultiMatch(playerName, MatchHelper.Mode.SOLO.getB(),num+1);
+                        } else {
+                            //Recuperar lastMatchRef con num match==Null =>new & match.Ending==Null =>new else continuePlaying
+                            DatabaseReference lastMatchRef = getMatch(playerName, MatchHelper.Mode.MULTI.name(),num);
+                            Integer finalNum = num+1;
+                            lastMatchRef.get().addOnCompleteListener(task1 -> {
+                                // Comprobar si la última partida guardada ha terminado o no
+                                //TODO: en vez de newMatch tiene que ir abrir algo con 3 opciones para la DIFICULTAD
+                                Match match = task1.getResult().getValue(Match.class);
+                                if (match != null && match.getEndingDate() == 0L)
+                                    continueMultiMatch(playerName, match.getName());
+                                else
+                                    newMultiMatch(playerName, MatchHelper.Mode.MULTI.getB(), finalNum);
+                            });
+
+                        }
+
+                    });
                 }
             }
 
@@ -130,6 +156,24 @@ public class ActivityLobby extends AppCompatActivity {
         });
     }
 
+    private void updateRoom(String userName, String roomName) {
+        Room room = new Room();
+        room.setName(roomName);
+        room.setTurn((int) (Math.random() * 2));
+        room.setChat(new ArrayList<ChatMessage>());
+        room.setCardsPicked(new ArrayList<Integer>());
+
+        roomRef.getParent().setValue(room);
+    }
+
+    /**
+     * Recupera la última partida SOLO o MULTI del usuario
+     * @return lastMatch
+     */
+    private DatabaseReference getMatch(String userName, String mode, Integer num) {
+        return database.getDatabase().getReference("Users/"+userName+"/Matchs/"+mode+"-"+num);
+    }
+
     private void addRoomsEventListener(){
         roomRef = database.getDatabase().getReference("Rooms");
         roomRef.addValueEventListener(new ValueEventListener() {
@@ -139,9 +183,12 @@ public class ActivityLobby extends AppCompatActivity {
                 Iterable<DataSnapshot> rooms = dataSnapshot.getChildren();
                 for(DataSnapshot snapshot: rooms){
                     roomsList.add(snapshot.getKey());
+                    if (snapshot.getKey()==playerName)
+                        listViewLobby.setEnabled(false);
                 }
                 adapter = new ArrayAdapter<String>(ActivityLobby.this, android.R.layout.simple_list_item_1, roomsList);
                 listViewLobby.setAdapter(adapter);
+
             }
 
             @Override
@@ -153,12 +200,19 @@ public class ActivityLobby extends AppCompatActivity {
 
 
 
-    private void newMultiMatch(String userName, String mode, Integer num) {
+    private void newMultiMatch(String userName, Boolean mode, Integer num) {
         Match match = new Match();
         match.setName(mode +"-"+ num);
         match.setNum(num);
         match.setBeginningDate(System.currentTimeMillis()); //Con un new Date convertimos los milisegundos a fecha
-        match.setRoomName(roomName);
+        if (mode) {
+            match.setIsSolo(true);
+            match.setDifficulty(MatchHelper.Difficulty.EASY.name());
+        } if (!mode){
+            match.setIsSolo(false);
+            match.setRoomName(roomName);
+            //TODO: método como el de generarCulpables match.setMineCards(generarOtrasCartas);
+        }
         matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+match.getName());
         match.setMurderCards(generarCartasCulpables());
         addEventListener(true);
@@ -168,11 +222,11 @@ public class ActivityLobby extends AppCompatActivity {
         Toast.makeText(this,"Creamos: "+match.getName(), Toast.LENGTH_SHORT).show();
     }
 
-    private void continueMultiMatch(String userName, String gameSoloName) {
-        matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+gameSoloName);
+    private void continueMultiMatch(String userName, String gameMultiName) {
+        matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+gameMultiName);
         addEventListener(false);
         matchDataRef.get();
-        Toast.makeText(this,"Continuamos: "+gameSoloName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Continuamos: "+gameMultiName, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -210,6 +264,7 @@ public class ActivityLobby extends AppCompatActivity {
                         } else if (!match.getIsSolo()) {
                             editor.putString("gameMultiName", match.getName());
                             editor.putInt("gameMultiNum", match.getNum());
+                            editor.putString("roomName",roomName);
                         }
                         editor.apply();
 
@@ -224,6 +279,9 @@ public class ActivityLobby extends AppCompatActivity {
                         edit.putString("gameSoloName", "");
                         edit.putInt("gameSoloNum", 0);
                         edit.putInt("gameSoloCont", 0);
+                        edit.putString("roomName","");
+                        edit.putString("gameMultiName", "");
+                        edit.putInt("gameMultiNum", 0);
                         edit.apply();
                     }
                 }
