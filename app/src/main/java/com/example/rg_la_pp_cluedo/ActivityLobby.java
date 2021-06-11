@@ -91,22 +91,14 @@ public class ActivityLobby extends AppCompatActivity {
                 String status = null;
                 if(dataSnapshot.getKey().equals("player1") && match==null) {
                     status = "Wait";
-                    match = new Match();
-                    match.setName("MULTI");
-                    match.setBeginningDate(System.currentTimeMillis()); //Con un new Date convertimos los milisegundos a fecha
-                    match.setIsSolo(false);
-                    match.setMurderCards(generarCartasCulpables());
-                    roomRef.getParent().child("match").setValue(match);
-                    roomRef.getParent().child("status").setValue(status);
                 }if(dataSnapshot.getKey().equals("player2")) {
-                    status = "T1";
-                    roomRef.getParent().child("status");
-                    roomRef.setValue(status);
+                    status = "player1";
                 }
 
                 if (status!=null){
                     Intent intent = new Intent(getApplicationContext(), ActivityJuego.class);
                     intent.putExtra("roomName", roomName);
+                    intent.putExtra("murderCards", generarCartasCulpables());
                     intent.putExtra("myTurn",dataSnapshot.getKey());
                     intent.putExtra("status", status);
                     intent.putExtra("gameMode",false);

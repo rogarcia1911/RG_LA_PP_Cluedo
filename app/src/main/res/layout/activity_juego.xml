@@ -134,21 +134,21 @@
         app:layout_constraintTop_toTopOf="@+id/imBtArma" />
 
 
-
-
     <ImageButton
         android:id="@+id/imageButton5"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="36dp"
         android:layout_marginRight="36dp"
-        android:layout_marginBottom="148dp"
         android:background="@drawable/boton_rendirse"
         android:onClick="rendirse"
         android:text="@string/btRendirse"
         android:textSize="@dimen/J_subtexto"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnSuponer"
+        app:layout_constraintTop_toBottomOf="@+id/imBtHabitacion"
+        app:layout_constraintVertical_bias="0.3" />
 
     <Button
         android:id="@+id/btnSuponer"
@@ -156,13 +156,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
-        android:layout_marginBottom="148dp"
         android:background="@drawable/boton_averiguar"
         android:onClick="rendirse"
         android:text="@string/btSospechar"
         android:textSize="@dimen/J_texto"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imBtPersonaje"
+        app:layout_constraintVertical_bias="0.3" />
 
     <ImageButton
         android:id="@+id/btnChat"
