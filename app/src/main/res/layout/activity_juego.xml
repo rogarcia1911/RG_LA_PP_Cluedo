@@ -134,16 +134,7 @@
         app:layout_constraintTop_toTopOf="@+id/imBtArma" />
 
 
-    <ImageView
-        android:id="@+id/btnChat"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginBottom="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/chat" />
+
 
     <ImageButton
         android:id="@+id/imageButton5"
@@ -172,6 +163,18 @@
         android:textSize="@dimen/J_texto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnChat"
+        android:layout_width="73dp"
+        android:layout_height="93dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/backText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/chat" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

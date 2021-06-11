@@ -44,10 +44,10 @@ import java.util.List;
 
 public class ActivityJuego extends AppCompatActivity {
 
-    private ImageButton imBtPersonaje, imBtLugar, imBtArma;
+    private ImageButton imBtPersonaje, imBtLugar, imBtArma,btnChat;
     private LinearLayout llhCartas;
     private LinearLayout llvCartas;
-    private Button btnSuponer, btnChat, btnGame;
+    private Button btnSuponer;
     private TextView tvCont;
 
     SharedPreferences shSettings, shPreferences, shGameSolo, shGameMulti;
@@ -99,7 +99,7 @@ public class ActivityJuego extends AppCompatActivity {
         tvCont = findViewById(R.id.txtV2);
         btnSuponer = findViewById(R.id.btnSuponer);
         btnChat = findViewById(R.id.btnChat);
-        btnGame = findViewById(R.id.btnGame);
+
 
         if(isNewMatch) {
             reiniciarCartas();
@@ -412,24 +412,24 @@ public class ActivityJuego extends AppCompatActivity {
      */
     private void cardList() {
         matchDataRef
-            .child("Match").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    murderedCards = null;
-                    for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
-                        Match currentMatch = objSnapshot.getValue(Match.class);
+                .child("Match").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                murderedCards = null;
+                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
+                    Match currentMatch = objSnapshot.getValue(Match.class);
 
-                        if (currentMatch != null){
-                            murderedCards = currentMatch.getMurderCards();
-                        }
+                    if (currentMatch != null){
+                        murderedCards = currentMatch.getMurderCards();
                     }
                 }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
+            }
+        });
     }
 
 
