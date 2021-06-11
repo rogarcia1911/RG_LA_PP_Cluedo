@@ -44,7 +44,7 @@ import java.util.List;
 
 public class ActivityJuego extends AppCompatActivity {
 
-    private ImageButton imBtPersonaje, imBtLugar, imBtArma,btnChat;
+    private ImageButton imBtPersonaje, imBtLugar, imBtArma, btnChat;
     private LinearLayout llhCartas;
     private LinearLayout llvCartas;
     private Button btnSuponer;
@@ -89,6 +89,12 @@ public class ActivityJuego extends AppCompatActivity {
             public void handleOnBackPressed() {
                 Intent inicio = new Intent(ActivityJuego.this, ActivityMain.class);
                 startActivity(inicio);
+                if(!isSolo){
+                    Match match = room.getMatch();
+                    match.setRoomName(room.getName());
+                    match.setResultGame(false);
+                    match.setEndingDate(System.currentTimeMillis());
+                }
             }
         };
         getOnBackPressedDispatcher().addCallback(callback);
@@ -99,7 +105,6 @@ public class ActivityJuego extends AppCompatActivity {
         tvCont = findViewById(R.id.txtV2);
         btnSuponer = findViewById(R.id.btnSuponer);
         btnChat = findViewById(R.id.btnChat);
-
 
         if(isNewMatch) {
             reiniciarCartas();
@@ -120,7 +125,7 @@ public class ActivityJuego extends AppCompatActivity {
 
         SharedPreferences imagen1 = getSharedPreferences("img1", Context.MODE_PRIVATE);
         int imagen1Int = imagen1.getInt("img_per",  R.drawable.carta_interrogante);
-        imagen_personaje = getIntent().getIntExtra("imagen_personaje", imagen1Int);
+        imagen_personaje = getIntent().getExtras().getInt("imagen_personaje", imagen1Int);
         elegir_per(imagen_personaje);
 
         SharedPreferences imagen2 = getSharedPreferences("img2", Context.MODE_PRIVATE);
@@ -176,7 +181,7 @@ public class ActivityJuego extends AppCompatActivity {
             }
         });
 
-        if (isSolo)
+        if (isSolo )
             setupSolo();
         else
             getRoom();
@@ -185,7 +190,7 @@ public class ActivityJuego extends AppCompatActivity {
     }//FIN onCreate
 
     public void getRoom() {
-        String roomName = shPreferences.getString("roomName","");
+        String roomName = getIntent().getStringExtra("roomName");
         roomRef = database.getDatabase().getReference("Rooms/"+roomName);
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -204,23 +209,29 @@ public class ActivityJuego extends AppCompatActivity {
 
     private void setupMulti() {
         String userName = shSettings.getString("userName","");
-        Player me, other;
-        ArrayList<Player> players = room.getPlayers();
-        if (room.getPlayers().get(0).getUserName()==userName)
-            me= room.getPlayers().get(0);
-        else
-            me =room.getPlayers().get(1);
+        String roomName = getIntent().getStringExtra("roomName");
+        String status = getIntent().getStringExtra("status");
+        String myTurn = getIntent().getStringExtra("myTurn");
 
-        if (me.getTurn() == room.getTurn())
-            btnSuponer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    comprobar(imagen_personaje, imagen_arma, imagen_lugar);
-                }
-            });
-        else
-            me.setStatus(PlayerHelper.Status.WaitYourTurn.getStatusText());
-
+        if (!status.equals("Wait")) {
+            if (myTurn.equals(room.getTurn())){
+                btnSuponer.setText(R.string.btSospechar);
+                btnSuponer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        comprobar(imagen_personaje, imagen_arma, imagen_lugar);
+                    }
+                });
+            } else {
+                btnSuponer.setText(R.string.btSospechar);
+                btnSuponer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "Wait",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+}
 
         btnChat.setVisibility(View.VISIBLE);
         btnChat.setOnClickListener(new View.OnClickListener() {
@@ -252,7 +263,7 @@ public class ActivityJuego extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 match = snapshot.getValue(Match.class);
                 if (match!=null){
-                    if (murderedCards== null)
+                    if (murderedCards == null)
                         murderedCards = match.getMurderCards();
                     if (!isSolo) {
 
@@ -269,7 +280,6 @@ public class ActivityJuego extends AppCompatActivity {
                             lose.putExtra("murderCards",murderedCards);
                             startActivity(lose);
                         }
-
                     }
                 }
             }
@@ -325,7 +335,7 @@ public class ActivityJuego extends AppCompatActivity {
     //Método que modifica el imBtHabitacion
     public void elegir_lug(int imagen_lugar){
 
-        imBtLugar.setBackgroundResource(imagen_lugar);
+        imBtLugar.setBackgroundResource((imagen_lugar));
 
         SharedPreferences pref3 = getSharedPreferences("img3", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit3 = pref3.edit();
@@ -412,24 +422,24 @@ public class ActivityJuego extends AppCompatActivity {
      */
     private void cardList() {
         matchDataRef
-                .child("Match").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                murderedCards = null;
-                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
-                    Match currentMatch = objSnapshot.getValue(Match.class);
+            .child("Match").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    murderedCards = null;
+                    for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
+                        Match currentMatch = objSnapshot.getValue(Match.class);
 
-                    if (currentMatch != null){
-                        murderedCards = currentMatch.getMurderCards();
+                        if (currentMatch != null){
+                            murderedCards = currentMatch.getMurderCards();
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
     }
 
 

@@ -5,27 +5,27 @@ import java.util.ArrayList;
 public class Room {
 
     private String name;
-    private Integer turn;
-    private Long endDate;
-    private ArrayList<Player> Players;
+    private String turn;
+    private String status;
+    private Match match;
     private ArrayList<Integer> CardsPicked;
     private ArrayList<ChatMessage> Chat;
 
 
     public Room() {
         name = "";
-        turn = 0;
-        endDate = 0L;
+        turn = "";
     }
 
 
-    public Room(String name, Integer turn, Long endDate, ArrayList<Integer> CardsPicked,
+    public Room(String name, String turn, String status, Match match, ArrayList<Integer> CardsPicked,
                 ArrayList<Player> Players, ArrayList<ChatMessage> Chat) {
         this.name = name;
         this.turn = turn;
-        this.endDate = endDate;
+        this.status = status;
+        this.match=match;
         this.CardsPicked = CardsPicked;
-        this.Players = Players;
+        this.Chat = Chat;
 
     }
 
@@ -37,20 +37,12 @@ public class Room {
         this.name = name;
     }
 
-    public Integer getTurn() {
+    public String getTurn() {
         return turn;
     }
 
-    public void setTurn(Integer turn) {
+    public void setTurn(String turn) {
         this.turn = turn;
-    }
-
-    public ArrayList<Player> getPlayers() {
-        return Players;
-    }
-
-    public void setPlayers(ArrayList<Player> Players) {
-        this.Players = Players;
     }
 
     public ArrayList<ChatMessage> getChat() {
@@ -69,11 +61,15 @@ public class Room {
         this.CardsPicked = CardsPicked;
     }
 
-    public Long getEndDate() {
-        return endDate;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public void setEndDate(Long ended) {
-        this.endDate = endDate;
+    public Match getMatch() {
+        return match;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
     }
 }
