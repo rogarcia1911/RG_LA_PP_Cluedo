@@ -1,100 +1,90 @@
 package com.example.rg_la_pp_cluedo;
 
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
+
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentHistory#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FragmentHistory extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    private TextView tvId, tvTiempo, tvResultado;
+public class FragmentHistory extends Fragment {
+
+    private TextView tvId, tvMode, tvTiempo, tvResultado;
+    String userName;
     Long  matchTime;
 
-    DataBaseConnection firebaseConnection = null;
-    private List<Match> matchList = new ArrayList<>();
-    private ArrayAdapter<Match> arrayAdapterMatch;
+    SharedPreferences shSettings,shPreferences;
+    FirebaseAuth mAuth;
+    DatabaseReference database, matchsRef;
+
+    private ArrayList<Match> matchList = new ArrayList<Match>();
 
     public FragmentHistory() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentHistory.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentHistory newInstance(String param1, String param2) {
-        FragmentHistory fragment = new FragmentHistory();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        database = DataBaseConnection.getFirebase();
+        mAuth = FirebaseAuth.getInstance();
+        shSettings = this.getActivity().getSharedPreferences(getString(R.string.PREFsetttings), 0);
+        userName = shSettings.getString("userName","");
 
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+        //TODO: preferancias idioma y sonido
+        shSettings.getString("appLanguage","");
+        shSettings.getBoolean("appSound",true);
 
         tvId = getView().findViewById(R.id.tvId);
+        tvMode = getView().findViewById(R.id.tvMode);
         tvTiempo = getView().findViewById(R.id.tvTiempo);
         tvResultado = getView().findViewById(R.id.tvResultado);
 
-        iniciar();
-        ListSQL();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null && !userName.isEmpty()){
+            matchsRef = database.getDatabase().getReference("Users/"+userName+"/Matchs");
+            ListFirebase();
+        } else {
+            ListSQL();
+            //TODO: Traducir textos
+            Toast.makeText(getContext(), "No hay sesión iniciada", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_history, container, false);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        firebaseConnection = DataBaseConnection.getInstance();
     }
 
     private void ListSQL() {
@@ -120,25 +110,55 @@ public class FragmentHistory extends Fragment {
     }
 
     private void ListFirebase() {
-        dataList();
+        //DatabaseReference orderMatchs =
+        matchsRef = database.getDatabase().getReference("Users/"+userName+"/Matchs");
+        matchsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                matchList.clear();
+                Iterable<DataSnapshot> matchs = dataSnapshot.getChildren();
+                for (DataSnapshot snapshot : matchs) {
+                    matchList.add(snapshot.getValue(Match.class));
+                }
 
-        //TODO: linear layout data revision (add player number?) and show all data
-        //TODO: insert revision
-        if (!matchList.isEmpty() && matchList != null) {
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Error al recuperar las partidas.",Toast.LENGTH_SHORT).show();
+            }
+        });
+        matchsRef.limitToLast(15).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                matchList.clear();
+                Iterable<DataSnapshot> matchs = task.getResult().getChildren();
+                for (DataSnapshot snapshot : matchs) {
+                    matchList.add(snapshot.getValue(Match.class));
+                }
+                list();
+            }
+        });
+
+    }
+
+    private void list() {
+        if (matchList != null && !matchList.isEmpty()) {
+            iniciar();
             for (Match matchObj : matchList) {
+                Date totalTime = null;
+                Long temp = null;
+                if (matchObj.getEndingDate()!=0L)
+                    totalTime = new Date(Long.parseLong(matchObj.getEndingDate() - matchObj.getBeginningDate()+""));
 
-                if (matchObj.getEndingDate()!=null)
-                    matchTime = matchObj.getEndingDate() - matchObj.getBeginningDate();
-                //Date totalTime = new Date(matchTime);
-                //TODO: convert long to date
-                //matchObj.getPlayerNum();
+                //TODO: dejamos el id? solo 1 y multi 1
+                //tvId.setText( ((String) tvId.getText()) + matchObj.getNum() + "\n" );
 
-                tvId.setText( ((String) tvId.getText()) + matchObj.getNum() + "\n" );
+                tvMode.setText( ((String) tvMode.getText()) +
+                        (matchObj.getIsSolo() ? MatchHelper.Mode.SOLO.name() : MatchHelper.Mode.MULTI.name()) + "\n" );
 
-                if (matchObj.getEndingDate()!=null)
-                    tvTiempo.setText( ((String) tvTiempo.getText()) + matchTime + "\n" );
-                else
-                    tvTiempo.setText( ((String) tvTiempo.getText()) + getString(R.string.tvTTNull));
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS");
+                tvTiempo.setText( ((String) tvTiempo.getText()) + ( (totalTime != null) ? format.format(totalTime) : getString(R.string.tvTTNull) ) + "\n" );
 
                 if (matchObj.getResultGame()) // resultado al ganar
                     tvResultado.setText( ((String) tvResultado.getText()) + getString(R.string.tvResultadoGanar) + "\n" );
@@ -148,40 +168,12 @@ public class FragmentHistory extends Fragment {
                     tvResultado.setText( ((String) tvResultado.getText()) + getString(R.string.tvResultadoPerder) + "\n" );
             }
         } else Toast.makeText(this.getContext(),getString(R.string.msjNoPartidas),Toast.LENGTH_SHORT).show();
-
-    }
-
-
-    private void dataList() {
-        //TODO: select revision https://www.youtube.com/watch?v=_17qiNSMDCA&list=PL2LFsAM2rdnxv8bLBZrMtd_f3fsfgLzH7&index=5
-
-        firebaseConnection.getFirebase(this.getActivity().getApplicationContext()).child("Match").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                matchList.clear();
-                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
-                    Match matchView = objSnapshot.getValue(Match.class);
-
-                    if (matchView != null)
-                        matchList.add(matchView);
-
-
-                    //rrayAdapterMatch = new ArrayAdapter<>(th, android.R.layout.activity_list_item, matchList);
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     //Método para borrar todas las partidas
     public void iniciar() {
         tvId.setText("\n");
+        tvMode.setText("\n");
         tvTiempo.setText("\n");
         tvResultado.setText("\n");
     }
