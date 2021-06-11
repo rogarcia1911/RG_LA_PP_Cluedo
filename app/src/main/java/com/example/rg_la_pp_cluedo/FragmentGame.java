@@ -108,13 +108,9 @@ public class FragmentGame extends Fragment {
                 if(match != null && match.getEndingDate() == 0L){
                     SharedPreferences.Editor editor = shPreferences.edit();
                     if (match.getIsSolo()) {
-                        editor.putString("gameSoloName", match.getName());
+                        editor.putString("gameSoloName", dataSnapshot.getKey());
                         editor.putInt("gameSoloNum", match.getNum());
                         editor.putInt("gameSoloCont", MatchHelper.Difficulty.getContByName(match.getDifficulty()));
-                    } else if (!match.getIsSolo()) {
-                        editor.putString("roomName",match.getRoomName());
-                        editor.putString("gameMultiName", match.getName());
-                        editor.putInt("gameMultiNum", match.getNum());
                     }
                     editor.apply();
 
@@ -148,6 +144,7 @@ public class FragmentGame extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     // Incia sesión - almacenamos el usuario en el sharedPreferences
                     User user = snapshot.getValue(User.class);
+                    /*
                     if(user != null){
                         SharedPreferences.Editor editor = shPreferences.edit();
                         editor.putString("userData", user.getEmail() + "\n" +
@@ -155,7 +152,7 @@ public class FragmentGame extends Fragment {
                                 user.getNumSoloMatchs() + "\n" +
                                 user.getNumMultiMatchs());
                         editor.apply();
-                    }
+                    }*/
 
                 }
 
@@ -220,17 +217,9 @@ public class FragmentGame extends Fragment {
      * @param userName
      */
     public void gameMulti(String userName) {
-        String roomName = shPreferences.getString("roomName","");
-        String gameMultiName = shPreferences.getString("gameMultiName", "");
-        Integer gameMultiNum = shPreferences.getInt("gameMultiNum", 0);
+        Intent lobby = new Intent(getContext(), ActivityLobby.class);
+        startActivity(lobby);
 
-        if (!gameMultiName.isEmpty() && gameMultiNum!=0)
-            continueMatch(userName, gameMultiName);
-        else {
-            Toast.makeText(getContext(),"ActivityLobby", Toast.LENGTH_SHORT).show();
-            Intent lobby = new Intent(getContext(), ActivityLobby.class);
-            startActivity(lobby);
-        }
     }
 
     /**

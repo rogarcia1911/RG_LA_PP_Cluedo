@@ -1,5 +1,6 @@
 package com.example.rg_la_pp_cluedo;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +17,9 @@ import android.widget.Toast;
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
 import com.example.rg_la_pp_cluedo.BBDD.Player;
+import com.example.rg_la_pp_cluedo.BBDD.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,6 +51,17 @@ public class ActivityLobby extends AppCompatActivity {
         shSettings = getSharedPreferences(getString(R.string.PREFsetttings), 0);
         shPreferences = getSharedPreferences(getString(R.string.PREFapp),0);
         database = DataBaseConnection.getFirebase();
+
+        //Si pulsa el boton Back le llevará al ActivityMain
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent inicio = new Intent(ActivityLobby.this, ActivityMain.class);
+                startActivity(inicio);
+                //TODO: Borrar sala al salir
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(callback);
 
         playerName = shSettings.getString("userName", "");
         roomName = playerName;
@@ -86,7 +101,7 @@ public class ActivityLobby extends AppCompatActivity {
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                button.setText("");
+                button.setText("");//TODO:Traducir textos
                 button.setEnabled(true);
                 String status = null;
                 if(dataSnapshot.getKey().equals("player1") && match==null) {

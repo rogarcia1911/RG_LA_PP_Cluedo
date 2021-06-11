@@ -100,14 +100,17 @@ public class ActivityJuego extends AppCompatActivity {
                     //match.setRoomName(room.getName());
                     match.setResultGame(false);
                     match.setEndingDate(System.currentTimeMillis());
-                    database.getDatabase().getReference("Users/"+userName+"/User").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-                            Integer num = task.getResult().getValue(User.class).getNumMultiMatchs();
-                            database.getDatabase().getReference("Users/"+userName+"/Matchs/MULTI-"+(num+1)).setValue(room.getMatch());
-                            roomRef.setValue(room);
-                        }
-                    });
+                    if (room.getStatus()=="Wait") {
+                        database.getDatabase().getReference("Users/"+userName+"/User").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                Integer num = task.getResult().getValue(User.class).getNumMultiMatchs();
+                                database.getDatabase().getReference("Users/"+userName+"/Matchs/MULTI-"+(num+1)).setValue(room.getMatch());
+                                roomRef.setValue(room);
+                            }
+                        });
+                    }
+
                 }
             }
         };
@@ -303,6 +306,9 @@ public class ActivityJuego extends AppCompatActivity {
     }
 
     private void getMatch() {
+        if(isSolo){
+
+        } else {
         String userName = shSettings.getString("userName","");
         String matchName = shPreferences.getString("gameSoloName",""); // o recuperar la de Multi
         matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+matchName);
@@ -341,6 +347,7 @@ public class ActivityJuego extends AppCompatActivity {
             matchDataRef.get();
         else
             matchDataRef.setValue(match);
+        }
     }
 
     //Método que modifica el tvCont
