@@ -64,6 +64,7 @@ public class ActivityJuego extends AppCompatActivity {
     //nombre de SharedPreferences de los ActivityElegir...
     private String spEP = "datosEP",spEH = "datosEH",spEA = "datosEA";
     private ArrayList<Integer> murderedCards;
+    String gameSoloName;
 
     //TODO: en el primer sospechar no cambia el contador
     @Override
@@ -77,9 +78,12 @@ public class ActivityJuego extends AppCompatActivity {
         firebaseConnection = DataBaseConnection.getInstance();
         database = DataBaseConnection.getFirebase(getApplicationContext());
 
+
+
         //TODO: preferancias idioma y sonido
         shSettings.getString("appLanguage","");
         shSettings.getBoolean("appSound",true);
+
 
         isNewMatch = getIntent().getBooleanExtra("gameNew",false);
         isSolo = getIntent().getBooleanExtra("gameMode",true);

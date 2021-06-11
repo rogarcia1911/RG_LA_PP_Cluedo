@@ -124,13 +124,13 @@ public class FragmentGame extends Fragment {
                     jugar.putExtra("gameMode",match.getIsSolo());
                     startActivity(jugar);
 
-                }// else {
-                    //SharedPreferences.Editor edit = shPreferences.edit();
-                    //edit.putString("gameSoloName", "");
-                    //edit.putInt("gameSoloNum", 0);
-                    //edit.putInt("gameSoloCont", 0);
-                  //  edit.apply();
-                //}
+                } else {
+                    SharedPreferences.Editor edit = shPreferences.edit();
+                    edit.putString("gameSoloName", "");
+                    edit.putInt("gameSoloNum", 0);
+                    edit.putInt("gameSoloCont", 0);
+                    edit.apply();
+                }
             }
 
             @Override
