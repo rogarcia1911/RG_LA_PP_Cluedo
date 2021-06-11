@@ -3,8 +3,24 @@ package com.example.rg_la_pp_cluedo;
 public class MatchHelper {
 
     public enum Mode {
-        SOLO,
-        MULTI
+        SOLO(true),
+        MULTI(false);
+
+        public static String getTextByB(boolean b){
+            if (b)
+                return SOLO.name();
+            else
+                return MULTI.name();
+        }
+
+        private boolean b;
+        public boolean getB() {
+            return b;
+        }
+
+        Mode(boolean b) {
+            this.b = b;
+        }
     }
 
     public enum Difficulty {

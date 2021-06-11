@@ -7,8 +7,6 @@ public class Room {
     private String name;
     private Integer turn;
     private Long endDate;
-    private String textPlayer1;
-    private String textPlayer2;
     private ArrayList<Player> Players;
     private ArrayList<Integer> CardsPicked;
     private ArrayList<ChatMessage> Chat;
@@ -61,6 +59,14 @@ public class Room {
 
     public void setChat(ArrayList<ChatMessage> Chat) {
         this.Chat = Chat;
+    }
+
+    public ArrayList<Integer> getCardsPicked() {
+        return CardsPicked;
+    }
+
+    public void setCardsPicked(ArrayList<Integer> CardsPicked) {
+        this.CardsPicked = CardsPicked;
     }
 
     public Long getEndDate() {

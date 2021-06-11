@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.example.rg_la_pp_cluedo.BBDD.Card;
 import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
 import com.example.rg_la_pp_cluedo.BBDD.Match;
+import com.example.rg_la_pp_cluedo.BBDD.Player;
+import com.example.rg_la_pp_cluedo.BBDD.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -50,8 +52,9 @@ public class ActivityJuego extends AppCompatActivity {
 
     SharedPreferences shSettings, shPreferences, shGameSolo, shGameMulti;
     DataBaseConnection firebaseConnection = null;
-    DatabaseReference database, matchDataRef, roomDataRef;
+    DatabaseReference database, matchDataRef, roomRef;
     Match match;
+    Room room;
     String matchName;
 
     private Boolean isSolo, isNewMatch;
@@ -166,12 +169,7 @@ public class ActivityJuego extends AppCompatActivity {
                 if(imagen_personaje == R.drawable.carta_interrogante || imagen_arma == R.drawable.carta_interrogante || imagen_lugar == R.drawable.carta_interrogante)
                     Toast.makeText(ActivityJuego.this, getString(R.string.msj3Cartas), Toast.LENGTH_SHORT).show();
                 else{
-
-                    if(isSolo){
-                        comprobarIndividual(imagen_personaje, imagen_arma, imagen_lugar);
-                    }else{
-                        comprobarMultijugador(imagen_personaje, imagen_arma, imagen_lugar);
-                    }
+                    comprobar(imagen_personaje, imagen_arma, imagen_lugar);
                 }
 
 
@@ -181,31 +179,60 @@ public class ActivityJuego extends AppCompatActivity {
         if (isSolo)
             setupSolo();
         else
-            setupMulti();
-
+            getRoom();
 
 
     }//FIN onCreate
 
+    public void getRoom() {
+        String roomName = shPreferences.getString("roomName","");
+        roomRef = database.getDatabase().getReference("Rooms/"+roomName);
+        roomRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                room = snapshot.getValue(Room.class);
+                setupMulti();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        roomRef.get();
+    }
+
     private void setupMulti() {
-        roomDataRef = database.getDatabase().getReference("Rooms");
-        String set = "Playing";
-        switch(set) {
-            case "Playing":
-                break;
-            case "WaitAnotherPlayer":
-                break;
-            case "WaitYourturn":
-                break;
-        }
+        String userName = shSettings.getString("userName","");
+        Player me, other;
+        ArrayList<Player> players = room.getPlayers();
+        if (room.getPlayers().get(0).getUserName()==userName)
+            me= room.getPlayers().get(0);
+        else
+            me =room.getPlayers().get(1);
+
+        if (me.getTurn() == room.getTurn())
+            btnSuponer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    comprobar(imagen_personaje, imagen_arma, imagen_lugar);
+                }
+            });
+        else
+            me.setStatus(PlayerHelper.Status.WaitYourTurn.getStatusText());
+
+
         btnChat.setVisibility(View.VISIBLE);
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent chat = new Intent(getApplicationContext(), ActivityChat.class);
+                chat.putExtra("roomName",room.getName());
                 startActivity(chat);
             }
         });
+        findViewById(R.id.txtV1).setVisibility(View.GONE);
+        tvCont.setVisibility(View.GONE);
 
         //Button btnPicked = findViewById(R.id.btnPicked);
     }
@@ -213,6 +240,7 @@ public class ActivityJuego extends AppCompatActivity {
     private void setupSolo() {
         findViewById(R.id.txtV1).setVisibility(View.VISIBLE);
         tvCont.setVisibility(View.VISIBLE);
+        btnChat.setVisibility(View.GONE);
     }
 
     private void getMatch() {
@@ -234,9 +262,11 @@ public class ActivityJuego extends AppCompatActivity {
                     if (match.getEndingDate()!=0L){
                         if (match.getResultGame()) {
                             Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
+                            win.putExtra("murderCards",murderedCards);
                             startActivity(win);
                         } else {
                             Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
+                            lose.putExtra("murderCards",murderedCards);
                             startActivity(lose);
                         }
 
@@ -341,7 +371,7 @@ public class ActivityJuego extends AppCompatActivity {
 
     /*Método comprueba si se ha elegido las cartas correctas
     y si no mostrará una de las incorectas llamando el métoco incorrecta */
-    public void comprobarIndividual(int imagen_personaje, int imagen_arma, int imagen_lugar){
+    public void comprobar(int imagen_personaje, int imagen_arma, int imagen_lugar){
         reiniciarCartas(); //Reiniciar los imageButton
         //Bajar el contador de oportunidades
         contador--;
@@ -375,47 +405,6 @@ public class ActivityJuego extends AppCompatActivity {
     public void rendirse(View view) {
         terminarPartida(false);
         reiniciarCartas();
-    }
-
-    private void comprobarMultijugador(int person, int weapon, int place) {
-        reiniciarCartas();
-        contador--;
-        cambiar_cont(contador);
-        Card card1 = null, card2 = null, card3 = null;
-
-        cardList(); //Contains murdered cards
-
-
-        if(MatchHelper.Cards.getImgByRef((Integer) murderedCards.get(0)) == person &&
-                MatchHelper.Cards.getImgByRef((Integer) murderedCards.get(1)) == weapon &&
-                MatchHelper.Cards.getImgByRef((Integer) murderedCards.get(2)) == place){
-            terminarPartida(true); //Modificamos la base de datos
-
-            Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
-            startActivity(win);
-
-        } else {
-            //Si el contador es 0 termina la partida
-            if(contador == 0){
-                terminarPartida(false); //Modificamos la base de datos
-
-                Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
-                startActivity(lose);
-            } else{
-
-                //Metemos las imagenes de las cartas incorrectas en un array
-                ArrayList<Integer> incorrectCards = new ArrayList<Integer>();
-                if(MatchHelper.Cards.getImgByRef((Integer) murderedCards.get(0)) != imagen_personaje) incorrectCards.add(person);
-                if (MatchHelper.Cards.getImgByRef((Integer) murderedCards.get(1)) != imagen_arma) incorrectCards.add(weapon);
-                if (MatchHelper.Cards.getImgByRef((Integer) murderedCards.get(2)) != imagen_lugar) incorrectCards.add(place);
-
-                //Llamamos el método incorecta para mostrar las cartas incorrectas
-                incorrecta(incorrectCards);
-            }
-
-        }
-
-
     }
 
     /**
@@ -453,6 +442,7 @@ public class ActivityJuego extends AppCompatActivity {
             editor.remove("gameSoloCont");
             shGameSolo.edit().clear().apply();
         } else {
+
             editor.remove("gameMultiName");
             editor.remove("gameMultiNum");
             shGameMulti.edit().clear().apply();
