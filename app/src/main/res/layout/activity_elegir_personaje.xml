@@ -11,33 +11,71 @@
         android:id="@+id/imgbtn_per1"
         android:layout_width="@dimen/E_cartaAncho"
         android:layout_height="@dimen/E_cartaAlto"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
         android:background="@drawable/pj_amapola"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_per2"
-        app:layout_constraintEnd_toStartOf="@+id/imgbtn_per2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/ivDer"
-        app:layout_constraintTop_toTopOf="@+id/imgbtn_per2" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgbtn_per2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="@string/tvPers1"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_per1"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_per1"
+        app:layout_constraintTop_toBottomOf="@+id/imgbtn_per1" />
 
     <ImageButton
         android:id="@+id/imgbtn_per2"
         android:layout_width="@dimen/E_cartaAncho"
         android:layout_height="@dimen/E_cartaAlto"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
         android:background="@drawable/pj_blanco"
-        app:layout_constraintBottom_toTopOf="@+id/imgbtn_per5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/imgbtn_per3"
+        app:layout_constraintStart_toEndOf="@+id/imgbtn_per1"
+        app:layout_constraintTop_toTopOf="@+id/imgbtn_per3"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvPers2"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView21"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_per2"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_per2"
+        app:layout_constraintTop_toTopOf="@+id/textView21" />
 
     <ImageButton
         android:id="@+id/imgbtn_per3"
         android:layout_width="@dimen/E_cartaAncho"
         android:layout_height="@dimen/E_cartaAlto"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
         android:background="@drawable/pj_celeste"
-        app:layout_constraintBottom_toBottomOf="@+id/imgbtn_per2"
-        app:layout_constraintEnd_toEndOf="@+id/ivDer"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.88"
         app:layout_constraintStart_toEndOf="@+id/imgbtn_per2"
-        app:layout_constraintTop_toTopOf="@+id/imgbtn_per2" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvPers3"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView22"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_per3"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_per3"
+        app:layout_constraintTop_toTopOf="@+id/textView22" />
 
     <ImageButton
         android:id="@+id/imgbtn_per4"
@@ -45,38 +83,67 @@
         android:layout_height="@dimen/E_cartaAlto"
         android:background="@drawable/pj_mora"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_per5"
-        app:layout_constraintEnd_toStartOf="@+id/imgbtn_per5"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/ivDer"
+        app:layout_constraintEnd_toEndOf="@+id/textView21"
+        app:layout_constraintStart_toStartOf="@+id/textView21"
         app:layout_constraintTop_toTopOf="@+id/imgbtn_per5" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/tvPers4"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_per4"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_per4"
+        app:layout_constraintTop_toBottomOf="@+id/imgbtn_per4" />
 
     <ImageButton
         android:id="@+id/imgbtn_per5"
         android:layout_width="@dimen/E_cartaAncho"
         android:layout_height="@dimen/E_cartaAlto"
         android:background="@drawable/pj_prado"
-        app:layout_constraintBottom_toTopOf="@+id/ivDer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintBottom_toBottomOf="@+id/imgbtn_per6"
+        app:layout_constraintEnd_toEndOf="@+id/textView22"
+        app:layout_constraintStart_toStartOf="@+id/textView22"
+        app:layout_constraintTop_toTopOf="@+id/imgbtn_per6" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvPers5"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView24"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_per5"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_per5"
+        app:layout_constraintTop_toTopOf="@+id/textView24" />
 
     <ImageButton
         android:id="@+id/imgbtn_per6"
         android:layout_width="@dimen/E_cartaAncho"
         android:layout_height="@dimen/E_cartaAlto"
+        android:layout_marginTop="17dp"
         android:background="@drawable/pj_rubio"
-        app:layout_constraintBottom_toBottomOf="@+id/imgbtn_per5"
-        app:layout_constraintEnd_toEndOf="@+id/ivDer"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/imgbtn_per5"
-        app:layout_constraintTop_toTopOf="@+id/imgbtn_per5" />
+        app:layout_constraintEnd_toEndOf="@+id/textView23"
+        app:layout_constraintStart_toStartOf="@+id/textView23"
+        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvPers6"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView25"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtn_per6"
+        app:layout_constraintStart_toStartOf="@+id/imgbtn_per6"
+        app:layout_constraintTop_toTopOf="@+id/textView25" />
 
     <ImageView
         android:id="@+id/ivDer"
         android:layout_width="@dimen/E_pergaminoAncho"
         android:layout_height="@dimen/E_pergaminoAlto"
-        android:rotation="90"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,8 +169,8 @@
                 android:id="@+id/txtV1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvPers1"
                 android:textColor="@color/negro"
@@ -141,8 +208,8 @@
                 android:id="@+id/txtV2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvPers2"
                 android:textColor="@color/negro"
@@ -180,8 +247,8 @@
                 android:id="@+id/txtV3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvPers3"
                 android:textColor="@color/negro"
@@ -219,8 +286,8 @@
                 android:id="@+id/txtV4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvPers4"
                 android:textColor="@color/negro"
@@ -258,8 +325,8 @@
                 android:id="@+id/txtV5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvPers5"
                 android:textColor="@color/negro"
@@ -297,8 +364,8 @@
                 android:id="@+id/txtV6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/E_margentxt"
                 android:layout_marginEnd="@dimen/E_margentxt"
+                android:layout_marginRight="@dimen/E_margentxt"
                 android:gravity="center"
                 android:text="@string/tvPers6"
                 android:textColor="@color/negro"

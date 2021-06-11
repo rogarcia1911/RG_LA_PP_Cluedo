@@ -1,5 +1,6 @@
 package com.example.rg_la_pp_cluedo;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,18 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.example.rg_la_pp_cluedo.BBDD.Match;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +32,11 @@ public class FragmentStore extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+
+    SharedPreferences shPreferences;
+    FirebaseAuth mAuth;
+    DatabaseReference database, userPlayerRef, iconPlayerRef;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -46,6 +64,7 @@ public class FragmentStore extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,4 +80,7 @@ public class FragmentStore extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_store, container, false);
     }
+
+
+
 }
