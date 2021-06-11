@@ -191,6 +191,7 @@ public class FragmentGame extends Fragment {
                 num = task.getResult().getValue(num.getClass());
 
                 if (num==0 ){
+                    //TODO: en vez de newMatch tiene que ir abrir algo con 3 opciones para la DIFICULTAD
                     newMatch(userName, MatchHelper.Mode.SOLO.name(),num+1);
                 } else {
                     //Recuperar lastMatchRef con num match==Null =>new & match.Ending==Null =>new else continuePlaying
@@ -198,6 +199,7 @@ public class FragmentGame extends Fragment {
                     Integer finalNum = num+1;
                     lastMatchRef.get().addOnCompleteListener(task1 -> {
                         // Comprobar si la última partida guardada ha terminado o no
+                        //TODO: en vez de newMatch tiene que ir abrir algo con 3 opciones para la DIFICULTAD
                         Match match = task1.getResult().getValue(Match.class);
                         if (match != null && match.getEndingDate() == 0L)
                             continueMatch(userName,match.getName());
@@ -216,6 +218,7 @@ public class FragmentGame extends Fragment {
      * @param userName
      */
     public void gameMulti(String userName) {
+        String roomName = shPreferences.getString("roomName","");
         String gameMultiName = shPreferences.getString("gameMultiName", "");
         Integer gameMultiNum = shPreferences.getInt("gameMultiNum", 0);
 

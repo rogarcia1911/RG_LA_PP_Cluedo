@@ -50,7 +50,7 @@ public class ActivityJuego extends AppCompatActivity {
 
     SharedPreferences shSettings, shPreferences, shGameSolo, shGameMulti;
     DataBaseConnection firebaseConnection = null;
-    DatabaseReference database, matchDataRef;
+    DatabaseReference database, matchDataRef, roomDataRef;
     Match match;
     String matchName;
 
@@ -104,13 +104,16 @@ public class ActivityJuego extends AppCompatActivity {
             reiniciarBtMarc(spEP);
             reiniciarBtMarc(spEH);
             reiniciarBtMarc(spEA);
-            oportunidades = shPreferences.getInt("gameSoloCont",0);
-            cambiar_cont(shPreferences.getInt("gameSoloCont",0)); //reiniciamos el contador
+            if (isSolo) {
+                oportunidades = shPreferences.getInt("gameSoloCont", 0);
+                cambiar_cont(shPreferences.getInt("gameSoloCont", 0)); //reiniciamos el contador
+            }
         }
-
-        SharedPreferences spCont = getSharedPreferences("juegoDatos", Context.MODE_PRIVATE);
-        contador = spCont.getInt("cont", oportunidades);
-        cambiar_cont(contador);
+        if (isSolo){
+            SharedPreferences spCont = getSharedPreferences("juegoDatos", Context.MODE_PRIVATE);
+            contador = spCont.getInt("cont", oportunidades);
+            cambiar_cont(contador);
+        }
 
         SharedPreferences imagen1 = getSharedPreferences("img1", Context.MODE_PRIVATE);
         int imagen1Int = imagen1.getInt("img_per",  R.drawable.carta_interrogante);
@@ -163,26 +166,39 @@ public class ActivityJuego extends AppCompatActivity {
                 if(imagen_personaje == R.drawable.carta_interrogante || imagen_arma == R.drawable.carta_interrogante || imagen_lugar == R.drawable.carta_interrogante)
                     Toast.makeText(ActivityJuego.this, getString(R.string.msj3Cartas), Toast.LENGTH_SHORT).show();
                 else{
-                    matchDataRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-                            match = task.getResult().getValue(Match.class);
-                            murderedCards = match.getMurderCards();
 
-                            if(isSolo){
-                                comprobarIndividual(imagen_personaje, imagen_arma, imagen_lugar);
-                            }else{
-                                comprobarMultijugador(imagen_personaje, imagen_arma, imagen_lugar);
-                            }
-                        }
-                    });
-
+                    if(isSolo){
+                        comprobarIndividual(imagen_personaje, imagen_arma, imagen_lugar);
+                    }else{
+                        comprobarMultijugador(imagen_personaje, imagen_arma, imagen_lugar);
+                    }
                 }
 
 
             }
         });
 
+        if (isSolo)
+            setupSolo();
+        else
+            setupMulti();
+
+
+
+    }//FIN onCreate
+
+    private void setupMulti() {
+        roomDataRef = database.getDatabase().getReference("Rooms");
+        String set = "Playing";
+        switch(set) {
+            case "Playing":
+                break;
+            case "WaitAnotherPlayer":
+                break;
+            case "WaitYourturn":
+                break;
+        }
+        btnChat.setVisibility(View.VISIBLE);
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -191,7 +207,13 @@ public class ActivityJuego extends AppCompatActivity {
             }
         });
 
-    }//FIN onCreate
+        //Button btnPicked = findViewById(R.id.btnPicked);
+    }
+
+    private void setupSolo() {
+        findViewById(R.id.txtV1).setVisibility(View.VISIBLE);
+        tvCont.setVisibility(View.VISIBLE);
+    }
 
     private void getMatch() {
         String userName = shSettings.getString("userName","");
@@ -204,6 +226,9 @@ public class ActivityJuego extends AppCompatActivity {
                 if (match!=null){
                     if (murderedCards== null)
                         murderedCards = match.getMurderCards();
+                    if (!isSolo) {
+
+                    }
                     Toast.makeText(getApplicationContext(), "isNewMatch  "+isNewMatch + " isSolo" + match.getIsSolo(), Toast.LENGTH_SHORT).show();
 
                     if (match.getEndingDate()!=0L){
