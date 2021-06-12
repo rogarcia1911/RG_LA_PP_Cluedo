@@ -31,6 +31,7 @@ public class ActivityChat extends AppCompatActivity {
     private Button btnSendMessage;
     private RecyclerView rvMessages;
 
+    private RecieveMessage message;
     private MessageAdapter adapter;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -53,7 +54,7 @@ public class ActivityChat extends AppCompatActivity {
         btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                iniFirebaseChat().push().setValue(new SendMessage(etMessage.getText().toString(), tvName.getText().toString(), ServerValue.TIMESTAMP));
+                iniFirebaseChat().push().setValue(new SendMessage(tvName.getText().toString(), etMessage.getText().toString(), ServerValue.TIMESTAMP));
                 etMessage.setText("");
             }
         });
@@ -69,7 +70,7 @@ public class ActivityChat extends AppCompatActivity {
         iniFirebaseChat().addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                RecieveMessage message = dataSnapshot.getValue(RecieveMessage.class);
+                message = dataSnapshot.getValue(RecieveMessage.class);
                 adapter.addMessage(message);
             }
 
