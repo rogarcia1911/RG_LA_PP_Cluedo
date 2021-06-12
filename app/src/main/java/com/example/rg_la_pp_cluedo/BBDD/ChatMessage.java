@@ -5,7 +5,6 @@ public class ChatMessage {
     private String messagePlayer;
     private String messageText;
     private String messageTime;
-    //private String profilePhoto
 
     public ChatMessage() {
 

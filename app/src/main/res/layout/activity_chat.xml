@@ -37,6 +37,7 @@
         android:ems="10"
         android:hint="@string/etMessage"
         android:inputType="textPersonName"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnSendMessage"
         app:layout_constraintHorizontal_bias="0.5"
