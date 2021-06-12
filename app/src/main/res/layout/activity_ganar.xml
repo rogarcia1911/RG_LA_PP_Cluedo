@@ -58,7 +58,7 @@
     <ImageView
         android:id="@+id/ivPers"
         android:layout_width="@dimen/G_cartaAncho"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/ivArma"
         app:layout_constraintEnd_toStartOf="@+id/ivArma"
         app:layout_constraintHorizontal_bias="0.75"
@@ -69,7 +69,7 @@
     <ImageView
         android:id="@+id/ivArma"
         android:layout_width="@dimen/G_cartaAncho"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/ivHab"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -76,16 +76,8 @@ public class ActivityJuego extends AppCompatActivity {
         setContentView(R.layout.activity_juego);
         shSettings = getSharedPreferences(getString(R.string.PREFsetttings), 0);
         shPreferences = getSharedPreferences(getString(R.string.PREFapp),0);
-        shGameSolo = getSharedPreferences(getString(R.string.PREFsoloGame), Context.MODE_PRIVATE);
-        shGameMulti = getSharedPreferences(getString(R.string.PREFmultiGame), Context.MODE_PRIVATE);
         firebaseConnection = DataBaseConnection.getInstance();
         database = DataBaseConnection.getFirebase(getApplicationContext());
-
-
-
-        //TODO: preferancias idioma y sonido
-        shSettings.getString("appLanguage","");
-        shSettings.getBoolean("appSound",true);
 
 
         isNewMatch = getIntent().getBooleanExtra("gameNew",false);
@@ -538,12 +530,10 @@ public class ActivityJuego extends AppCompatActivity {
             editor.remove("gameSoloName");
             editor.remove("gameSoloNum");
             editor.remove("gameSoloCont");
-            shGameSolo.edit().clear().apply();
         } else {
 
             editor.remove("gameMultiName");
             editor.remove("gameMultiNum");
-            shGameMulti.edit().clear().apply();
         }
         editor.apply();
         match.setResultGame(resultado);

@@ -46,28 +46,12 @@ public class ActivityGanar extends AppCompatActivity {
         ArrayList<Integer> murderCards = getIntent().getExtras().getIntegerArrayList("murderCards");
         //TODO: mostrar las culpables
 
-        findViewById(R.id.ivPers).setBackgroundResource(MatchHelper.Cards.getImgByRef(murderCards.get(0)));
-        findViewById(R.id.ivArma).setBackgroundResource(MatchHelper.Cards.getImgByRef(murderCards.get(1)));
-        findViewById(R.id.ivHab).setBackgroundResource(MatchHelper.Cards.getImgByRef(murderCards.get(2)));
-
-        /*try {
-            ObjectInputStream ois = new ObjectInputStream(openFileInput(fich));
-            ArrayList<Integer> cartas = (ArrayList<Integer>) ois.readObject();
-
-            String ca = "";
-            for (int i=0 ; i<cartas.length ; i++) {
-                if(i<6 && cartas.get(i).isCulpable())
-                    ivPers.setImageResource(cartas.get(i).getImagen());
-                if(i>=6 && i<=11 && cartas.get(i).isCulpable())
-                    ivArma.setImageResource(cartas.get(i).getImagen());
-                if(i>11 && cartas.get(i).isCulpable())
-                    ivHab.setImageResource(cartas.get(i).getImagen());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }*/
+        ivPers = findViewById(R.id.ivPers);
+        ivPers.setImageResource(MatchHelper.Cards.getImgByRef(murderCards.get(0)));
+        ivArma = findViewById(R.id.ivArma);
+        ivArma.setImageResource(MatchHelper.Cards.getImgByRef(murderCards.get(1)));
+        ivHab = findViewById(R.id.ivHab);
+        ivHab.setImageResource(MatchHelper.Cards.getImgByRef(murderCards.get(2)));
 
         //Reproducimos el audio aplausos
         sp= new SoundPool(1, AudioManager.STREAM_MUSIC, 1);

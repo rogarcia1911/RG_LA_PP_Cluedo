@@ -137,32 +137,6 @@ public class FragmentGame extends Fragment {
             }
         });
 
-        /*
-        if(userDataRef!=null){
-            DatabaseReference parent = userDataRef.getParent();
-            parent.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    // Incia sesión - almacenamos el usuario en el sharedPreferences
-                    User user = snapshot.getValue(User.class);
-
-                    if(user != null){
-                        SharedPreferences.Editor editor = shPreferences.edit();
-                        editor.putString("userData", user.getEmail() + "\n" +
-                                user.getPoints() + "\n" +
-                                user.getNumSoloMatchs() + "\n" +
-                                user.getNumMultiMatchs());
-                        editor.apply();
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }*/
     }
 
     /**
@@ -191,11 +165,6 @@ public class FragmentGame extends Fragment {
                 DatabaseReference lastMatchRef = getMatch(userName, MatchHelper.Mode.SOLO.getB(),num);
                 Integer finalNum = num+1;
                 lastMatchRef.get().addOnCompleteListener(task1 -> {
-                    DataSnapshot s = task1.getResult();
-                    Object m = task1.getResult().getValue();
-                    Match m2 = task1.getResult().getValue(Match.class);
-                    Class c = task1.getResult().getClass();
-
                     // Comprobar si la última partida guardada ha terminado o no
                     //TODO: en vez de newMatch tiene que ir abrir algo con 3 opciones para la DIFICULTAD
                     Match match = task1.getResult().getValue(Match.class);
@@ -218,7 +187,6 @@ public class FragmentGame extends Fragment {
     public void gameMulti(String userName) {
         Intent lobby = new Intent(getContext(), ActivityLobby.class);
         startActivity(lobby);
-
     }
 
     /**

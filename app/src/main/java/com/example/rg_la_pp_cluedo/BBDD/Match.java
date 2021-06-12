@@ -43,10 +43,6 @@ public class Match {
       */
      private Integer cont;
 
-     private String roomName;
-     private String myTurn;
-
-
      public Match(){
           name = "";
           num = 0;
@@ -56,7 +52,6 @@ public class Match {
           isSolo = null;
           difficulty = null;
           cont = 0;
-          roomName = "";
      }
 
 
@@ -85,7 +80,6 @@ public class Match {
           this.difficulty = difficulty;
           this.cont = cont;
           this.murderCards = murderCards;
-          this.roomName = roomName;
      }
 
      public String getName() {
@@ -158,14 +152,6 @@ public class Match {
 
      public ArrayList<Integer> getMurderCards() {
           return murderCards;
-     }
-
-     public String getRoomName() {
-          return roomName;
-     }
-
-     public void setRoomName(String roomName) {
-          this.name = roomName;
      }
 
      @Override
