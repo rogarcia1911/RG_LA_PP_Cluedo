@@ -10,8 +10,13 @@ import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+
+import java.util.ArrayList;
 
 public class ActivityPerder extends AppCompatActivity {
+
+    private ImageView ivPers,ivArma,ivHab;
 
     private SoundPool sp;
     int sonido;
@@ -20,6 +25,15 @@ public class ActivityPerder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perder);
+
+        ArrayList<Integer> murderCards = getIntent().getExtras().getIntegerArrayList("murderCards");
+        //TODO: mostrar las culpables
+        ivPers = findViewById(R.id.ivPers3);
+        ivPers.setImageResource(MatchHelper.Cards.getImgByRef(murderCards.get(0)));
+        ivArma = findViewById(R.id.ivArma3);
+        ivArma.setImageResource(MatchHelper.Cards.getImgByRef(murderCards.get(1)));
+        ivHab = findViewById(R.id.ivHab3);
+        ivHab.setImageResource(MatchHelper.Cards.getImgByRef(murderCards.get(2)));
 
         //Reproducimos el audio aplausos
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
