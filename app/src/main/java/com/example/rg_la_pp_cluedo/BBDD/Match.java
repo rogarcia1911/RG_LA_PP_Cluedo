@@ -171,7 +171,7 @@ public class Match {
      @Override
      public String toString() {
           return "Match{" +
-                  "  name=" + (name==null ? null : "'" + name + "'" )  +
+                  "  name='" + name + "'"  +
                   ", num=" + num +
                   ", beginningDate=" + beginningDate +
                   ", endingDate=" + endingDate +

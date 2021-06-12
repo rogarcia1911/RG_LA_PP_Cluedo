@@ -2,6 +2,7 @@ package com.example.rg_la_pp_cluedo;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,8 +57,10 @@ public class ActivityJuego extends AppCompatActivity {
     DataBaseConnection firebaseConnection = null;
     DatabaseReference database, matchDataRef, roomRef;
     Match match;
+    //Atributos MULTI
     Room room;
-    String matchName;
+    String roomName, myTurn, status;
+    ArrayList<Integer> cardsPicked;
 
     private Boolean isSolo, isNewMatch;
     private int oportunidades, contador;
@@ -64,7 +68,6 @@ public class ActivityJuego extends AppCompatActivity {
     //nombre de SharedPreferences de los ActivityElegir...
     private String spEP = "datosEP",spEH = "datosEH",spEA = "datosEA";
     private ArrayList<Integer> murderedCards;
-    String gameSoloName;
 
     //TODO: en el primer sospechar no cambia el contador
     @Override
@@ -92,24 +95,48 @@ public class ActivityJuego extends AppCompatActivity {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                Intent inicio = new Intent(ActivityJuego.this, ActivityMain.class);
-                startActivity(inicio);
-                if(!isSolo){
-                    String userName = shSettings.getString("userName","");
-                    Match match = room.getMatch();
-                    //match.setRoomName(room.getName());
-                    match.setResultGame(false);
-                    match.setEndingDate(System.currentTimeMillis());
-                    if (room.getStatus()=="Wait") {
-                        database.getDatabase().getReference("Users/"+userName+"/User").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                Integer num = task.getResult().getValue(User.class).getNumMultiMatchs();
-                                database.getDatabase().getReference("Users/"+userName+"/Matchs/MULTI-"+(num+1)).setValue(room.getMatch());
-                                roomRef.setValue(room);
-                            }
-                        });
-                    }
+                if(isSolo){
+                    Intent inicio = new Intent(ActivityJuego.this, ActivityMain.class);
+                    startActivity(inicio);
+                } else {
+                    LayoutInflater inflater = getLayoutInflater();
+                    View view = inflater.inflate(R.layout.dialog_salir, null);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityJuego.this)
+                            // .setView(view)
+                            //TODO: traducir texto getString(R.string.msjSalirMulti)
+                            .setMessage("Si sales ahora perderás la partida.\n¿Estas seguro de que quieres salir?")
+                            .setPositiveButton(R.string.btPstv, new DialogInterface.OnClickListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String userName = shSettings.getString("userName","");
+                                    Match match = room.getMatch();
+                                    //match.setRoomName(room.getName());
+                                    match.setResultGame(false);
+                                    match.setEndingDate(System.currentTimeMillis());
+                                    if (room.getStatus()!="Wait") {
+                                        database.getDatabase().getReference("Users/"+userName+"/User").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                                Integer num = task.getResult().getValue(User.class).getNumMultiMatchs();
+                                                database.getDatabase().getReference("Users/"+userName+"/Matchs/MULTI-"+(num+1)).setValue(room.getMatch());
+                                                roomRef.setValue(room);
+                                            }
+                                        });
+                                        Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
+                                        lose.putExtra("murderCards", murderedCards);
+                                        startActivity(lose);
+                                    } else {
+                                        Intent inicio = new Intent(ActivityJuego.this, ActivityMain.class);
+                                        startActivity(inicio);
+                                    }
+                                }
+                            })
+                            .setNegativeButton(R.string.btNgtv, null);
+
+                    final AlertDialog dialog = builder.create();
+                    dialog.show();
 
                 }
             }
@@ -155,8 +182,6 @@ public class ActivityJuego extends AppCompatActivity {
         imagen_lugar = getIntent().getIntExtra("imagen_lugar", imagen3Int);
         elegir_lug(imagen_lugar);
 
-        getMatch();
-
         //Boton abre activity de elegir personaje
         imBtPersonaje.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,37 +213,14 @@ public class ActivityJuego extends AppCompatActivity {
         btnSuponer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(imagen_personaje == R.drawable.carta_interrogante || imagen_arma == R.drawable.carta_interrogante || imagen_lugar == R.drawable.carta_interrogante)
-                    Toast.makeText(ActivityJuego.this, getString(R.string.msj3Cartas), Toast.LENGTH_SHORT).show();
-                else{
-                    if (murderedCards != null || !murderedCards.isEmpty())
-                        comprobar(imagen_personaje, imagen_arma, imagen_lugar);
-                    else if (isSolo)
-                        matchDataRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                murderedCards = task.getResult().getValue(Match.class).getMurderCards();
-
-                            }
-                        });
-                    else {
-                        roomRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                murderedCards = task.getResult().getValue(Match.class).getMurderCards();
-                            }
-                        });
-                    }
-
-                }
-
-
+                suponer();
             }
         });
 
-        if (isSolo )
+        if (isSolo ){
+            getMatch();
             setupSolo();
-        else
+        } else
             getRoom();
 
 
@@ -244,32 +246,40 @@ public class ActivityJuego extends AppCompatActivity {
 
     private void setupMulti() {
         String userName = shSettings.getString("userName","");
-        String roomName = getIntent().getStringExtra("roomName");
-        String status = getIntent().getStringExtra("status");
-        String myTurn = getIntent().getStringExtra("myTurn");
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            roomName = getIntent().getStringExtra("roomName");
+            status = getIntent().getStringExtra("status");
+            myTurn = getIntent().getStringExtra("myTurn");
+        }
         roomRef = database.getDatabase().getReference("Rooms/"+roomName);
         ArrayList<Integer> murderCards = getIntent().getExtras().getIntegerArrayList("murderCards");
 
         if (!status.equals("Wait")) {
-            if (myTurn.equals(room.getTurn())){
+            if (myTurn.equals(room.getStatus())){
                 btnSuponer.setText(R.string.btSospechar);
                 btnSuponer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        sospecharMulti();
+                        suponer();
                     }
                 });
             } else {
-                roomRef.getParent().child("status").setValue(status);
-                btnSuponer.setText(R.string.btSospechar);
+                //roomRef.getParent().child("status").setValue(status);
+                if (room.getStatus().equals("Wait"))
+                    btnSuponer.setText("Wait another player"); //TODO: Traducir textos
+                if (!room.getStatus().equals(myTurn))
+                    btnSuponer.setText("Wait your turn");
                 btnSuponer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "Wait",Toast.LENGTH_SHORT).show();
+                        if (room.getStatus().equals("Wait"))
+                            Toast.makeText(getApplicationContext(), "Wait",Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         } else if (match == null) {
+            room.setName(roomName);
             match = new Match();
             match.setName("MULTI");
             match.setBeginningDate(System.currentTimeMillis()); //Con un new Date convertimos los milisegundos a fecha
@@ -295,8 +305,28 @@ public class ActivityJuego extends AppCompatActivity {
         //Button btnPicked = findViewById(R.id.btnPicked);
     }
 
-    private void sospecharMulti() {
-        comprobar(imagen_personaje, imagen_arma, imagen_lugar);
+    private void suponer() {
+        if(imagen_personaje == R.drawable.carta_interrogante || imagen_arma == R.drawable.carta_interrogante || imagen_lugar == R.drawable.carta_interrogante)
+            Toast.makeText(ActivityJuego.this, getString(R.string.msj3Cartas), Toast.LENGTH_SHORT).show();
+        else if (murderedCards != null && !murderedCards.isEmpty())
+                comprobar(imagen_personaje, imagen_arma, imagen_lugar);
+            else if (isSolo)
+                matchDataRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        murderedCards = task.getResult().getValue(Match.class).getMurderCards();
+                        comprobar(imagen_personaje, imagen_arma, imagen_lugar);
+                    }
+                });
+            else {
+                roomRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        murderedCards = task.getResult().getValue(Match.class).getMurderCards();
+                        comprobar(imagen_personaje, imagen_arma, imagen_lugar);
+                    }
+                });
+            }
     }
 
     private void setupSolo() {
@@ -307,46 +337,41 @@ public class ActivityJuego extends AppCompatActivity {
 
     private void getMatch() {
         if(isSolo){
+            String userName = shSettings.getString("userName","");
+            String matchName = shPreferences.getString("gameSoloName",""); // o recuperar la de Multi
+            matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+matchName);
+            matchDataRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    match = snapshot.getValue(Match.class);
+                    if (match!=null){
+                        if (murderedCards == null)
+                            murderedCards = match.getMurderCards();
+                        //Toast.makeText(getApplicationContext(), "isNewMatch  "+isNewMatch + " isSolo" + match.getIsSolo(), Toast.LENGTH_SHORT).show();
 
-        } else {
-        String userName = shSettings.getString("userName","");
-        String matchName = shPreferences.getString("gameSoloName",""); // o recuperar la de Multi
-        matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+matchName);
-        matchDataRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                match = snapshot.getValue(Match.class);
-                if (match!=null){
-                    if (murderedCards == null)
-                        murderedCards = match.getMurderCards();
-                    if (!isSolo) {
-
-                    }
-                    //Toast.makeText(getApplicationContext(), "isNewMatch  "+isNewMatch + " isSolo" + match.getIsSolo(), Toast.LENGTH_SHORT).show();
-
-                    if (match.getEndingDate()!=0L){
-                        if (match.getResultGame()) {
-                            Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
-                            win.putExtra("murderCards",murderedCards);
-                            startActivity(win);
-                        } else {
-                            Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
-                            lose.putExtra("murderCards",murderedCards);
-                            startActivity(lose);
+                        if (match.getEndingDate()!=0L){
+                            if (match.getResultGame()) {
+                                Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
+                                win.putExtra("murderCards",murderedCards);
+                                startActivity(win);
+                            } else {
+                                Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
+                                lose.putExtra("murderCards",murderedCards);
+                                startActivity(lose);
+                            }
                         }
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                //Toast.makeText(getApplicationContext(),"No se ha podido recuperar la partida.",Toast.LENGTH_SHORT).show();
-            }
-        });
-        if( match == null )
-            matchDataRef.get();
-        else
-            matchDataRef.setValue(match);
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    //Toast.makeText(getApplicationContext(),"No se ha podido recuperar la partida.",Toast.LENGTH_SHORT).show();
+                }
+            });
+            if( match == null )
+                matchDataRef.get();
+            else
+                matchDataRef.setValue(match);
         }
     }
 
@@ -359,9 +384,8 @@ public class ActivityJuego extends AppCompatActivity {
         editCont.putInt( "cont", num);
         editCont.commit();
 
-        if (match!=null && !match.getName().equals("") && matchDataRef != null) {
+        if (match!=null) {
             match.setCont(num);
-            matchDataRef.setValue(match);
         }
     }
 
@@ -439,9 +463,18 @@ public class ActivityJuego extends AppCompatActivity {
     public void comprobar(int imagen_personaje, int imagen_arma, int imagen_lugar){
         reiniciarCartas(); //Reiniciar los imageButton
         //Bajar el contador de oportunidades
-        contador--;
-        cambiar_cont(contador);
-
+        if (isSolo){
+            contador--;
+            cambiar_cont(contador);
+        } else {
+            //TODO: poner pickedCards despues de comprobar aquí o en ??
+                /*
+                cardsPicked.clear();
+                cardsPicked.add(MatchHelper.Cards.getRefByImg(imagen_personaje));
+                cardsPicked.add(MatchHelper.Cards.getRefByImg(imagen_arma));
+                cardsPicked.add(MatchHelper.Cards.getRefByImg(imagen_lugar));
+                roomRef.child("cardsPicked").setValue(cardsPicked);*/
+        }
         //comprobar si hay 1 correcta, comprobar si hay dos correctas o si estan todas correctas
         if(MatchHelper.Cards.getImgByRef(murderedCards.get(0)) == imagen_personaje &&
                 MatchHelper.Cards.getImgByRef(murderedCards.get(1)) == imagen_arma &&
@@ -449,7 +482,7 @@ public class ActivityJuego extends AppCompatActivity {
             terminarPartida(true); //Terminamos la partida ganando y vamos a ActivityGanar
         else {
             //Si el contador es 0 termina la partida
-            if(contador <= 0)
+            if(isSolo && contador <= 0)
                 terminarPartida(false); //Modificamos la base de datos
             else {
                 //Metemos las imagenes de las cartas incorrectas en un array

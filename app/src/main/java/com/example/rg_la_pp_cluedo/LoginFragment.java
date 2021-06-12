@@ -236,6 +236,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void dialogSignIn() {
+        Context context = getContext();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_signin, null);

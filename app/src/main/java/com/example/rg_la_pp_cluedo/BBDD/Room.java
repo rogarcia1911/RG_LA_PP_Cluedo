@@ -3,28 +3,30 @@ package com.example.rg_la_pp_cluedo.BBDD;
 import java.util.ArrayList;
 
 public class Room {
-
-    private String name;
-    private String turn;
+//TODO: revisar los atrbutos, constructor y métodos setter y getter
+    String name;
     private String status;
     private Match match;
-    private ArrayList<Integer> CardsPicked;
+    private String player1;
+    private String player2;
+    private ArrayList<Integer> cardsPicked;
     private ArrayList<ChatMessage> Chat;
 
 
     public Room() {
         name = "";
-        turn = "";
+        status = "";
     }
 
 
-    public Room(String name, String turn, String status, Match match, ArrayList<Integer> CardsPicked,
+    public Room(String name, String turn, String status, String player1, String player2, Match match, ArrayList<Integer> cardsPicked,
                 ArrayList<Player> Players, ArrayList<ChatMessage> Chat) {
-        this.name = name;
-        this.turn = turn;
+        this.name=name;
         this.status = status;
-        this.match=match;
-        this.CardsPicked = CardsPicked;
+        this.match = match;
+        this.player1 = player1;
+        this.player2 = player2;
+        this.cardsPicked = cardsPicked;
         this.Chat = Chat;
 
     }
@@ -37,12 +39,20 @@ public class Room {
         this.name = name;
     }
 
-    public String getTurn() {
-        return turn;
+    public String getPlayer1() {
+        return player1;
     }
 
-    public void setTurn(String turn) {
-        this.turn = turn;
+    public void setPlayer1(String player1) {
+        this.player1 = player1;
+    }
+
+    public String getPlayer2() {
+        return player2;
+    }
+
+    public void setPlayer2(String player2) {
+        this.player2 = player2;
     }
 
     public ArrayList<ChatMessage> getChat() {
@@ -54,11 +64,11 @@ public class Room {
     }
 
     public ArrayList<Integer> getCardsPicked() {
-        return CardsPicked;
+        return cardsPicked;
     }
 
-    public void setCardsPicked(ArrayList<Integer> CardsPicked) {
-        this.CardsPicked = CardsPicked;
+    public void setCardsPicked(ArrayList<Integer> cardsPicked) {
+        this.cardsPicked = cardsPicked;
     }
 
     public String getStatus() {
