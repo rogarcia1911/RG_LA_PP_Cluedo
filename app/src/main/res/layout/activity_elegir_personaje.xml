@@ -15,7 +15,9 @@
         android:background="@drawable/pj_amapola"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_per2"
         app:layout_constraintEnd_toStartOf="@+id/imgbtn_per2"
-
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/ivDer"
+        app:layout_constraintTop_toTopOf="@+id/imgbtn_per2" />
 
     <TextView
         android:id="@+id/textView20"
@@ -34,7 +36,10 @@
         android:layout_width="@dimen/E_cartaAncho"
         android:layout_height="@dimen/E_cartaAlto"
         android:background="@drawable/pj_blanco"
-
+        app:layout_constraintBottom_toTopOf="@+id/imgbtn_per5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView21"
@@ -52,7 +57,11 @@
         android:layout_width="@dimen/E_cartaAncho"
         android:layout_height="@dimen/E_cartaAlto"
         android:background="@drawable/pj_celeste"
-/>
+        app:layout_constraintBottom_toBottomOf="@+id/imgbtn_per2"
+        app:layout_constraintEnd_toEndOf="@+id/ivDer"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imgbtn_per2"
+        app:layout_constraintTop_toTopOf="@+id/imgbtn_per2" />
 
     <TextView
         android:id="@+id/textView22"
