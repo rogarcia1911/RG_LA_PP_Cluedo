@@ -55,7 +55,7 @@ public class ActivityJuego extends AppCompatActivity {
 
     SharedPreferences shSettings, shPreferences, shGameMulti;
     DataBaseConnection firebaseConnection = null;
-    DatabaseReference database, matchDataRef, roomRef, roomStatusRef;
+    DatabaseReference database, matchDataRef, roomRef;
     Match match;
     //Atributos MULTI
     Room room;
@@ -200,6 +200,7 @@ public class ActivityJuego extends AppCompatActivity {
         });
 
         if (isSolo ){
+            btnSuponer.setEnabled(true);
             getMatch();
             setupSolo();
         } else
@@ -217,18 +218,20 @@ public class ActivityJuego extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 myTurn = shGameMulti.getString("myTurn","");
                 room = snapshot.getValue(Room.class);
-                if (room.getStatus()!=null &&  room.getStatus().equals("Wait")) {
-                    status.replace(myTurn+":","");
-                    room.setStatus(status);
-                    roomRef.setValue(room);
-                } else if (room.getStatus()!=null && room.getStatus().contains(myTurn+":")) {
-                    status = room.getStatus().replace(myTurn+":","");
-                    room.setStatus(status);
-                    roomRef.setValue(room);
+                if (room!=null){
+                    if (room.getStatus()!=null &&  room.getStatus().equals("Wait")) {
+                        status.replace(myTurn+":","");
+                        room.setStatus(status);
+                        roomRef.setValue(room);
+                    } else if (room.getStatus()!=null && room.getStatus().contains(myTurn+":")) {
+                        status = room.getStatus().replace(myTurn+":","");
+                        room.setStatus(status);
+                        roomRef.setValue(room);
+                    }
+                    match = snapshot.child("match").getValue(Match.class);
+                    setupMulti();
+                    btnSuponer.setEnabled(true);
                 }
-                match = snapshot.child("match").getValue(Match.class);
-                setupMulti();
-                btnSuponer.setEnabled(true);
             }
 
             @Override
@@ -328,7 +331,6 @@ public class ActivityJuego extends AppCompatActivity {
     }
 
     private void suponer() {
-        btnSuponer.setEnabled(false);
 
         if(imagen_personaje == R.drawable.carta_interrogante || imagen_arma == R.drawable.carta_interrogante || imagen_lugar == R.drawable.carta_interrogante)
             Toast.makeText(ActivityJuego.this, getString(R.string.msj3Cartas), Toast.LENGTH_SHORT).show();
@@ -580,7 +582,7 @@ public class ActivityJuego extends AppCompatActivity {
 
                 userTask.setValue(user);//Actualizamos el número de partidas multi
 
-                if (room.getPlayer2().isEmpty() || room.getPlayer1().isEmpty())
+                if ( (room.getPlayer2()==null ||room.getPlayer2().isEmpty()) || (room.getPlayer2()==null || room.getPlayer1().isEmpty()))
                     roomRef.removeValue(); //borramos la sala
                 else {
                     room.setMatch(match);

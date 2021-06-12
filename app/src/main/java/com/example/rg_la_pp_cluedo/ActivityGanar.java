@@ -45,7 +45,6 @@ public class ActivityGanar extends AppCompatActivity {
 
         ArrayList<Integer> murderCards = getIntent().getExtras().getIntegerArrayList("murderCards");
         //TODO: mostrar las culpables
-
         ivPers = findViewById(R.id.ivPers);
         ivPers.setImageResource(MatchHelper.Cards.getImgByRef(murderCards.get(0)));
         ivArma = findViewById(R.id.ivArma);
