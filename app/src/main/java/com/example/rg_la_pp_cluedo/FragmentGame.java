@@ -191,12 +191,6 @@ public class FragmentGame extends Fragment {
                 DatabaseReference lastMatchRef = getMatch(userName, MatchHelper.Mode.SOLO.getB(),num);
                 Integer finalNum = num+1;
                 lastMatchRef.get().addOnCompleteListener(task1 -> {
-                    DataSnapshot s = task1.getResult();
-                    Object m = task1.getResult().getValue();
-                    Match m2 = task1.getResult().getValue(Match.class);
-                    String m3 = task1.getResult().getKey();
-                    Class c = task1.getResult().getClass();
-
                     // Comprobar si la última partida guardada ha terminado o no
                     //TODO: en vez de newMatch tiene que ir abrir algo con 3 opciones para la DIFICULTAD
                     Match match = task1.getResult().getValue(Match.class);
