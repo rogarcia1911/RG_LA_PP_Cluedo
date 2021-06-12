@@ -215,7 +215,17 @@ public class ActivityJuego extends AppCompatActivity {
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                myTurn = shGameMulti.getString("myTurn","");
                 room = snapshot.getValue(Room.class);
+                if (room.getStatus()!=null &&  room.getStatus().equals("Wait")) {
+                    status.replace(myTurn+":","");
+                    room.setStatus(status);
+                    roomRef.setValue(room);
+                } else if (room.getStatus()!=null && room.getStatus().contains(myTurn+":")) {
+                    status = room.getStatus().replace(myTurn+":","");
+                    room.setStatus(status);
+                    roomRef.setValue(room);
+                }
                 match = snapshot.child("match").getValue(Match.class);
                 setupMulti();
                 btnSuponer.setEnabled(true);
@@ -226,12 +236,11 @@ public class ActivityJuego extends AppCompatActivity {
 
             }
         });
-        roomRef.get();
+        roomRef.get();/*
         roomStatusRef = roomRef.child("status");
         roomStatusRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                myTurn = shGameMulti.getString("myTurn","");
+            public void onDataChange(@NonNull DataSnapshot snapshot) {myTurn = shGameMulti.getString("myTurn","");
                 if (snapshot.getValue(String.class)!=null &&  snapshot.getValue(String.class).equals("Wait")) {
                     status.replace(myTurn+":","");
                     roomStatusRef.setValue(status);
@@ -239,6 +248,7 @@ public class ActivityJuego extends AppCompatActivity {
                     status = snapshot.getValue(String.class).replace(myTurn+":","");
                     roomStatusRef.setValue(status);
                 }
+
             }
 
             @Override
@@ -246,7 +256,7 @@ public class ActivityJuego extends AppCompatActivity {
                 roomStatusRef.setValue(status);
             }
         });
-        roomStatusRef.setValue(status);
+        if (status.contains(":")) roomStatusRef.setValue(status);*/
     }
 
     private void setupMulti() {
@@ -486,7 +496,8 @@ public class ActivityJuego extends AppCompatActivity {
                 status = myTurn + ":player2";
             else
                 status = myTurn + ":player1";
-            roomStatusRef.setValue(status);
+            room.setStatus(status);
+            roomRef.setValue(room);
             //TODO: poner pickedCards despues de comprobar aquí o en ??
                 /*
                 cardsPicked.clear();
@@ -564,16 +575,21 @@ public class ActivityJuego extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 User user = task.getResult().getValue(User.class);
-                Integer num = user.getNumSoloMatchs() + 1;
+                Integer num = user.getNumMultiMatchs() + 1;
                 database.getDatabase().getReference("Users/" + userName + "/Matchs/MULTI-" + (num)).setValue(match);
 
                 userTask.setValue(user);//Actualizamos el número de partidas multi
 
                 if (room.getPlayer2().isEmpty() || room.getPlayer1().isEmpty())
                     roomRef.removeValue(); //borramos la sala
-                else
-                    roomRef.child(player).removeValue(); //borramos un jugador
-
+                else {
+                    room.setMatch(match);
+                    if (player.equals("player1"))
+                        room.setPlayer1(""); //borramos un jugador
+                    else
+                        room.setPlayer2(""); //borramos un jugador
+                    roomRef.setValue(room);
+                }
             }
         });
 
