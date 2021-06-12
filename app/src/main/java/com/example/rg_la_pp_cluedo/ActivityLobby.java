@@ -111,7 +111,7 @@ public class ActivityLobby extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                button.setText("Create Room");//TODO: Traducir textos
+                button.setText(R.string.newSala);
                 button.setEnabled(true);
                 //Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
             }

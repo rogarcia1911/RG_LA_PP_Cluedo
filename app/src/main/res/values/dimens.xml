@@ -42,6 +42,7 @@
     <dimen name="E_cartaAlto">100dp</dimen>
 
     <!-- activity_ganar -->
+    <dimen name="G_cartaAlto">229dp</dimen>
     <dimen name="G_cartaAncho">120dp</dimen>
     <dimen name="G_imgTopAncho">150dp</dimen>
     <dimen name="G_imgTopAlto">139dp</dimen>
@@ -50,5 +51,7 @@
     <!-- activity_perder -->
     <dimen name="P_margenTxt">60dp</dimen>
     <dimen name="P_margenBobi">40dp</dimen>
+    <dimen name="G_imgGameAncho">280dp</dimen>
+    <dimen name="G_imgGameAlto">243dp</dimen>
 
 </resources>
