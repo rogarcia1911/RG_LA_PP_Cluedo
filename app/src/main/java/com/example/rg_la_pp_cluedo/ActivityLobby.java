@@ -52,17 +52,6 @@ public class ActivityLobby extends AppCompatActivity {
         shPreferences = getSharedPreferences(getString(R.string.PREFapp),0);
         database = DataBaseConnection.getFirebase();
 
-        //Si pulsa el boton Back le llevará al ActivityMain
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                Intent inicio = new Intent(ActivityLobby.this, ActivityMain.class);
-                startActivity(inicio);
-                //TODO: Borrar sala al salir
-            }
-        };
-        getOnBackPressedDispatcher().addCallback(callback);
-
         playerName = shSettings.getString("userName", "");
         roomName = playerName;
 
@@ -96,7 +85,6 @@ public class ActivityLobby extends AppCompatActivity {
         addRoomsEventListener();
     }
 
-    Match match = null;
     private void addRoomEventListener(){
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -104,7 +92,7 @@ public class ActivityLobby extends AppCompatActivity {
                 button.setText("");//TODO:Traducir textos
                 button.setEnabled(true);
                 String status = null;
-                if(dataSnapshot.getKey().equals("player1") && match==null) {
+                if(dataSnapshot.getKey().equals("player1")) {
                     status = "Wait";
                 }if(dataSnapshot.getKey().equals("player2")) {
                     status = "player1";
@@ -123,7 +111,7 @@ public class ActivityLobby extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                button.setText("");
+                button.setText("Create Room");//TODO: Traducir textos
                 button.setEnabled(true);
                 //Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
             }
@@ -138,7 +126,8 @@ public class ActivityLobby extends AppCompatActivity {
                 roomsList.clear();
                 Iterable<DataSnapshot> rooms = dataSnapshot.getChildren();
                 for(DataSnapshot snapshot: rooms){
-                    roomsList.add(snapshot.getKey());
+                    if (!snapshot.child("player2").exists())
+                        roomsList.add(snapshot.getKey());
 
                     adapter = new ArrayAdapter<>(ActivityLobby.this, android.R.layout.simple_list_item_1, roomsList);
                     listViewLobby.setAdapter(adapter);
