@@ -76,9 +76,10 @@ public class ActivityJuego extends AppCompatActivity {
         setContentView(R.layout.activity_juego);
         shSettings = getSharedPreferences(getString(R.string.PREFsetttings), 0);
         shPreferences = getSharedPreferences(getString(R.string.PREFapp),0);
+        shGameSolo = getSharedPreferences(getString(R.string.PREFsoloGame), Context.MODE_PRIVATE);
+        shGameMulti = getSharedPreferences(getString(R.string.PREFmultiGame), Context.MODE_PRIVATE);
         firebaseConnection = DataBaseConnection.getInstance();
         database = DataBaseConnection.getFirebase(getApplicationContext());
-
 
         isNewMatch = getIntent().getBooleanExtra("gameNew",false);
         isSolo = getIntent().getBooleanExtra("gameMode",true);
@@ -301,24 +302,24 @@ public class ActivityJuego extends AppCompatActivity {
         if(imagen_personaje == R.drawable.carta_interrogante || imagen_arma == R.drawable.carta_interrogante || imagen_lugar == R.drawable.carta_interrogante)
             Toast.makeText(ActivityJuego.this, getString(R.string.msj3Cartas), Toast.LENGTH_SHORT).show();
         else if (murderedCards != null && !murderedCards.isEmpty())
-                comprobar(imagen_personaje, imagen_arma, imagen_lugar);
-            else if (isSolo)
-                matchDataRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                        murderedCards = task.getResult().getValue(Match.class).getMurderCards();
-                        comprobar(imagen_personaje, imagen_arma, imagen_lugar);
-                    }
-                });
-            else {
-                roomRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                        murderedCards = task.getResult().getValue(Match.class).getMurderCards();
-                        comprobar(imagen_personaje, imagen_arma, imagen_lugar);
-                    }
-                });
-            }
+            comprobar(imagen_personaje, imagen_arma, imagen_lugar);
+        else if (isSolo)
+            matchDataRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    murderedCards = task.getResult().getValue(Match.class).getMurderCards();
+                    comprobar(imagen_personaje, imagen_arma, imagen_lugar);
+                }
+            });
+        else {
+            roomRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    murderedCards = task.getResult().getValue(Match.class).getMurderCards();
+                    comprobar(imagen_personaje, imagen_arma, imagen_lugar);
+                }
+            });
+        }
     }
 
     private void setupSolo() {
@@ -502,24 +503,24 @@ public class ActivityJuego extends AppCompatActivity {
      */
     private void cardList() {
         matchDataRef
-            .child("Match").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    murderedCards = null;
-                    for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
-                        Match currentMatch = objSnapshot.getValue(Match.class);
+                .child("Match").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                murderedCards = null;
+                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
+                    Match currentMatch = objSnapshot.getValue(Match.class);
 
-                        if (currentMatch != null){
-                            murderedCards = currentMatch.getMurderCards();
-                        }
+                    if (currentMatch != null){
+                        murderedCards = currentMatch.getMurderCards();
                     }
                 }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
+            }
+        });
     }
 
 
@@ -530,10 +531,12 @@ public class ActivityJuego extends AppCompatActivity {
             editor.remove("gameSoloName");
             editor.remove("gameSoloNum");
             editor.remove("gameSoloCont");
+            shGameSolo.edit().clear().apply();
         } else {
 
             editor.remove("gameMultiName");
             editor.remove("gameMultiNum");
+            shGameMulti.edit().clear().apply();
         }
         editor.apply();
         match.setResultGame(resultado);
