@@ -194,6 +194,7 @@ public class FragmentGame extends Fragment {
                     DataSnapshot s = task1.getResult();
                     Object m = task1.getResult().getValue();
                     Match m2 = task1.getResult().getValue(Match.class);
+                    String m3 = task1.getResult().getKey();
                     Class c = task1.getResult().getClass();
 
                     // Comprobar si la última partida guardada ha terminado o no

@@ -538,12 +538,10 @@ public class ActivityJuego extends AppCompatActivity {
             editor.remove("gameSoloName");
             editor.remove("gameSoloNum");
             editor.remove("gameSoloCont");
-            shGameSolo.edit().clear().apply();
         } else {
 
             editor.remove("gameMultiName");
             editor.remove("gameMultiNum");
-            shGameMulti.edit().clear().apply();
         }
         editor.apply();
         match.setResultGame(resultado);
