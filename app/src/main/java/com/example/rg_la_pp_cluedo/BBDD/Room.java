@@ -10,7 +10,6 @@ public class Room {
     private String player1;
     private String player2;
     private ArrayList<Integer> cardsPicked;
-    private ArrayList<ChatMessage> Chat;
 
 
     public Room() {
@@ -20,14 +19,13 @@ public class Room {
 
 
     public Room(String name, String turn, String status, String player1, String player2, Match match, ArrayList<Integer> cardsPicked,
-                ArrayList<Player> Players, ArrayList<ChatMessage> Chat) {
+                ArrayList<Player> Players) {
         this.name=name;
         this.status = status;
         this.match = match;
         this.player1 = player1;
         this.player2 = player2;
         this.cardsPicked = cardsPicked;
-        this.Chat = Chat;
 
     }
 
@@ -53,14 +51,6 @@ public class Room {
 
     public void setPlayer2(String player2) {
         this.player2 = player2;
-    }
-
-    public ArrayList<ChatMessage> getChat() {
-        return Chat;
-    }
-
-    public void setChat(ArrayList<ChatMessage> Chat) {
-        this.Chat = Chat;
     }
 
     public ArrayList<Integer> getCardsPicked() {
