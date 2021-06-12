@@ -296,7 +296,7 @@ public class ActivityElegirPersonaje extends AppCompatActivity {
         Intent main = new Intent(ActivityElegirPersonaje.this, ActivityJuego
                 .class);
         main.putExtra("imagen_personaje", aux);
-
+        main.putExtra("gameMode",getIntent().getBooleanExtra("gameMode", true));
         startActivity(main);
     }
 

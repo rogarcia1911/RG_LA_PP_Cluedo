@@ -145,6 +145,7 @@ public class FragmentHistory extends Fragment {
     private void list() {
         if (matchList != null && !matchList.isEmpty()) {
             iniciar();
+            int num = matchList.size();;
             for (Match matchObj : matchList) {
                 Date totalTime = null;
                 Long temp = null;
@@ -152,7 +153,7 @@ public class FragmentHistory extends Fragment {
                     totalTime = new Date(Long.parseLong(matchObj.getEndingDate() - matchObj.getBeginningDate()+""));
 
                 //TODO: dejamos el id? solo 1 y multi 1
-                //tvId.setText( ((String) tvId.getText()) + matchObj.getNum() + "\n" );
+                //tvId.setText( ((String) tvId.getText()) + num + "\n" );
 
                 tvMode.setText( ((String) tvMode.getText()) +
                         (matchObj.getIsSolo() ? MatchHelper.Mode.SOLO.name() : MatchHelper.Mode.MULTI.name()) + "\n" );

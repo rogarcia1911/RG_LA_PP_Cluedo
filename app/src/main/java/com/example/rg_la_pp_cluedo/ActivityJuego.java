@@ -53,9 +53,9 @@ public class ActivityJuego extends AppCompatActivity {
     private Button btnSuponer;
     private TextView tvCont;
 
-    SharedPreferences shSettings, shPreferences, shGameSolo, shGameMulti;
+    SharedPreferences shSettings, shPreferences, shGameMulti;
     DataBaseConnection firebaseConnection = null;
-    DatabaseReference database, matchDataRef, roomRef;
+    DatabaseReference database, matchDataRef, roomRef, roomStatusRef;
     Match match;
     //Atributos MULTI
     Room room;
@@ -76,8 +76,7 @@ public class ActivityJuego extends AppCompatActivity {
         setContentView(R.layout.activity_juego);
         shSettings = getSharedPreferences(getString(R.string.PREFsetttings), 0);
         shPreferences = getSharedPreferences(getString(R.string.PREFapp),0);
-        shGameSolo = getSharedPreferences(getString(R.string.PREFsoloGame), Context.MODE_PRIVATE);
-        shGameMulti = getSharedPreferences(getString(R.string.PREFmultiGame), Context.MODE_PRIVATE);
+        shGameMulti = getSharedPreferences(getString(R.string.PREFmultiGame),0);
         firebaseConnection = DataBaseConnection.getInstance();
         database = DataBaseConnection.getFirebase(getApplicationContext());
 
@@ -103,26 +102,13 @@ public class ActivityJuego extends AppCompatActivity {
                                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    String userName = shSettings.getString("userName","");
-                                    Match match = room.getMatch();
-                                    //match.setRoomName(room.getName());
-                                    match.setResultGame(false);
-                                    match.setEndingDate(System.currentTimeMillis());
-                                    if (room.getStatus()!="Wait") {
-                                        database.getDatabase().getReference("Users/"+userName+"/User").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                                Integer num = task.getResult().getValue(User.class).getNumMultiMatchs();
-                                                database.getDatabase().getReference("Users/"+userName+"/Matchs/MULTI-"+(num+1)).setValue(room.getMatch());
-                                                roomRef.setValue(room);
-                                            }
-                                        });
-                                        Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
-                                        lose.putExtra("murderCards", murderedCards);
-                                        startActivity(lose);
+                                    if (shGameMulti.getString("status","").equals("Wait")) {
+                                        terminarPartidaMulti(false);
                                     } else {
+                                        roomRef.removeValue();
                                         Intent inicio = new Intent(ActivityJuego.this, ActivityMain.class);
                                         startActivity(inicio);
+                                        shGameMulti.edit().clear().apply();
                                     }
                                 }
                             })
@@ -180,6 +166,7 @@ public class ActivityJuego extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent activity_personaje = new Intent(ActivityJuego.this, ActivityElegirPersonaje.class);
+                activity_personaje.putExtra("gameMode",match.getIsSolo());
                 startActivity(activity_personaje);
             }
         });
@@ -189,6 +176,7 @@ public class ActivityJuego extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent activity_arma = new Intent(ActivityJuego.this, ActivityElegirArma.class);
+                activity_arma.putExtra("gameMode",match.getIsSolo());
                 startActivity(activity_arma);
             }
         });
@@ -198,6 +186,7 @@ public class ActivityJuego extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent activity_habitacion = new Intent(ActivityJuego.this, ActivityElegirHabitacion.class);
+                activity_habitacion.putExtra("gameMode",match.getIsSolo());
                 startActivity(activity_habitacion);
             }
         });
@@ -219,14 +208,27 @@ public class ActivityJuego extends AppCompatActivity {
 
     }//FIN onCreate
 
-    public void getRoom() {
-        String roomName = getIntent().getStringExtra("roomName");
+    private void getRoom() {
+        String roomName = shGameMulti.getString("roomName", "");
+        status = shGameMulti.getString("status", "");
         roomRef = database.getDatabase().getReference("Rooms/"+roomName);
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                myTurn = shGameMulti.getString("myTurn","");
                 room = snapshot.getValue(Room.class);
+                if (room.getStatus()!=null &&  room.getStatus().equals("Wait")) {
+                    status.replace(myTurn+":","");
+                    room.setStatus(status);
+                    roomRef.setValue(room);
+                } else if (room.getStatus()!=null && room.getStatus().contains(myTurn+":")) {
+                    status = room.getStatus().replace(myTurn+":","");
+                    room.setStatus(status);
+                    roomRef.setValue(room);
+                }
+                match = snapshot.child("match").getValue(Match.class);
                 setupMulti();
+                btnSuponer.setEnabled(true);
             }
 
             @Override
@@ -234,53 +236,79 @@ public class ActivityJuego extends AppCompatActivity {
 
             }
         });
-        roomRef.get();
+        roomRef.get();/*
+        roomStatusRef = roomRef.child("status");
+        roomStatusRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {myTurn = shGameMulti.getString("myTurn","");
+                if (snapshot.getValue(String.class)!=null &&  snapshot.getValue(String.class).equals("Wait")) {
+                    status.replace(myTurn+":","");
+                    roomStatusRef.setValue(status);
+                } else if (snapshot.getValue(String.class)!=null &&snapshot.getValue(String.class).contains(myTurn+":")) {
+                    status = snapshot.getValue(String.class).replace(myTurn+":","");
+                    roomStatusRef.setValue(status);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                roomStatusRef.setValue(status);
+            }
+        });
+        if (status.contains(":")) roomStatusRef.setValue(status);*/
     }
 
     private void setupMulti() {
-        String userName = shSettings.getString("userName","");
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            roomName = getIntent().getStringExtra("roomName");
-            status = getIntent().getStringExtra("status");
-            myTurn = getIntent().getStringExtra("myTurn");
+        // Si un jugador se ha ido el jugaador que queda termina la partida con el resultado contrario
+        if (!room.getStatus().equals("Wait") && room==null || room==null){
+            if (room.getMatch().getResultGame())
+                terminarPartidaMulti(false);
+            else
+                terminarPartidaMulti(true);
+            return;
         }
-        roomRef = database.getDatabase().getReference("Rooms/"+roomName);
-        ArrayList<Integer> murderCards = getIntent().getExtras().getIntegerArrayList("murderCards");
+        //room y match
+        String roomName = shGameMulti.getString("roomName", "");
+        String myTurn = shGameMulti.getString("myTurn", "");
+        String status = shGameMulti.getString("status", "");
 
-        if (!status.equals("Wait")) {
-            if (myTurn.equals(room.getStatus())){
-                btnSuponer.setText(R.string.btSospechar);
-                btnSuponer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        suponer();
-                    }
-                });
-            } else {
-                //roomRef.getParent().child("status").setValue(status);
-                if (room.getStatus().equals("Wait"))
-                    btnSuponer.setText(R.string.newSala); //TODO: Traducir textos
-                if (!room.getStatus().equals(myTurn))
-                    btnSuponer.setText(R.string.esperaTuTurno);
-                btnSuponer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (room.getStatus().equals("Wait"))
-                            Toast.makeText(getApplicationContext(), "Wait",Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        } else if (match == null) {
+
+        if (match == null)  {
+
             room.setName(roomName);
             match = new Match();
-            match.setName("MULTI");
+            match.setName(MatchHelper.Mode.MULTI.name());
             match.setBeginningDate(System.currentTimeMillis()); //Con un new Date convertimos los milisegundos a fecha
             match.setIsSolo(false);
-            match.setMurderCards(murderCards);
+            match.setMurderCards(getIntent().getExtras().getIntegerArrayList("murderedCards"));
             room.setMatch(match);
             room.setStatus(status);
             roomRef.setValue(room);
+
+        }
+
+        murderedCards = match.getMurderCards();
+
+        if (myTurn.equals(room.getStatus())){
+            btnSuponer.setText(R.string.btSospechar);
+            btnSuponer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    suponer();
+                }
+            });
+        } else {
+            btnSuponer.setText("Wait");//TODO: Traducir texto
+            btnSuponer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (room.getStatus().equals("Wait"))
+                        Toast.makeText(getApplicationContext(), R.string.espera,Toast.LENGTH_SHORT).show();
+                    else if (!room.getStatus().equals(myTurn))
+                        Toast.makeText(getApplicationContext(), R.string.esperaTuTurno,Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         btnChat.setVisibility(View.VISIBLE);
@@ -288,7 +316,8 @@ public class ActivityJuego extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent chat = new Intent(getApplicationContext(), ActivityChat.class);
-                chat.putExtra("roomName",room.getName());
+                chat.putExtra("roomName", room.getName());
+                chat.putExtra("gameMode", false);
                 startActivity(chat);
             }
         });
@@ -299,6 +328,8 @@ public class ActivityJuego extends AppCompatActivity {
     }
 
     private void suponer() {
+        btnSuponer.setEnabled(false);
+
         if(imagen_personaje == R.drawable.carta_interrogante || imagen_arma == R.drawable.carta_interrogante || imagen_lugar == R.drawable.carta_interrogante)
             Toast.makeText(ActivityJuego.this, getString(R.string.msj3Cartas), Toast.LENGTH_SHORT).show();
         else if (murderedCards != null && !murderedCards.isEmpty())
@@ -315,7 +346,8 @@ public class ActivityJuego extends AppCompatActivity {
             roomRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    murderedCards = task.getResult().getValue(Match.class).getMurderCards();
+                    Match match = task.getResult().child("match").getValue(Match.class);
+                    murderedCards = match.getMurderCards();
                     comprobar(imagen_personaje, imagen_arma, imagen_lugar);
                 }
             });
@@ -329,43 +361,43 @@ public class ActivityJuego extends AppCompatActivity {
     }
 
     private void getMatch() {
-        if(isSolo){
-            String userName = shSettings.getString("userName","");
-            String matchName = shPreferences.getString("gameSoloName",""); // o recuperar la de Multi
-            matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+matchName);
-            matchDataRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    match = snapshot.getValue(Match.class);
-                    if (match!=null){
-                        if (murderedCards == null)
-                            murderedCards = match.getMurderCards();
-                        //Toast.makeText(getApplicationContext(), "isNewMatch  "+isNewMatch + " isSolo" + match.getIsSolo(), Toast.LENGTH_SHORT).show();
+        btnSuponer.setEnabled(true);
+        String userName = shSettings.getString("userName","");
+        String matchName = shPreferences.getString("gameSoloName",""); // o recuperar la de Multi
+        matchDataRef = database.getDatabase().getReference("Users/"+userName+"/Matchs/"+matchName);
+        matchDataRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                match = snapshot.getValue(Match.class);
+                if (match!=null){
+                    if (murderedCards == null)
+                        murderedCards = match.getMurderCards();
+                    //Toast.makeText(getApplicationContext(), "isNewMatch  "+isNewMatch + " isSolo" + match.getIsSolo(), Toast.LENGTH_SHORT).show();
 
-                        if (match.getEndingDate()!=0L){
-                            if (match.getResultGame()) {
-                                Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
-                                win.putExtra("murderCards",murderedCards);
-                                startActivity(win);
-                            } else {
-                                Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
-                                lose.putExtra("murderCards",murderedCards);
-                                startActivity(lose);
-                            }
+                    if (match.getEndingDate()!=0L){
+                        if (match.getResultGame()) {
+                            Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
+                            win.putExtra("murderCards",murderedCards);
+                            startActivity(win);
+                        } else {
+                            Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
+                            lose.putExtra("murderCards",murderedCards);
+                            startActivity(lose);
                         }
                     }
                 }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    //Toast.makeText(getApplicationContext(),"No se ha podido recuperar la partida.",Toast.LENGTH_SHORT).show();
-                }
-            });
-            if( match == null )
-                matchDataRef.get();
-            else
-                matchDataRef.setValue(match);
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //Toast.makeText(getApplicationContext(),"No se ha podido recuperar la partida.",Toast.LENGTH_SHORT).show();
+            }
+        });
+        if( match == null )
+            matchDataRef.get();
+        else
+            matchDataRef.setValue(match);
+
     }
 
     //Método que modifica el tvCont
@@ -460,19 +492,34 @@ public class ActivityJuego extends AppCompatActivity {
             contador--;
             cambiar_cont(contador);
         } else {
+            if (myTurn.equals("player1"))
+                status = myTurn + ":player2";
+            else
+                status = myTurn + ":player1";
+            room.setStatus(status);
+            roomRef.setValue(room);
             //TODO: poner pickedCards despues de comprobar aquí o en ??
                 /*
                 cardsPicked.clear();
                 cardsPicked.add(MatchHelper.Cards.getRefByImg(imagen_personaje));
                 cardsPicked.add(MatchHelper.Cards.getRefByImg(imagen_arma));
                 cardsPicked.add(MatchHelper.Cards.getRefByImg(imagen_lugar));
-                roomRef.child("cardsPicked").setValue(cardsPicked);*/
+                changeStatus() {
+                    if (cardsPicked != null)
+                        roomRef.child("cardsPicked").setValue(cardsPicked);
+                }
+                cardsPicked.clear();
+                */
         }
+
         //comprobar si hay 1 correcta, comprobar si hay dos correctas o si estan todas correctas
         if(MatchHelper.Cards.getImgByRef(murderedCards.get(0)) == imagen_personaje &&
                 MatchHelper.Cards.getImgByRef(murderedCards.get(1)) == imagen_arma &&
                 MatchHelper.Cards.getImgByRef(murderedCards.get(2)) == imagen_lugar)
-            terminarPartida(true); //Terminamos la partida ganando y vamos a ActivityGanar
+            if (isSolo)
+                terminarPartida(true); //Terminamos la partida ganando y vamos a ActivityGanar
+            else
+                terminarPartidaMulti(true);
         else {
             //Si el contador es 0 termina la partida
             if(isSolo && contador <= 0)
@@ -486,6 +533,7 @@ public class ActivityJuego extends AppCompatActivity {
 
                 //Llamamos el método incorecta para mostrar las cartas incorrectas
                 incorrecta(cartasInc); //TODO: para que no se cierre tan rapido algunas veces hay que ponerlo en el task de firebase
+
             }
 
         }
@@ -494,50 +542,20 @@ public class ActivityJuego extends AppCompatActivity {
 
     //Método del botón Rendirse
     public void rendirse(View view) {
-        terminarPartida(false);
+        if (isSolo)
+            terminarPartida(false);
+        else
+            terminarPartidaMulti(false);
         reiniciarCartas();
-    }
-
-    /**
-     * Check if this node is != null and transform array in arrayList
-     */
-    private void cardList() {
-        matchDataRef
-                .child("Match").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                murderedCards = null;
-                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
-                    Match currentMatch = objSnapshot.getValue(Match.class);
-
-                    if (currentMatch != null){
-                        murderedCards = currentMatch.getMurderCards();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
 
     //Modifica fin, tiempoTot y Resultado de la última partida
     public void terminarPartida(boolean resultado) {
         SharedPreferences.Editor editor = shPreferences.edit();
-        if (isSolo) {
-            editor.remove("gameSoloName");
-            editor.remove("gameSoloNum");
-            editor.remove("gameSoloCont");
-            shGameSolo.edit().clear().apply();
-        } else {
-
-            editor.remove("gameMultiName");
-            editor.remove("gameMultiNum");
-            shGameMulti.edit().clear().apply();
-        }
+        editor.remove("gameSoloName");
+        editor.remove("gameSoloNum");
+        editor.remove("gameSoloCont");
         editor.apply();
         match.setResultGame(resultado);
         match.setEndingDate(System.currentTimeMillis());
@@ -546,6 +564,48 @@ public class ActivityJuego extends AppCompatActivity {
 
 
     }//FIN terminarPartida
+
+    private void terminarPartidaMulti(boolean resultado) {
+        String userName = shSettings.getString("userName","");
+        String player = shGameMulti.getString("myTurn","");
+        match.setResultGame(resultado);
+        match.setEndingDate(System.currentTimeMillis());
+        DatabaseReference userTask = database.getDatabase().getReference("Users/" + userName + "/User");
+        userTask.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                User user = task.getResult().getValue(User.class);
+                Integer num = user.getNumMultiMatchs() + 1;
+                database.getDatabase().getReference("Users/" + userName + "/Matchs/MULTI-" + (num)).setValue(match);
+
+                userTask.setValue(user);//Actualizamos el número de partidas multi
+
+                if (room.getPlayer2().isEmpty() || room.getPlayer1().isEmpty())
+                    roomRef.removeValue(); //borramos la sala
+                else {
+                    room.setMatch(match);
+                    if (player.equals("player1"))
+                        room.setPlayer1(""); //borramos un jugador
+                    else
+                        room.setPlayer2(""); //borramos un jugador
+                    roomRef.setValue(room);
+                }
+            }
+        });
+
+        shGameMulti.edit().clear().apply();
+
+        if (resultado){
+            Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
+            win.putExtra("murderCards", murderedCards);
+            startActivity(win);
+        } else {
+            Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
+            lose.putExtra("murderCards", murderedCards);
+            startActivity(lose);
+        }
+
+    }// FIN terminarPartidaMulti
 
     //Método reinicia todas las imagenes
     public void reiniciarCartas() {

@@ -295,6 +295,7 @@ public class ActivityElegirHabitacion extends AppCompatActivity {
         Intent main = new Intent(ActivityElegirHabitacion.this, ActivityJuego
                 .class);
         main.putExtra("imagen_lugar", aux);
+        main.putExtra("gameMode",getIntent().getBooleanExtra("gameMode", true));
 
         startActivity(main);
     }
