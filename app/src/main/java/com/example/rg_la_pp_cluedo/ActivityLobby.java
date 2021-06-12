@@ -89,21 +89,25 @@ public class ActivityLobby extends AppCompatActivity {
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                button.setText("");//TODO:Traducir textos
+                SharedPreferences shGameMulti = getSharedPreferences(getString(R.string.PREFmultiGame),0);
+                button.setText(R.string.newSala);
                 button.setEnabled(true);
                 String status = null;
                 if(dataSnapshot.getKey().equals("player1")) {
                     status = "Wait";
                 }if(dataSnapshot.getKey().equals("player2")) {
-                    status = "player1";
+                    status = "player2:player1";
                 }
 
-                if (status!=null){
+                if (!shGameMulti.contains("roomName")){
+                    SharedPreferences.Editor editor = shGameMulti.edit();
+                    editor.putString("roomName", roomName);
+                    editor.putString("myTurn",dataSnapshot.getKey());
+                    editor.putString("status", status);
+                    editor.apply();
                     Intent intent = new Intent(getApplicationContext(), ActivityJuego.class);
-                    intent.putExtra("roomName", roomName);
-                    intent.putExtra("murderCards", generarCartasCulpables());
-                    intent.putExtra("myTurn",dataSnapshot.getKey());
-                    intent.putExtra("status", status);
+                    intent.putExtra("murderedCards", generarCartasCulpables());
+                    intent.putExtra("gameNew",true);
                     intent.putExtra("gameMode",false);
                     startActivity(intent);
                 }
@@ -119,8 +123,8 @@ public class ActivityLobby extends AppCompatActivity {
     }
 
     private void addRoomsEventListener(){
-        roomRef = database.getDatabase().getReference("Rooms");
-        roomRef.addValueEventListener(new ValueEventListener() {
+        rooms = database.getDatabase().getReference("Rooms");
+        rooms.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 roomsList.clear();

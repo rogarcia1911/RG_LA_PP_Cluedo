@@ -295,6 +295,7 @@ public class ActivityElegirArma extends AppCompatActivity {
         Intent main = new Intent(ActivityElegirArma.this, ActivityJuego
                 .class);
         main.putExtra("imagen_arma", aux);
+        main.putExtra("gameMode",getIntent().getBooleanExtra("gameMode", true));
 
         startActivity(main);
     }

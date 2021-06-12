@@ -11,6 +11,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -44,6 +45,7 @@ public class ActivityMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSharedPreferences(getString(R.string.PREFmultiGame),0).edit().clear().apply();//Si salimos de una partida multi perdemos todos los datos
 
         firebaseConnection = DataBaseConnection.getInstance();
         DataBaseConnection.getFirebase(getApplicationContext());
