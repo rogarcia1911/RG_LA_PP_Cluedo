@@ -15,6 +15,7 @@
     <!-- activity_loggin -->
     <string name="err_CargaPartida_2">Error al cargar la partida</string>
     <string name="msg_espera">Espera a otro jugador</string>
+    <string name="newSala">Create Room</string>
 
 
     <!-- activity_reglas -->
@@ -86,6 +87,8 @@
     <string name="txt_Pmulti">Multiplayer games</string>
     <string name="valideCampos">You must fill all the fields</string>
     <string name="err_inico_Sesion">Failed to retrieve session. log back in</string>
+    <string name="espera">Wait another player</string>
+    <string name="esperaTuTurno">Wait your turn</string>
     <!-- MatchHelper -->
     <string name="tvCardDefault">Carta</string>
     <!-- activity_elegir_personaje -->

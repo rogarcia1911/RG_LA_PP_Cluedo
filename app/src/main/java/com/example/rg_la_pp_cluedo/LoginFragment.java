@@ -236,7 +236,6 @@ public class LoginFragment extends Fragment {
         final EditText dsgPassword = view.findViewById(R.id.dsgPassword);
 
         builder.setView(view)
-                // TODO: Traducir textos
                 .setPositiveButton(R.string.txt_sign_in, (dialog, which) -> {
                     String tag = "SignIn.";
                     // sign in the user ...
@@ -244,7 +243,6 @@ public class LoginFragment extends Fragment {
                     String email = dsgEmail.getText().toString();
                     String password = dsgPassword.getText().toString();
                     if (userName.contains("@")){
-                        // TODO: Traducir textos
                         Toast.makeText(getContext(), R.string.err_validadoEmail, Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -252,7 +250,6 @@ public class LoginFragment extends Fragment {
                         // recuperamos el email de la base de datos
                         Task<DataSnapshot> user = database.child("Users").child(userName).child("User").get();
                         user.addOnCompleteListener(taskUser -> {
-                            //TODO: Traducir textos
                             btSignIn.setText(R.string.txt_sign_in);
                             btSignIn.setEnabled(false);
                             User userTask = taskUser.getResult().getValue(User.class);
@@ -262,16 +259,16 @@ public class LoginFragment extends Fragment {
                                         newPlayer(userName, email);
 
                                         ViewDataUser();
-                                        //TODO: Traducir textos
-                                        Toast.makeText(getContext(), "Usuario creado", Toast.LENGTH_SHORT).show();
+
+                                        Toast.makeText(getContext(), R.string.txt_usuario_ok, Toast.LENGTH_SHORT).show();
                                     } else {
-                                        //TODO: Traducir textos de error
+
                                         if (task.getException().getClass() == com.google.firebase.auth.FirebaseAuthInvalidCredentialsException.class) {
-                                            Toast.makeText(getContext(), tag + " El email no es válido.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), tag + R.string.err_email, Toast.LENGTH_LONG).show();
                                         } else if (task.getException().getClass() == com.google.firebase.auth.FirebaseAuthWeakPasswordException.class) {
-                                            Toast.makeText(getContext(), tag + " La contraseña tiene que tener como mínimo 6 caracteres.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), tag +R.string.err_contraseña, Toast.LENGTH_LONG).show();
                                         } else if (task.getException().getClass() == com.google.firebase.auth.FirebaseAuthUserCollisionException.class) {
-                                            Toast.makeText(getContext(), tag + " Este email ya está registrado.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), tag + R.string.err_email_si, Toast.LENGTH_LONG).show();
                                         } else {
                                             Toast.makeText(getContext(), tag, Toast.LENGTH_LONG).show();
                                         }
@@ -288,8 +285,7 @@ public class LoginFragment extends Fragment {
                         });
                     }
                 })
-                //TODO: Traducir textos
-                .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+                .setNegativeButton(R.string.txt_cancel, (dialog, which) -> dialog.cancel());
 
         final AlertDialog dialog = builder.create();
         dialog.show();

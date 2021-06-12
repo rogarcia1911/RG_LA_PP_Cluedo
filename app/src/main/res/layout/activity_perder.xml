@@ -9,27 +9,63 @@
     tools:context=".ActivityPerder">
 
     <ImageView
+        android:id="@+id/ivHab3"
+        android:layout_width="@dimen/G_cartaAncho"
+        android:layout_height="229dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivArma3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivArma3"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/carta_interrogante" />
+
+    <ImageView
+        android:id="@+id/ivArma3"
+        android:layout_width="@dimen/G_cartaAncho"
+        android:layout_height="229dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPers3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivPers3"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/carta_interrogante" />
+
+    <ImageView
+        android:id="@+id/ivPers3"
+        android:layout_width="@dimen/G_cartaAncho"
+        android:layout_height="229dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivArma3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.90999997"
+        app:srcCompat="@drawable/carta_interrogante" />
+
+    <ImageView
         android:id="@+id/ivBobiMuerto"
         android:layout_width="242dp"
         android:layout_height="184dp"
         android:layout_margin="@dimen/P_margenBobi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.581"
         app:srcCompat="@drawable/bobi_muerto" />
 
     <ImageView
         android:id="@+id/ivTexto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/G_imgGameAncho"
+        android:layout_height="@dimen/G_imgGameAlto"
         android:layout_margin="@dimen/P_margenTxt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.61"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/texto_perder" />
 </androidx.constraintlayout.widget.ConstraintLayout>

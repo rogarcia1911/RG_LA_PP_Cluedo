@@ -260,9 +260,9 @@ public class ActivityJuego extends AppCompatActivity {
             } else {
                 //roomRef.getParent().child("status").setValue(status);
                 if (room.getStatus().equals("Wait"))
-                    btnSuponer.setText("Wait another player"); //TODO: Traducir textos
+                    btnSuponer.setText(R.string.newSala); //TODO: Traducir textos
                 if (!room.getStatus().equals(myTurn))
-                    btnSuponer.setText("Wait your turn");
+                    btnSuponer.setText(R.string.esperaTuTurno);
                 btnSuponer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
