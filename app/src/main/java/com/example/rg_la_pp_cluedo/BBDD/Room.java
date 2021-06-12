@@ -3,29 +3,29 @@ package com.example.rg_la_pp_cluedo.BBDD;
 import java.util.ArrayList;
 
 public class Room {
-
-    private String name;
-    private Integer turn;
-    private Long endDate;
-    private ArrayList<Player> Players;
-    private ArrayList<Integer> CardsPicked;
-    private ArrayList<ChatMessage> Chat;
+//TODO: revisar los atrbutos, constructor y métodos setter y getter
+    String name;
+    private String status;
+    private Match match;
+    private String player1;
+    private String player2;
+    private ArrayList<Integer> cardsPicked;
 
 
     public Room() {
         name = "";
-        turn = 0;
-        endDate = 0L;
+        status = "";
     }
 
 
-    public Room(String name, Integer turn, Long endDate, ArrayList<Integer> CardsPicked,
-                ArrayList<Player> Players, ArrayList<ChatMessage> Chat) {
-        this.name = name;
-        this.turn = turn;
-        this.endDate = endDate;
-        this.CardsPicked = CardsPicked;
-        this.Players = Players;
+    public Room(String name, String turn, String status, String player1, String player2, Match match, ArrayList<Integer> cardsPicked,
+                ArrayList<Player> Players) {
+        this.name=name;
+        this.status = status;
+        this.match = match;
+        this.player1 = player1;
+        this.player2 = player2;
+        this.cardsPicked = cardsPicked;
 
     }
 
@@ -37,43 +37,43 @@ public class Room {
         this.name = name;
     }
 
-    public Integer getTurn() {
-        return turn;
+    public String getPlayer1() {
+        return player1;
     }
 
-    public void setTurn(Integer turn) {
-        this.turn = turn;
+    public void setPlayer1(String player1) {
+        this.player1 = player1;
     }
 
-    public ArrayList<Player> getPlayers() {
-        return Players;
+    public String getPlayer2() {
+        return player2;
     }
 
-    public void setPlayers(ArrayList<Player> Players) {
-        this.Players = Players;
-    }
-
-    public ArrayList<ChatMessage> getChat() {
-        return Chat;
-    }
-
-    public void setChat(ArrayList<ChatMessage> Chat) {
-        this.Chat = Chat;
+    public void setPlayer2(String player2) {
+        this.player2 = player2;
     }
 
     public ArrayList<Integer> getCardsPicked() {
-        return CardsPicked;
+        return cardsPicked;
     }
 
-    public void setCardsPicked(ArrayList<Integer> CardsPicked) {
-        this.CardsPicked = CardsPicked;
+    public void setCardsPicked(ArrayList<Integer> cardsPicked) {
+        this.cardsPicked = cardsPicked;
     }
 
-    public Long getEndDate() {
-        return endDate;
+    public String getStatus() {
+        return status;
     }
 
-    public void setEndDate(Long ended) {
-        this.endDate = endDate;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Match getMatch() {
+        return match;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
     }
 }

@@ -82,12 +82,8 @@ public class LoginFragment extends Fragment {
             addEventListener();
             userDataRef.get();
             UserName.setText("Recuperando datos ...");
-            //TODO: Traducir textos
-            Toast.makeText(getContext(), "Sesión ya iniciada", Toast.LENGTH_SHORT).show();
         } else {
             ViewSingIn();
-            //TODO: Traducir textos
-            Toast.makeText(getContext(), "No hay sesión iniciada", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -231,20 +227,16 @@ public class LoginFragment extends Fragment {
                     });
                 else
                     Toast.makeText(getContext(), tag + " No exite ese nombre de usuario.", Toast.LENGTH_SHORT).show();
-                //TODO: Traducir textos
-                Toast.makeText(getContext(),"ValidadoConUserName",Toast.LENGTH_SHORT).show();
 
                 //TODO: Traducir textos
                 btLogIn.setText("Log In");
                 btLogIn.setEnabled(true);
             });
-        } else {
-            //TODO: Traducir textos
-            Toast.makeText(getContext(),"Validate. No se ha podido iniciar sesión",Toast.LENGTH_SHORT).show();
         }
     }
 
     private void dialogSignIn() {
+        Context context = getContext();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_signin, null);
@@ -304,9 +296,6 @@ public class LoginFragment extends Fragment {
                             btSignIn.setText("Sign In");
                             btSignIn.setEnabled(true);
                         });
-                    } else {
-                        //TODO: Traducir textos
-                        Toast.makeText(getContext(),"(Validate)No se ha podido registrar",Toast.LENGTH_SHORT).show();
                     }
                 })
                 //TODO: Traducir textos
@@ -332,7 +321,8 @@ public class LoginFragment extends Fragment {
         //TODO: traducir textos
 
         ivAvatar.setImageResource((user!=null) ? user.getAvatar() : R.drawable.personaje_amapola);
-        UserName.setText((user!=null) ? user.getName() : shSettings.getString("userName", "NotFound"));
+        //TODO: traducir textos
+        UserName.setText((user!=null) ? user.getName() : shSettings.getString("userName", "UserName"));
         //TODO: Traducir textos
         tvDataLabel.setText("Email\n" +
                             "Puntos\n" +
@@ -383,7 +373,7 @@ public class LoginFragment extends Fragment {
         ArrayList<String> idiomas= new ArrayList<>();
         idiomas.add("Español");
         idiomas.add("Ingles");
-        ArrayAdapter<String> abp= new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_spinner_item,idiomas);
+        ArrayAdapter<String> abp= new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1,idiomas);
         idiomSpinner.setAdapter(abp);
         idiomSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

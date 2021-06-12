@@ -87,6 +87,7 @@
                     android:id="@+id/tvDataTitle"
                     android:layout_width="317dp"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="User Data" />
 
                 <LinearLayout
