@@ -64,6 +64,7 @@ public class LoginFragment extends Fragment {
         database = DataBaseConnection.getFirebase();
         mAuth = FirebaseAuth.getInstance();
 
+
         ivAvatar = getView().findViewById(R.id.ivAvatar);
         UserName = getView().findViewById(R.id.UserName);
         llvDataUser = getView().findViewById(R.id.llvDataUser);
@@ -77,7 +78,7 @@ public class LoginFragment extends Fragment {
             userDataRef = database.getDatabase().getReference("Users/"+shSettings.getString("userName","@")+"/User");
             addEventListener();
             userDataRef.get();
-            UserName.setText("Recuperando datos ...");
+            UserName.setText(R.string.txt_recuperando);
         } else {
             ViewSingIn();
         }
@@ -97,8 +98,7 @@ public class LoginFragment extends Fragment {
                 //Iniciando sesión
                 logIn();
                 etPassword.setText("");
-                //TODO: Traducir textos
-                btLogIn.setText("LOG IN");
+                btLogIn.setText(R.string.txt_login);
                 btLogIn.setEnabled(true);
             }
         });
@@ -107,8 +107,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 dialogSignIn();
-                //TODO: Traducir textos
-                btSignIn.setText("SIGN IN");
+                btSignIn.setText(R.string.txt_sign_in);
                 btSignIn.setEnabled(true);
             }
         });
@@ -166,7 +165,7 @@ public class LoginFragment extends Fragment {
                     SharedPreferences.Editor edit = shSettings.edit();
                     edit.putString("userName","");
                     edit.apply();
-                    Toast.makeText(getContext(),"Error al recuperar la sesión. vuelve a iniciar sesión.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),R.string.err_inico_Sesion,Toast.LENGTH_SHORT).show();
                     ViewSingIn();
                 }
             }
@@ -174,8 +173,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // ERROR al iniciar sesión
-                // TODO : Texto para traducir
-                Toast.makeText(getContext(),"Error al iniciar sesión",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),R.string.err_error_sesion,Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -188,8 +186,7 @@ public class LoginFragment extends Fragment {
             // recuperamos el email de la base de datos
             Task<DataSnapshot> email = database.child("Users").child(userName).child("User").child("email").get();
             email.addOnCompleteListener(taskEmail -> {
-                //TODO: Traducir textos
-                btLogIn.setText("Logging in");
+                btLogIn.setText(R.string.txt_sign_in);
                 btLogIn.setEnabled(false);
                 String sEmail = taskEmail.getResult().getValue(userName.getClass());
                 if (sEmail != null && !sEmail.isEmpty())
@@ -202,18 +199,16 @@ public class LoginFragment extends Fragment {
 
                             etUserName.setText("");
                             ViewDataUser();
-                            //TODO: Traducir textos
-                            Toast.makeText(getContext(), "Sesión iniciada", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), R.string.txt_sesion_inicio, Toast.LENGTH_SHORT).show();
                             //updateUI(user); Actualizar la Interfaz de Usuario
                         } else {
                             // Error en la autentificación ya sea por que no está registrado o por poner mal algún dato
-                            // TODO: Traducir textos de error
                             if (task.getException().getClass() == com.google.firebase.auth.FirebaseAuthInvalidCredentialsException.class) {
-                                Toast.makeText(getContext(), tag + " El email no es válido.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), tag + R.string.err_email, Toast.LENGTH_SHORT).show();
                             } if (task.getException().getClass() == com.google.firebase.auth.FirebaseAuthInvalidUserException.class) {
-                                Toast.makeText(getContext(), tag + " No exite un usuario con ese email.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), tag + R.string.err_noExisteEmail, Toast.LENGTH_SHORT).show();
                             } if (task.getException().getClass() == com.google.firebase.auth.FirebaseAuthInvalidCredentialsException.class){
-                                Toast.makeText(getContext(), tag + " Contraseña incorrecta.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), tag +  R.string.err_contraseña, Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(getContext(), tag, Toast.LENGTH_SHORT).show();
                             }
@@ -224,8 +219,7 @@ public class LoginFragment extends Fragment {
                 else
                     Toast.makeText(getContext(), tag + " No exite ese nombre de usuario.", Toast.LENGTH_SHORT).show();
 
-                //TODO: Traducir textos
-                btLogIn.setText("Log In");
+                btLogIn.setText(R.string.txt_login);
                 btLogIn.setEnabled(true);
             });
         }
@@ -243,7 +237,7 @@ public class LoginFragment extends Fragment {
 
         builder.setView(view)
                 // TODO: Traducir textos
-                .setPositiveButton("Sign In", (dialog, which) -> {
+                .setPositiveButton(R.string.txt_sign_in, (dialog, which) -> {
                     String tag = "SignIn.";
                     // sign in the user ...
                     String userName = dsgUserame.getText().toString();
@@ -251,7 +245,7 @@ public class LoginFragment extends Fragment {
                     String password = dsgPassword.getText().toString();
                     if (userName.contains("@")){
                         // TODO: Traducir textos
-                        Toast.makeText(getContext(), "El nombre de usuario no puede tener @", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.err_validadoEmail, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     if (ValidateSignIn(userName,email,password)) {
@@ -259,7 +253,7 @@ public class LoginFragment extends Fragment {
                         Task<DataSnapshot> user = database.child("Users").child(userName).child("User").get();
                         user.addOnCompleteListener(taskUser -> {
                             //TODO: Traducir textos
-                            btSignIn.setText("Signing in");
+                            btSignIn.setText(R.string.txt_sign_in);
                             btSignIn.setEnabled(false);
                             User userTask = taskUser.getResult().getValue(User.class);
                             if (userTask == null)
@@ -286,10 +280,10 @@ public class LoginFragment extends Fragment {
                                     }
                                 });
                             else
-                                Toast.makeText(getContext(), tag + " El username ya está en uso.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), tag + R.string.txt_validado, Toast.LENGTH_LONG).show();
 
-                            //TODO: Traducir textos
-                            btSignIn.setText("Sign In");
+
+                            btSignIn.setText(R.string.txt_sign_in);
                             btSignIn.setEnabled(true);
                         });
                     }
@@ -314,16 +308,15 @@ public class LoginFragment extends Fragment {
     }
 
     public void chargeUserData(User user) {
-        //TODO: traducir textos
 
         ivAvatar.setImageResource((user!=null) ? user.getAvatar() : R.drawable.personaje_amapola);
-        //TODO: traducir textos
+
         UserName.setText((user!=null) ? user.getName() : shSettings.getString("userName", "UserName"));
         //TODO: Traducir textos
         tvDataLabel.setText("Email\n" +
-                            "Puntos\n" +
-                            "Partidas Solo\n" +
-                            "Partidas Multijugador");
+                "Puntos\n" +
+                "Partidas Solo\n" +
+                "Partidas Multijugador");
         tvDataContent.setText( (user!=null) ? user.getEmail() + "\n" +
                                             user.getPoints() + "\n" +
                                             user.getNumSoloMatchs() + "\n" +
@@ -340,8 +333,7 @@ public class LoginFragment extends Fragment {
      */
     private boolean Validate(String userName, String password) {
         if (userName.equals("") || password.equals("")) {
-            //TODO: Traducir textos
-            Toast.makeText(getContext(), "Debes rellenar todos los campos.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.valideCampos, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -356,11 +348,51 @@ public class LoginFragment extends Fragment {
      */
     private boolean ValidateSignIn(String email, String password, String name) {
         if (name.equals("")) {
-            //TODO: Traducir textos
-            Toast.makeText(getContext(), "Debes rellenar todos los campos.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.valideCampos, Toast.LENGTH_SHORT).show();
             return false;
         }
         return Validate(email, password);
+    }
+    public void onCreate(LayoutInflater inflater,ViewGroup cotainer,
+                         Bundle saveInstanceState){
+
+        ArrayList<String> idiomas= new ArrayList<>();
+        idiomas.add("Español");
+        idiomas.add("Ingles");
+        ArrayAdapter<String> abp= new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1,idiomas);
+        idiomSpinner.setAdapter(abp);
+        idiomSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String elemento= (String)idiomSpinner.getAdapter().getItem(position);
+                Toast.makeText(getActivity().getApplicationContext() ,R.string.selecionaste+ elemento, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+    public void onCreateSonido(LayoutInflater inflater,ViewGroup cotainer,
+                         Bundle saveInstanceState){
+
+
+        ArrayList<String> idiomas= new ArrayList<>();
+        idiomas.add("Español");
+        idiomas.add("Ingles");
+        ArrayAdapter<String> abp= new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_spinner_item,idiomas);
+        idiomSpinner.setAdapter(abp);
+        idiomSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String elemento= (String)idiomSpinner.getAdapter().getItem(position);
+                Toast.makeText(getActivity().getApplicationContext() ,R.string.selecionaste+ elemento, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 }

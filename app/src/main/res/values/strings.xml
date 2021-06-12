@@ -12,6 +12,11 @@
     <string name="btReglas">Rules</string>
     <string name="btHistorial">History</string>
 
+    <!-- activity_loggin -->
+    <string name="err_CargaPartida_2">Error al cargar la partida</string>
+    <string name="msg_espera">Espera a otro jugador</string>
+
+
     <!-- activity_reglas -->
     <string name="Reglas_Intro">HOW TO PLAY</string>
     <string name="Start">START</string>
@@ -34,7 +39,13 @@
         At the beginning the elections of cards will be made randomly, but along the game
         continue and cards are shown it will be easier to find the cards involved in the
         murder.</string>
-    <string name="btVolverMain">Menu</string>
+    <string name="txt_sesion">Session already started</string>
+    <string name="txt_noSesion">No session started</string>
+    <string name="err_sesionSolo">To play you ONLY have to be logged in</string>
+    <string name="err_sesionMulti">To play MULTI you must be logged in</string>
+    <string name="err_CargaPartida">Game loading error</string>
+    <string name="txt_sesion_inicio">Sesión iniciada</string>
+
 
     <!-- activity_historial -->
     <string name="tvTituloPartidas">History</string>
@@ -43,18 +54,38 @@
     <string name="tvResultadoPerder">Lose</string>
     <string name="btBorrar">Delete</string>
     <string name="msjNoPartidas">There aren\'t saved games</string>
-
+    <string name="err_Sesion">No session started</string>
     <!-- activity_juego -->
     <string name="btSospechar">Suspect</string>
+    <string name="selecionaste">Selecionaste</string>
     <string name="btRendirse">Give Up</string>
     <string name="tvPersonaje">Murder</string>
     <string name="tvArma">Weapon</string>
     <string name="tvHabitacion">Room</string>
     <string name="tvCont">Opportunities:</string>
     <string name="msj3Cartas">Chose 3 cards</string>
-    <string name="btNext">Next</string>
-
-
+    <string name="btNext">Continuar</string>
+    <string name="txt_recuperando">Retrieving data …</string>
+    <string name="txt_sesion_si">Session already started</string>
+    <string name="txt_sesion_no">No session started</string>
+    <string name="txt_login">LOG IN</string>
+    <string name="txt_sign_in">SIGN IN</string>
+    <string name="err_error_sesion">failed to login</string>
+    <string name="txt_login_in">Logging in</string>
+    <string name="err_email">The email is not valid.</string>
+    <string name="err_noExisteEmail">Dont leave a user with that email</string>
+    <string name="err_contraseña">Incorrect password.</string>
+    <string name="txt_validado">Validado Con UserName</string>
+    <string name="err_validadoEmail">Username cannot have @</string>
+    <string name="txt_usuario_ok">User created</string>
+    <string name="txt_puntos">Points</string>
+    <string name="err_email_si">This email address is already registered.</string>
+    <string name="txt_cancel">Cancelado</string>
+    <string name="txt_email">Email</string>
+    <string name="txt_Psolo">Solo Games</string>
+    <string name="txt_Pmulti">Multiplayer games</string>
+    <string name="valideCampos">You must fill all the fields</string>
+    <string name="err_inico_Sesion">Failed to retrieve session. log back in</string>
     <!-- MatchHelper -->
     <string name="tvCardDefault">Carta</string>
     <!-- activity_elegir_personaje -->
@@ -83,7 +114,7 @@
     <string name="msjSalir">Are you sure you want to exit ClueCards?</string>
     <string name="btNgtv">Cancel</string>
     <string name="btPstv">Okay</string>
-
+    <string name="btVolverMain">Menú</string>
     <!-- activity_chat -->
     <string name="etMessage">Write a message</string>
 

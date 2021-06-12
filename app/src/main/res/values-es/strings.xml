@@ -28,6 +28,12 @@
         Al principio serán elecciones al azar, pero según avanza el juego y se vayan
         descubriendo cartas se podrá averiguar las cartas implicadas en el asesinato.</string>
 
+    <string name="txt_sesion">Sesión ya iniciada</string>
+    <string name="txt_sesion_inicio">Sesión iniciada</string>
+    <string name="txt_noSesion">No hay sesión iniciada</string>
+    <string name="err_sesionSolo">Para jugar SOLO tienes que haber inciado sesión</string>
+    <string name="err_sesionMulti">Para jugar MULTI tienes que haber iniciado sesión</string>
+    <string name="err_CargaPartida">Error al cargar la partida</string>
     <!-- activity_historial -->
     <string name="tvTituloPartidas">Historial</string>
     <string name="tvTTNull">En curso</string>
@@ -35,16 +41,41 @@
     <string name="tvResultadoPerder">Perdida</string>
     <string name="btBorrar">Eliminar</string>
     <string name="msjNoPartidas">No hay partidas guardadas</string>
-
+    <string name="err_Sesion">No hay sesión iniciada</string>
+    <!-- activity_loggin -->
+    <string name="err_CargaPartida_2">Error al cargar la partida</string>
+    <string name="msg_espera">Espera a otro jugador</string>
     <!-- activity_juego -->
     <string name="btSospechar">Sospechar</string>
     <string name="btRendirse">Rendirse</string>
+    <string name="selecionaste">Selecionaste</string>
     <string name="tvPersonaje">Sospechoso</string>
     <string name="tvArma">Arma</string>
     <string name="tvHabitacion">Habitación</string>
     <string name="tvCont">Oportunidades:</string>
     <string name="msj3Cartas">Elige las 3 cartas</string>
     <string name="btNext">Continuar</string>
+    <string name="txt_recuperando">Recuperando datos …</string>
+    <string name="txt_sesion_si">Sesión ya iniciada</string>
+    <string name="txt_sesion_no">No hay sesión iniciada</string>
+    <string name="txt_login">INICIAR SESIÓN</string>
+    <string name="txt_sign_in">Iniciando sesión</string>
+    <string name="err_error_sesion">Error al iniciar sesión</string>
+    <string name="txt_login_in">Iniciando sesión </string>
+    <string name="err_email">El email no es válido.</string>
+    <string name="err_noExisteEmail">No exite un usuario con ese email.</string>
+    <string name="err_contraseña">Contraseña incorrecta.</string>
+    <string name="txt_validado">Validado Con UserName</string>
+    <string name="err_validadoEmail">El nombre de usuario no puede tener @</string>
+    <string name="txt_usuario_ok">Usuario creado</string>
+    <string name="txt_puntos">Puntos</string>
+    <string name="err_email_si">Este email ya está registrado.</string>
+    <string name="txt_cancel">Cancel</string>
+    <string name="txt_email">Correo electrónico</string>
+    <string name="txt_Psolo">Partidas Solo</string>
+    <string name="txt_Pmulti">Partidas Multijugador</string>
+    <string name="valideCampos">Debes rellenar todos los campos</string>
+    <string name="err_inico_Sesion">Error al recuperar la sesión. vuelve a iniciar sesión</string>
 
     <!-- Carta por defecto -->
     <string name="tvCardDefault">card</string>
