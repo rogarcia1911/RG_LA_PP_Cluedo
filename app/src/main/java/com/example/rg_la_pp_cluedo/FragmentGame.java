@@ -137,32 +137,6 @@ public class FragmentGame extends Fragment {
             }
         });
 
-        /*
-        if(userDataRef!=null){
-            DatabaseReference parent = userDataRef.getParent();
-            parent.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    // Incia sesión - almacenamos el usuario en el sharedPreferences
-                    User user = snapshot.getValue(User.class);
-
-                    if(user != null){
-                        SharedPreferences.Editor editor = shPreferences.edit();
-                        editor.putString("userData", user.getEmail() + "\n" +
-                                user.getPoints() + "\n" +
-                                user.getNumSoloMatchs() + "\n" +
-                                user.getNumMultiMatchs());
-                        editor.apply();
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }*/
     }
 
     /**
@@ -213,7 +187,6 @@ public class FragmentGame extends Fragment {
     public void gameMulti(String userName) {
         Intent lobby = new Intent(getContext(), ActivityLobby.class);
         startActivity(lobby);
-
     }
 
     /**
