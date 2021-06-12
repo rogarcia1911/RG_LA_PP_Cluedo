@@ -76,7 +76,7 @@ public class FragmentHistory extends Fragment {
         } else {
             ListSQL();
             //TODO: Traducir textos
-            Toast.makeText(getContext(), "No hay sesión iniciada", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "No hay sesión iniciada", Toast.LENGTH_SHORT).show();
         }
 
     }

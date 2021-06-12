@@ -133,6 +133,53 @@ public class MatchHelper {
             }
         }
 
+        public static int getRefByImg(int img){
+            switch (img){
+                // M - Murders
+                case R.drawable.pj_amapola:
+                    return M1.ref;
+                case R.drawable.pj_blanco:
+                    return M2.ref;
+                case R.drawable.pj_celeste:
+                    return M3.ref;
+                case R.drawable.pj_mora:
+                    return M4.ref;
+                case R.drawable.pj_prado:
+                    return M5.ref;
+                case R.drawable.pj_rubio:
+                    return M6.ref;
+                // T - Tools
+                case R.drawable.arma_candelabro:
+                    return T1.ref;
+                case R.drawable.arma_cuerda:
+                    return T2.ref;
+                case R.drawable.arma_herramienta:
+                    return T3.ref;
+                case R.drawable.arma_pistola:
+                    return T4.ref;
+                case R.drawable.arma_punial:
+                    return T5.ref;
+                case R.drawable.arma_tuberia:
+                    return T6.ref;
+                // R - Room
+                case R.drawable.lugar_banio:
+                    return R1.ref;
+                case R.drawable.lugar_comedor:
+                    return R2.ref;
+                case R.drawable.lugar_dormitorio:
+                    return R3.ref;
+                case R.drawable.lugar_estudio:
+                    return R4.ref;
+                case R.drawable.lugar_garaje:
+                    return R5.ref;
+                case R.drawable.lugar_patio:
+                    return R6.ref;
+                // D - Default
+                default:
+                    return D0.ref;
+            }
+        }
+
         private Cards(int ref, int img, int text) {
             this.ref = ref;
             this.img = img;
