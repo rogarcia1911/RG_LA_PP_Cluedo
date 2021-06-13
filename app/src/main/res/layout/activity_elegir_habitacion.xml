@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="@+id/imgbtn_lugar2" />
 
     <TextView
-        android:id="@+id/textView27"
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tvHab1"
@@ -42,15 +42,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tvHab2"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textView27"
+        app:layout_constraintBottom_toBottomOf="@+id/textView1"
         app:layout_constraintEnd_toEndOf="@+id/imgbtn_lugar2"
         app:layout_constraintStart_toStartOf="@+id/imgbtn_lugar2"
-        app:layout_constraintTop_toTopOf="@+id/textView27" />
+        app:layout_constraintTop_toTopOf="@+id/textView1" />
 
     <ImageButton
         android:id="@+id/imgbtn_lugar3"
@@ -64,15 +64,15 @@
         app:layout_constraintTop_toTopOf="@+id/imgbtn_lugar2" />
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tvHab3"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textView15"
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="@+id/imgbtn_lugar3"
         app:layout_constraintStart_toStartOf="@+id/imgbtn_lugar3"
-        app:layout_constraintTop_toTopOf="@+id/textView15" />
+        app:layout_constraintTop_toTopOf="@+id/textView2" />
 
     <ImageButton
         android:id="@+id/imgbtn_lugar4"
@@ -88,7 +88,7 @@
         app:layout_constraintVertical_bias="0.39" />
 
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="145dp"
@@ -114,15 +114,15 @@
         app:layout_constraintVertical_bias="0.8" />
 
     <TextView
-        android:id="@+id/textView18"
+        android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tvHab5"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textView17"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="@+id/imgbtn_lugar5"
         app:layout_constraintStart_toStartOf="@+id/imgbtn_lugar5"
-        app:layout_constraintTop_toTopOf="@+id/textView17"
+        app:layout_constraintTop_toTopOf="@+id/textView4"
         app:layout_constraintVertical_bias="0.19999999" />
 
     <ImageButton
@@ -138,14 +138,14 @@
 
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tvHab6"
-        app:layout_constraintBottom_toBottomOf="@+id/textView18"
+        app:layout_constraintBottom_toBottomOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="@+id/imgbtn_lugar6"
         app:layout_constraintStart_toStartOf="@+id/imgbtn_lugar6"
-        app:layout_constraintTop_toTopOf="@+id/textView18"
+        app:layout_constraintTop_toTopOf="@+id/textView5"
         android:textStyle="bold" />
 
     <ImageView

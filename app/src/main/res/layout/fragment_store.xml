@@ -242,7 +242,7 @@
                         android:id="@+id/textView4"
                         android:layout_width="426dp"
                         android:layout_height="21dp"
-                        android:text="Puntos Jugador"
+                        android:text="@string/puntos"
                         tools:ignore="MissingConstraints" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
