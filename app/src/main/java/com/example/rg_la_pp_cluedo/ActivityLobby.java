@@ -92,6 +92,7 @@ public class ActivityLobby extends AppCompatActivity {
                 SharedPreferences shGameMulti = getSharedPreferences(getString(R.string.PREFmultiGame),0);
                 if (dataSnapshot.getValue()==null || !dataSnapshot.exists())
                     return;
+
                 button.setText(R.string.newSala);
                 button.setEnabled(true);
                 String status = null;
