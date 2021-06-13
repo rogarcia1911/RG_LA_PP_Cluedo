@@ -17,9 +17,11 @@ public class HolderMessage extends RecyclerView.ViewHolder {
     public HolderMessage(@NonNull View itemView) {
         super(itemView);
         tvPlayerName = itemView.findViewById(R.id.tvPlayerName);
-        tvMessageView = itemView.findViewById(R.id.tvMessageDate);
-        tvMessageDate = itemView.findViewById(R.id.tvMessageView);
+        tvMessageView = itemView.findViewById(R.id.tvMessageView);
+        tvMessageDate = itemView.findViewById(R.id.tvMessageDate);
         imgViewPlayer = itemView.findViewById(R.id.imgViewPlayer);
+
+
     }
 
     public TextView getTvPlayerName() {
