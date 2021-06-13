@@ -53,5 +53,7 @@
     <dimen name="P_margenBobi">40dp</dimen>
     <dimen name="G_imgGameAncho">280dp</dimen>
     <dimen name="G_imgGameAlto">243dp</dimen>
-
+    <!-- activity_tienda -->
+    <dimen name="T_imgAncho">150dp</dimen>
+    <dimen name="G_btnAlto">127dp</dimen>
 </resources>
