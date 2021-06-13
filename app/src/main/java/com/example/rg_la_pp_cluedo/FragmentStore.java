@@ -120,10 +120,37 @@ public class FragmentStore extends Fragment {
     public void comprar (View view) {
         switch (view) {
             case R.id.btn_pista1:
+                imagen
+                boton
+                precio
+                variabla
+                mayorQue
+                break;
+            case R.id.btn_pista2:
+                imagen,boton,precio,variabla mayorQue
+                break;
+            case R.id.btn_pista3:
+                imagen,boton,precio,variabla mayorQue
+                break;
+            case R.id.btn_pista4:
+                imagen,boton,precio,variabla mayorQue
+                break;
+            case R.id.btn_pista5:
+                imagen,boton,precio,variabla mayorQue
+                break;
+            case R.id.btn_pista6:
+                imagen,boton,precio,variabla mayorQue
                 break;
         }
     }
-*/
 
+    public void comprar () {
+       int  puntosObtenidos=user.getPoints();
+       int precio=R.string.button_text1;
+      if(puntosObtenidos<precio){
+
+      }
+    }
+*/
 
 }

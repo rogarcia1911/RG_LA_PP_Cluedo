@@ -61,7 +61,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/ivArma"
         app:layout_constraintEnd_toStartOf="@+id/ivArma"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ivArma"
         app:srcCompat="@drawable/carta_interrogante" />
@@ -82,7 +82,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintHorizontal_bias="0.42"
         app:layout_constraintStart_toEndOf="@+id/ivArma"
         app:layout_constraintTop_toBottomOf="@+id/ivDer"
         app:srcCompat="@drawable/carta_interrogante" />
