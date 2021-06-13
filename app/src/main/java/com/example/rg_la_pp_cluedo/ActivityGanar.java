@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
@@ -27,12 +28,12 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-
 public class ActivityGanar extends AppCompatActivity {
 
     SharedPreferences shSettings;
     DataBaseConnection firebaseConnection = null;
     DatabaseReference database, userRef, roomRef;
+    private MediaPlayer mp;
 
     private ImageView ivPers,ivArma,ivHab;
 
@@ -52,8 +53,7 @@ public class ActivityGanar extends AppCompatActivity {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                Intent inicio = new Intent(ActivityGanar.this, ActivityMain.class);
-                startActivity(inicio);
+                menu();
             }
         };
         getOnBackPressedDispatcher().addCallback(callback);
@@ -90,15 +90,17 @@ public class ActivityGanar extends AppCompatActivity {
         ivHab.setImageResource(MatchHelper.Cards.getImgByRef(murderCards.get(2)));
 
         //Reproducimos el audio aplausos
-        sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 1);
-        sonido = sp.load(this, R.raw.aplausos, 1);
-        sp.play(sonido, 1, 1, 1, 0, 0);
+        mp = MediaPlayer.create(this, R.raw.aplausos);
+        mp.start();
+    }
+    public void tapScreen(View view) {
+        menu();
     }
 
-    public void tapScreen(View view) {
-        sp.stop(sonido);
-        //sp.unload(sonido);
-        Intent inicio = new Intent(this, ActivityMain.class);
-        startActivity(inicio);
+    public void menu(){
+        mp.release();
+        mp = null;
+        Intent menu = new Intent(this, ActivityMain.class);
+        startActivity(menu);
     }
 }
