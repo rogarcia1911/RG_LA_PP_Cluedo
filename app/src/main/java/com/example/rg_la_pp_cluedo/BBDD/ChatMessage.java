@@ -4,14 +4,16 @@ public class ChatMessage {
 
     private String messagePlayer;
     private String messageText;
+    private Integer playerimage;
 
     public ChatMessage() {
 
     }
 
-    public ChatMessage(String messagePlayer, String messageText) {
+    public ChatMessage(String messagePlayer, String messageText, Integer playerimage) {
         this.messagePlayer = messagePlayer;
         this.messageText = messageText;
+        this.playerimage = playerimage;
     }
 
     public String getMessagePlayer() {
@@ -28,6 +30,14 @@ public class ChatMessage {
 
     public void setMessageText(String messageText) {
         this.messageText = messageText;
+    }
+
+    public Integer getPlayerimage() {
+        return playerimage;
+    }
+
+    public void setPlayerimage(Integer playerimage) {
+        this.playerimage = playerimage;
     }
 
 }

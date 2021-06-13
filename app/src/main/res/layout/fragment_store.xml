@@ -70,25 +70,110 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/imageView1"
                     android:layout_width="wrap_content"
                     android:layout_height="150dp"
                     android:layout_weight="1"
                     android:src="@drawable/avatar1" />
 
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
                     android:layout_height="150dp"
                     android:layout_weight="1"
                     android:src="@drawable/avatar10" />
 
                 <ImageView
-                    android:id="@+id/imageView5"
+                    android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
                     android:layout_height="150dp"
                     android:layout_weight="1"
                     android:src="@drawable/avatar2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_pista1"
+                    android:layout_width="131dp"
+                    android:layout_height="49dp"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray"
+                    android:drawableEnd="@drawable/coint"
+                    android:drawableRight="@drawable/coint"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:text="@string/button_text1" />
+
+                <Button
+                    android:id="@+id/btn_pista2"
+                    android:layout_width="127dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray"
+                    android:drawableEnd="@drawable/coint"
+                    android:drawableRight="@drawable/coint"
+                    android:paddingStart="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/button_text2" />
+
+                <Button
+                    android:id="@+id/btn_pista3"
+                    android:layout_width="127dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray"
+                    android:drawableEnd="@drawable/coint"
+                    android:drawableRight="@drawable/coint"
+                    android:paddingStart="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/button_text3" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/avatar3" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/avatar6" />
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/avatar9" />
             </LinearLayout>
 
             <LinearLayout
@@ -110,80 +195,10 @@
                     android:paddingTop="0dp"
                     android:paddingRight="8dp"
                     android:paddingBottom="2dp"
-                    android:text="@string/button_text2" />
+                    android:text="@string/button_text1" />
 
                 <Button
                     android:id="@+id/btn_pista5"
-                    android:layout_width="127dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="3dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/darker_gray"
-                    android:drawableEnd="@drawable/coint"
-                    android:drawableRight="@drawable/coint"
-                    android:paddingStart="8dp"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="0dp"
-                    android:paddingRight="0dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/button_text2" />
-
-                <Button
-                    android:id="@+id/button6"
-                    android:layout_width="127dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="3dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/darker_gray"
-                    android:drawableEnd="@drawable/coint"
-                    android:drawableRight="@drawable/coint"
-                    android:paddingStart="8dp"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="0dp"
-                    android:paddingRight="0dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/button_text1"  />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="150dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/avatar3" />
-
-                <ImageView
-                    android:id="@+id/imageView7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="150dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/avatar6" />
-
-                <ImageView
-                    android:id="@+id/imageView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="150dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/avatar9" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btn_pista9"
                     android:layout_width="131dp"
                     android:layout_height="49dp"
                     android:layout_margin="3dp"
@@ -198,7 +213,7 @@
                     android:text="@string/button_text2" />
 
                 <Button
-                    android:id="@+id/btn_pista8"
+                    android:id="@+id/btn_pista6"
                     android:layout_width="131dp"
                     android:layout_height="49dp"
                     android:layout_margin="3dp"
@@ -210,22 +225,7 @@
                     android:paddingTop="0dp"
                     android:paddingRight="8dp"
                     android:paddingBottom="2dp"
-                    android:text="@string/button_text2" />
-
-                <Button
-                    android:id="@+id/btn_pista7"
-                    android:layout_width="131dp"
-                    android:layout_height="49dp"
-                    android:layout_margin="3dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/darker_gray"
-                    android:drawableEnd="@drawable/coint"
-                    android:drawableRight="@drawable/coint"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="0dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="2dp"
-                    android:text="@string/button_text2" />
+                    android:text="@string/button_text3" />
             </LinearLayout>
 
             <LinearLayout

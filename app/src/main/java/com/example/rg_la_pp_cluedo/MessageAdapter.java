@@ -47,6 +47,7 @@ public class MessageAdapter extends RecyclerView.Adapter<HolderMessage> {
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a");
 
         holder.getTvMessageDate().setText(dateFormat.format(date));
+        holder.getImgViewPlayer().setImageResource(messageList.get(position).getPlayerimage());
     }
 
     @Override

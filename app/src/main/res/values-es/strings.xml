@@ -123,8 +123,8 @@
     <string name="switchMusica">Musica</string>
     <!-- activity_store -->
     <string name="tienda">Tienda</string>
-    <string name="button_text2">100</string>
-    <string name="button_text1">200</string>
+    <string name="button_text1">100</string>
+    <string name="button_text2">200</string>
     <string name="button_text3">300</string>
     <string name="pista">==================== Pistas ====================</string>
     <string name="avatares">==================== Avatares ====================</string>
