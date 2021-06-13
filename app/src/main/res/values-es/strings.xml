@@ -128,10 +128,12 @@
     <string name="button_text3">300</string>
     <string name="pista">==================== Pistas ====================</string>
     <string name="avatares">==================== Avatares ====================</string>
-
+    <string name="puntos">puntos:</string>
     <string name="user">Usuario</string>
     <string name="store">Tienda</string>
     <string name="historial">Historial</string>
     <string name="juego">Juego</string>
-
+    <string name="no_points">No tienes puntos suficientes</string>
+    <string name="no_play_sin_login">No se puede comprar sin iniciar sesion</string>
+    <string name="validacion_ok">¿Estas seguro que desea comprarlo?</string>
 </resources>
