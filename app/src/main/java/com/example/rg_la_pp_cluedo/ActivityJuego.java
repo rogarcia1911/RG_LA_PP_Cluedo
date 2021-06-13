@@ -60,7 +60,6 @@ public class ActivityJuego extends AppCompatActivity {
     //Atributos MULTI
     Room room;
     String roomName, myTurn, status;
-    ArrayList<Integer> cardsPicked;
 
     private Boolean isSolo, isNewMatch;
     private int oportunidades, contador;
@@ -252,19 +251,24 @@ public class ActivityJuego extends AppCompatActivity {
             userTask.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (room== null) return;
                     User user = task.getResult().getValue(User.class);
                     Integer num = user.getNumMultiMatchs() + 1;
+                    Match newmatch = match;
 
                     if (room.getWinner().equals(myTurn)) {
-                        match.setResultGame(true);
+                        newmatch.setResultGame(true);
+                        user.setPoints(user.getPoints()+15);
                         Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
                         win.putExtra("murderCards",murderedCards);
+                        win.putExtra("roomName",room.getName());
                         startActivity(win);
 
                     } else {
-                        match.setResultGame(false);
+                        newmatch.setResultGame(false);
                         Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
                         lose.putExtra("murderCards",murderedCards);
+                        lose.putExtra("roomName",room.getName());
                         startActivity(lose);
                     }
                     if (player.equals("player1"))
@@ -275,7 +279,9 @@ public class ActivityJuego extends AppCompatActivity {
                     if ( room.getPlayer2()==null &&  room.getPlayer1()==null )
                         room=null; //borramos la sala
 
-                    database.getDatabase().getReference("Users/" + userName + "/Matchs/MULTI-" + (num)).setValue(match);
+                    newmatch.setName(match.getName()+"-"+num);
+                    newmatch.setNum(num);
+                    database.getDatabase().getReference("Users/" + userName + "/Matchs/MULTI-" + (num)).setValue(newmatch);
                     user.setNumMultiMatchs(num);
                     userTask.setValue(user);//Actualizamos el número de partidas multi
 
@@ -291,6 +297,7 @@ public class ActivityJuego extends AppCompatActivity {
             roomRef.removeValue();
         else
             roomRef.setValue(room); //borramos la sala
+
         shGameMulti.edit().clear().apply();
     }
 
@@ -345,8 +352,6 @@ public class ActivityJuego extends AppCompatActivity {
         });
         findViewById(R.id.txtV1).setVisibility(View.GONE);
         tvCont.setVisibility(View.GONE);
-
-        //Button btnPicked = findViewById(R.id.btnPicked);
     }
 
     private void suponer() {

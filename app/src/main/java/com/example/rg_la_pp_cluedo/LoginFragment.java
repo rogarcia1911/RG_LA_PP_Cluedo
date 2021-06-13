@@ -365,26 +365,5 @@ public class LoginFragment extends Fragment {
             }
         });
     }
-    public void onCreateSonido(LayoutInflater inflater,ViewGroup cotainer,
-                         Bundle saveInstanceState){
-
-
-        ArrayList<String> idiomas= new ArrayList<>();
-        idiomas.add("Español");
-        idiomas.add("Ingles");
-        ArrayAdapter<String> abp= new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_spinner_item,idiomas);
-        idiomSpinner.setAdapter(abp);
-        idiomSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String elemento= (String)idiomSpinner.getAdapter().getItem(position);
-                Toast.makeText(getActivity().getApplicationContext() ,R.string.selecionaste+ elemento, Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
 
 }
