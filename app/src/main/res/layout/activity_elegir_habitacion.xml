@@ -15,7 +15,7 @@
         android:background="@drawable/lugar_banio"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_lugar2"
         app:layout_constraintEnd_toStartOf="@+id/imgbtn_lugar2"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="@+id/ivDer"
         app:layout_constraintTop_toTopOf="@+id/imgbtn_lugar2" />
 
@@ -59,7 +59,7 @@
         android:background="@drawable/lugar_dormitorio"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_lugar2"
         app:layout_constraintEnd_toEndOf="@+id/ivDer"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toEndOf="@+id/imgbtn_lugar2"
         app:layout_constraintTop_toTopOf="@+id/imgbtn_lugar2" />
 
@@ -82,7 +82,7 @@
         android:rotation="0"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_lugar5"
         app:layout_constraintEnd_toStartOf="@+id/imgbtn_lugar5"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="@+id/ivDer"
         app:layout_constraintTop_toTopOf="@+id/imgbtn_lugar5"
         app:layout_constraintVertical_bias="0.39" />
@@ -132,7 +132,7 @@
         android:background="@drawable/lugar_patio"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_lugar5"
         app:layout_constraintEnd_toEndOf="@+id/ivDer"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toEndOf="@+id/imgbtn_lugar5"
         app:layout_constraintTop_toTopOf="@+id/imgbtn_lugar5" />
 
