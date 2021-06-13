@@ -7,12 +7,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
+import com.google.firebase.database.DatabaseReference;
+
 public class HolderMessage extends RecyclerView.ViewHolder {
 
     private TextView tvPlayerName;
     private TextView tvMessageView;
     private TextView tvMessageDate;
     private ImageView imgViewPlayer;
+    private DatabaseReference ref;
 
     public HolderMessage(@NonNull View itemView) {
         super(itemView);
@@ -20,6 +24,9 @@ public class HolderMessage extends RecyclerView.ViewHolder {
         tvMessageView = itemView.findViewById(R.id.tvMessageView);
         tvMessageDate = itemView.findViewById(R.id.tvMessageDate);
         imgViewPlayer = itemView.findViewById(R.id.imgViewPlayer);
+
+        //FIXME: dinamic image profile
+        imgViewPlayer.setImageResource(R.drawable.personaje_amapola);
 
 
     }

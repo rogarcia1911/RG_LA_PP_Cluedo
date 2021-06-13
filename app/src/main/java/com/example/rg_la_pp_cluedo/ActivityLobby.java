@@ -20,6 +20,7 @@ import com.example.rg_la_pp_cluedo.BBDD.Player;
 import com.example.rg_la_pp_cluedo.BBDD.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,7 +51,8 @@ public class ActivityLobby extends AppCompatActivity {
         setContentView(R.layout.activity_lobby);
         shSettings = getSharedPreferences(getString(R.string.PREFsetttings), 0);
         shPreferences = getSharedPreferences(getString(R.string.PREFapp),0);
-        database = DataBaseConnection.getFirebase();
+
+        database = iniFb();
 
         playerName = shSettings.getString("userName", "");
         roomName = playerName;
@@ -165,5 +167,16 @@ public class ActivityLobby extends AppCompatActivity {
         murderCards.add(30 + ((int) (Math.random() * nCa)) );
 
         return murderCards;
+    }
+
+    private DatabaseReference iniFb(){
+        FirebaseApp.initializeApp(this);
+        FirebaseDatabase firebaseObj = FirebaseDatabase.getInstance();
+        if ( firebaseObj == null ) {
+            firebaseObj.setPersistenceEnabled(true);
+        }
+        DatabaseReference databaseRefObj = firebaseObj.getReference();
+
+        return databaseRefObj;
     }
 }
