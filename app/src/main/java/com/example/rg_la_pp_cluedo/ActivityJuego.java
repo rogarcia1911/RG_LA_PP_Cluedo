@@ -545,17 +545,17 @@ public class ActivityJuego extends AppCompatActivity {
     }//FIN terminarPartida
 
     private void terminarPartidaMulti(boolean resultado) {
-        if (resultado)
-            room.setWinner(userName);
-        else {
-            if (myTurn.equals("player1"))
-                room.setWinner(room.getPlayer2());
-            else
-                room.setWinner(room.getPlayer1());
-        }
         match.setEndingDate(System.currentTimeMillis());
 
         if (!room.getStatus().equals("Wait")){
+            if (resultado)
+                room.setWinner(userName);
+            else {
+                if (myTurn.equals("player1"))
+                    room.setWinner(room.getPlayer2());
+                else
+                    room.setWinner(room.getPlayer1());
+            }
             DatabaseReference userTask = database.getDatabase().getReference("Users/" + userName + "/User");
             userTask.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
@@ -613,7 +613,11 @@ public class ActivityJuego extends AppCompatActivity {
 
             room.setMatch(match);
         } else {
+            Intent inicio = new Intent(ActivityJuego.this, ActivityMain.class);
+            startActivity(inicio);
             room=null; //borramos la sala
+
+            shGameMulti.edit().clear().apply();
         }
 
         roomRef.setValue(room);
