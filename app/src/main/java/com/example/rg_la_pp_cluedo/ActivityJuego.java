@@ -59,7 +59,7 @@ public class ActivityJuego extends AppCompatActivity {
     Match match;
     //Atributos MULTI
     Room room;
-    String roomName, myTurn, status;
+    String roomName, myTurn, status, userName;
 
     private Boolean isSolo, isNewMatch;
     private int oportunidades, contador;
@@ -78,6 +78,8 @@ public class ActivityJuego extends AppCompatActivity {
         shGameMulti = getSharedPreferences(getString(R.string.PREFmultiGame),0);
         firebaseConnection = DataBaseConnection.getInstance();
         database = DataBaseConnection.getFirebase(getApplicationContext());
+
+        userName = shSettings.getString("userName","");
 
         isNewMatch = getIntent().getBooleanExtra("gameNew",false);
         isSolo = getIntent().getBooleanExtra("gameMode",true);
@@ -241,62 +243,31 @@ public class ActivityJuego extends AppCompatActivity {
 
             }
         });
+        /*
+        if( room == null )
+            roomRef.get();
+        else
+            roomRef.setValue(room);*/
     }
 
     private void endMultiGame() {
-        String userName = shSettings.getString("userName","");
-        String player = shGameMulti.getString("myTurn","");
         if (!room.getStatus().equals("Wait")){
-            DatabaseReference userTask = database.getDatabase().getReference("Users/" + userName + "/User");
-            userTask.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (room== null) return;
-                    User user = task.getResult().getValue(User.class);
-                    Integer num = user.getNumMultiMatchs() + 1;
-                    Match newmatch = match;
+            if (room.getWinner().equals(userName)) {
+                Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
+                win.putExtra("murderCards",murderedCards);
+                win.putExtra("roomName",room.getName());
+                startActivity(win);
 
-                    if (room.getWinner().equals(myTurn)) {
-                        newmatch.setResultGame(true);
-                        user.setPoints(user.getPoints()+15);
-                        Intent win = new Intent(ActivityJuego.this, ActivityGanar.class);
-                        win.putExtra("murderCards",murderedCards);
-                        win.putExtra("roomName",room.getName());
-                        startActivity(win);
-
-                    } else {
-                        newmatch.setResultGame(false);
-                        Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
-                        lose.putExtra("murderCards",murderedCards);
-                        lose.putExtra("roomName",room.getName());
-                        startActivity(lose);
-                    }
-                    if (player.equals("player1"))
-                        room.setPlayer1( null); //borramos un jugador
-                    else
-                        room.setPlayer2(null); //borramos un jugador
-
-                    if ( room.getPlayer2()==null &&  room.getPlayer1()==null )
-                        room=null; //borramos la sala
-
-                    newmatch.setName(match.getName()+"-"+num);
-                    newmatch.setNum(num);
-                    database.getDatabase().getReference("Users/" + userName + "/Matchs/MULTI-" + (num)).setValue(newmatch);
-                    user.setNumMultiMatchs(num);
-                    userTask.setValue(user);//Actualizamos el número de partidas multi
-
-                }
-            });
+            } else {
+                Intent lose = new Intent(ActivityJuego.this, ActivityPerder.class);
+                lose.putExtra("murderCards",murderedCards);
+                lose.putExtra("roomName",room.getName());
+                startActivity(lose);
+            }
         } else {
             Intent inicio = new Intent(ActivityJuego.this, ActivityMain.class);
             startActivity(inicio);
-            room=null; //borramos la sala
         }
-
-        if (room==null)
-            roomRef.removeValue();
-        else
-            roomRef.setValue(room); //borramos la sala
 
         shGameMulti.edit().clear().apply();
     }
@@ -574,19 +545,77 @@ public class ActivityJuego extends AppCompatActivity {
     }//FIN terminarPartida
 
     private void terminarPartidaMulti(boolean resultado) {
-        String userName = shSettings.getString("userName","");
-        String player = shGameMulti.getString("myTurn","");
         if (resultado)
-            room.setWinner(player);
+            room.setWinner(userName);
         else {
             if (myTurn.equals("player1"))
-                room.setWinner("player2");
+                room.setWinner(room.getPlayer2());
             else
-                room.setWinner("player1");
+                room.setWinner(room.getPlayer1());
         }
         match.setEndingDate(System.currentTimeMillis());
 
-        room.setMatch(match);
+        if (!room.getStatus().equals("Wait")){
+            DatabaseReference userTask = database.getDatabase().getReference("Users/" + userName + "/User");
+            userTask.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (room == null) return;
+                    User user = task.getResult().getValue(User.class);
+                    Integer num = user.getNumMultiMatchs() + 1;
+                    String otherUserName;
+                    //match.setEndingDate(System.currentTimeMillis());
+                    Match meMatch = match;
+                    Match otherMatch = match;
+
+                    if (room.getWinner().equals(userName)) {
+                        meMatch.setResultGame(true);
+                        otherMatch.setResultGame(false);
+                    } else {
+                        meMatch.setResultGame(false);
+                        otherMatch.setResultGame(true);
+                    }
+
+                    if ( room.getPlayer2()==null &&  room.getPlayer1()==null )
+                        room=null; //borramos la sala
+
+                    if (myTurn.equals("player1")){
+                        room.setPlayer1( null); //borramos un jugador
+                        otherUserName = room.getPlayer2();
+                    }else{
+                        room.setPlayer2(null); //borramos un jugador
+                        otherUserName = room.getPlayer2();
+                    }
+
+                    meMatch.setName(match.getName()+"-"+num);
+                    meMatch.setNum(num);
+                    database.getDatabase().getReference("Users/" + userName + "/Matchs/MULTI-" + num).setValue(meMatch);
+                    user.setNumMultiMatchs(num);
+                    userTask.setValue(user);//Actualizamos el número de partidas multi
+
+                    DatabaseReference otherUserTask = database.getDatabase().getReference("Users/" + otherUserName + "/User");
+                    otherUserTask.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            if (task.getResult().getValue(User.class)==null) return;
+                            User otherUser = task.getResult().getValue(User.class);
+                            Integer otherNum = otherUser.getNumMultiMatchs() + 1;
+                            otherMatch.setNum(otherNum);
+                            otherMatch.setName(match.getName()+"-"+num);
+                            database.getDatabase().getReference("Users/"+otherUserName+"/Matchs/MULTI-"+num).setValue(otherMatch);
+
+                            otherUser.setNumMultiMatchs(otherNum);
+                            otherUserTask.setValue(otherUser);
+                        }
+                    });
+                }
+            });
+
+            room.setMatch(match);
+        } else {
+            room=null; //borramos la sala
+        }
+
         roomRef.setValue(room);
 
     }// FIN terminarPartidaMulti
