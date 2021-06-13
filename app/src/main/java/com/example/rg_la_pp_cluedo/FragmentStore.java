@@ -64,21 +64,21 @@ public class FragmentStore extends Fragment {
         shSettings.getString("appLanguage","");
         shSettings.getBoolean("appSound",true);
 
-        /*
+
         iv1 = getView().findViewById(R.id.imageView1);
         iv2 = getView().findViewById(R.id.imageView2);
         iv3 = getView().findViewById(R.id.imageView3);
         iv4 = getView().findViewById(R.id.imageView4);
         iv5 = getView().findViewById(R.id.imageView5);
         iv6 = getView().findViewById(R.id.imageView6);
-*/
-        bt1 = getView().findViewById(R.id.btn_pista4);/*
+
+        bt1 = getView().findViewById(R.id.btn_pista1);
         bt2 = getView().findViewById(R.id.btn_pista2);
         bt3 = getView().findViewById(R.id.btn_pista3);
         bt4 = getView().findViewById(R.id.btn_pista4);
         bt5 = getView().findViewById(R.id.btn_pista5);
         bt6 = getView().findViewById(R.id.btn_pista6);
-        */
+
 
         tvPoints = getView().findViewById(R.id.textView4);
 
@@ -88,7 +88,7 @@ public class FragmentStore extends Fragment {
             userRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    User user = task.getResult().getValue(User.class);
+                    user = task.getResult().getValue(User.class);
                     tvPoints.setText(tvPoints.getText()+String.valueOf(user.getPoints()));
                 }
             });
@@ -96,16 +96,47 @@ public class FragmentStore extends Fragment {
             bt1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    user.setAvatar(R.drawable.avatar1);
-                    Integer p = user.getPoints();
-                    user.setPoints(p-100);
-                    userRef.setValue(user);
-                    //comprar(v);
+                    comprar(v);
+                }
+            });
+
+            bt2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    comprar(v);
+                }
+            });
+
+            bt3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    comprar(v);
+                }
+            });
+
+            bt4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    comprar(v);
+                }
+            });
+
+            bt5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    comprar(v);
+                }
+            });
+
+            bt6.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    comprar(v);
                 }
             });
 
         } else {
-            Toast.makeText(getContext(),"No se puede comprar sin iniciar sesión",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),getString(R.string.no_play_sin_login),Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -116,41 +147,71 @@ public class FragmentStore extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_store, container, false);
     }
-/*
+
     public void comprar (View view) {
-        switch (view) {
+        switch (view.getId()) {
             case R.id.btn_pista1:
-                imagen
-                boton
-                precio
-                variabla
-                mayorQue
+                Integer p = user.getPoints();
+                if (p>=100){
+                    user.setAvatar(R.drawable.avatar1);
+                    user.setPoints(p-100);
+                    userRef.setValue(user);
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.no_points),  Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btn_pista2:
-                imagen,boton,precio,variabla mayorQue
+                Integer p2 = user.getPoints();
+                if (p2>=200){
+                    user.setAvatar(R.drawable.avatar10);
+                    user.setPoints(p2-200);
+                    userRef.setValue(user);
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.no_points),  Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btn_pista3:
-                imagen,boton,precio,variabla mayorQue
+                Integer p3 = user.getPoints();
+                if (p3>=300){
+                    user.setAvatar(R.drawable.avatar2);
+                    user.setPoints(p3-100);
+                    userRef.setValue(user);
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.no_points),  Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btn_pista4:
-                imagen,boton,precio,variabla mayorQue
+                Integer p4 = user.getPoints();
+                if (p4>=100){
+                    user.setAvatar(R.drawable.avatar3);
+                    user.setPoints(p4-100);
+                    userRef.setValue(user);
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.no_points),  Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btn_pista5:
-                imagen,boton,precio,variabla mayorQue
+                Integer p5 = user.getPoints();
+                if (p5>=200){
+                    user.setAvatar(R.drawable.avatar6);
+                    user.setPoints(p5-200);
+                    userRef.setValue(user);
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.no_points),  Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btn_pista6:
-                imagen,boton,precio,variabla mayorQue
+                Integer p6 = user.getPoints();
+                if (p6>=300){
+                    user.setAvatar(R.drawable.avatar9);
+                    user.setPoints(p6-300);
+                    userRef.setValue(user);
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.no_points),  Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
 
-    public void comprar () {
-       int  puntosObtenidos=user.getPoints();
-       int precio=R.string.button_text1;
-      if(puntosObtenidos<precio){
-
-      }
-    }
-*/
 
 }
