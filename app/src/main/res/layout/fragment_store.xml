@@ -70,21 +70,21 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/imageView1"
                     android:layout_width="wrap_content"
                     android:layout_height="150dp"
                     android:layout_weight="1"
                     android:src="@drawable/avatar1" />
 
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
                     android:layout_height="150dp"
                     android:layout_weight="1"
                     android:src="@drawable/avatar10" />
 
                 <ImageView
-                    android:id="@+id/imageView5"
+                    android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
                     android:layout_height="150dp"
                     android:layout_weight="1"
@@ -98,7 +98,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btn_pista4"
+                    android:id="@+id/btn_pista1"
                     android:layout_width="131dp"
                     android:layout_height="49dp"
                     android:layout_margin="3dp"
@@ -113,7 +113,7 @@
                     android:text="@string/button_text2" />
 
                 <Button
-                    android:id="@+id/btn_pista5"
+                    android:id="@+id/btn_pista2"
                     android:layout_width="127dp"
                     android:layout_height="match_parent"
                     android:layout_margin="3dp"
@@ -130,7 +130,7 @@
                     android:text="@string/button_text2" />
 
                 <Button
-                    android:id="@+id/button6"
+                    android:id="@+id/btn_pista3"
                     android:layout_width="127dp"
                     android:layout_height="match_parent"
                     android:layout_margin="3dp"
@@ -183,22 +183,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btn_pista9"
-                    android:layout_width="131dp"
-                    android:layout_height="49dp"
-                    android:layout_margin="3dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/darker_gray"
-                    android:drawableEnd="@drawable/coint"
-                    android:drawableRight="@drawable/coint"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="0dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="2dp"
-                    android:text="@string/button_text2" />
-
-                <Button
-                    android:id="@+id/btn_pista8"
+                    android:id="@+id/btn_pista6"
                     android:layout_width="131dp"
                     android:layout_height="49dp"
                     android:layout_margin="3dp"
@@ -214,6 +199,21 @@
 
                 <Button
                     android:id="@+id/btn_pista7"
+                    android:layout_width="131dp"
+                    android:layout_height="49dp"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray"
+                    android:drawableEnd="@drawable/coint"
+                    android:drawableRight="@drawable/coint"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:text="@string/button_text2" />
+
+                <Button
+                    android:id="@+id/btn_pista8"
                     android:layout_width="131dp"
                     android:layout_height="49dp"
                     android:layout_margin="3dp"
@@ -242,7 +242,7 @@
                         android:id="@+id/textView4"
                         android:layout_width="426dp"
                         android:layout_height="21dp"
-                        android:text="@string/puntos"
+                        android:text="Puntos Jugador"
                         tools:ignore="MissingConstraints" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
