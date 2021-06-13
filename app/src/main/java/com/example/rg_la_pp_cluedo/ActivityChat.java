@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Adapter;
@@ -36,6 +37,9 @@ public class ActivityChat extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
+    SharedPreferences shSettings;
+    String userName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,10 +55,13 @@ public class ActivityChat extends AppCompatActivity {
         rvMessages.setLayoutManager(manager);
         rvMessages.setAdapter(adapter);
 
+        shSettings = getSharedPreferences(getString(R.string.PREFsetttings), 0);
+        userName = shSettings.getString("userName","");
+
         btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                iniFirebaseChat().push().setValue(new SendMessage(tvName.getText().toString(), etMessage.getText().toString(), ServerValue.TIMESTAMP));
+                iniFirebaseChat().push().setValue(new SendMessage(userName, etMessage.getText().toString(), ServerValue.TIMESTAMP));
                 etMessage.setText("");
             }
         });
@@ -103,6 +110,7 @@ public class ActivityChat extends AppCompatActivity {
     private DatabaseReference iniFirebaseChat(){
         DatabaseReference database = DataBaseConnection.getFirebase();
         String roomName = getIntent().getStringExtra("roomName");
+        tvName.setText(roomName+"Chat");
         databaseReference = database.getDatabase().getReference("Rooms/"+roomName+"/chat");
 
         return databaseReference;
