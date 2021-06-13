@@ -135,6 +135,10 @@
     <string name="avatares">==================== Avatares ====================</string>
     <string name="user">Usuario</string>
     <string name="store">Tienda</string>
+    <string name="puntos">points:</string>
+    <string name="no_points">No tienes puntos suficientes</string>
+    <string name="no_play_sin_login">No se puede comprar sin iniciar sesion</string>
+    <string name="validacion_ok">¿Estas seguro que desea comprarlo?</string>
     <string name="historial">Historial</string>
     <string name="juego">Juego</string>
     +    <!-- TODO: Remove or change this placeholder text -->
