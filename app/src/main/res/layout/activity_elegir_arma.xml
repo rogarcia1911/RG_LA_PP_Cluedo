@@ -14,7 +14,7 @@
         android:background="@drawable/arma_candelabro"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_arma2"
         app:layout_constraintEnd_toStartOf="@+id/imgbtn_arma2"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.23"
         app:layout_constraintStart_toStartOf="@+id/ivDer"
         app:layout_constraintTop_toTopOf="@+id/imgbtn_arma2" />
 
@@ -58,7 +58,7 @@
         android:background="@drawable/arma_herramienta"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_arma2"
         app:layout_constraintEnd_toEndOf="@+id/ivDer"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toEndOf="@+id/imgbtn_arma2"
         app:layout_constraintTop_toTopOf="@+id/imgbtn_arma2" />
 
@@ -81,7 +81,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_arma5"
         app:layout_constraintEnd_toEndOf="@+id/textView12"
         app:layout_constraintEnd_toStartOf="@+id/imgbtn_arma5"
-        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintHorizontal_bias="0.42"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgbtn_arma5"
         app:layout_constraintVertical_bias="0.0" />
@@ -127,7 +127,7 @@
         android:background="@drawable/arma_tuberia"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_arma5"
         app:layout_constraintEnd_toEndOf="@+id/ivDer"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.74"
         app:layout_constraintStart_toEndOf="@+id/imgbtn_arma5"
         app:layout_constraintTop_toTopOf="@+id/imgbtn_arma5" />
 

@@ -15,7 +15,7 @@
         android:background="@drawable/pj_amapola"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_per2"
         app:layout_constraintEnd_toStartOf="@+id/imgbtn_per2"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.17"
         app:layout_constraintStart_toStartOf="@+id/ivDer"
         app:layout_constraintTop_toTopOf="@+id/imgbtn_per2" />
 
@@ -59,7 +59,7 @@
         android:background="@drawable/pj_celeste"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_per2"
         app:layout_constraintEnd_toEndOf="@+id/ivDer"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toEndOf="@+id/imgbtn_per2"
         app:layout_constraintTop_toTopOf="@+id/imgbtn_per2" />
 
@@ -81,9 +81,10 @@
         android:background="@drawable/pj_mora"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_per5"
         app:layout_constraintEnd_toStartOf="@+id/imgbtn_per5"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.17"
         app:layout_constraintStart_toStartOf="@+id/ivDer"
-        app:layout_constraintTop_toTopOf="@+id/imgbtn_per5" />
+        app:layout_constraintTop_toTopOf="@+id/imgbtn_per5"
+        app:layout_constraintVertical_bias="0.39" />
 
     <TextView
         android:id="@+id/textView23"
@@ -126,7 +127,7 @@
         android:background="@drawable/pj_rubio"
         app:layout_constraintBottom_toBottomOf="@+id/imgbtn_per5"
         app:layout_constraintEnd_toEndOf="@+id/ivDer"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toEndOf="@+id/imgbtn_per5"
         app:layout_constraintTop_toTopOf="@+id/imgbtn_per5" />
 
