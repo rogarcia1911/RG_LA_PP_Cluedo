@@ -48,7 +48,7 @@ public class Match {
           num = 0;
           beginningDate = 0L;
           endingDate = 0L;
-          resultGame = false;
+          resultGame = null;
           isSolo = null;
           difficulty = null;
           cont = 0;

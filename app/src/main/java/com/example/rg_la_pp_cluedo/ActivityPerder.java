@@ -12,9 +12,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.rg_la_pp_cluedo.BBDD.DataBaseConnection;
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
 
 public class ActivityPerder extends AppCompatActivity {
+
+    DataBaseConnection firebaseConnection = null;
+    DatabaseReference database;
 
     private ImageView ivPers,ivArma,ivHab;
 
@@ -25,7 +31,13 @@ public class ActivityPerder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perder);
-
+        firebaseConnection = DataBaseConnection.getInstance();
+        database = DataBaseConnection.getFirebase(getApplicationContext());
+/*
+        String roomName = (getIntent().hasExtra("roomName")) ? getIntent().getStringExtra("roomName") : null;
+        if (roomName!=null)
+            database.getDatabase().getReference("Rooms/"+roomName).removeValue();
+*/
         ArrayList<Integer> murderCards = getIntent().getExtras().getIntegerArrayList("murderCards");
         //TODO: mostrar las culpables
         ivPers = findViewById(R.id.ivPers3);
