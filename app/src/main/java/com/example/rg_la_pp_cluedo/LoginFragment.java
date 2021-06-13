@@ -129,10 +129,6 @@ public class LoginFragment extends Fragment {
             editor.clear();
             editor.apply();
 
-            SharedPreferences.Editor editorGameSolo = getActivity().getSharedPreferences( getString(R.string.PREFsoloGame), Context.MODE_PRIVATE).edit();
-            editorGameSolo.clear();
-            editorGameSolo.apply();
-
             SharedPreferences.Editor editorGameMulti = getActivity().getSharedPreferences( getString(R.string.PREFmultiGame), Context.MODE_PRIVATE).edit();
             editorGameMulti.clear();
             editorGameMulti.apply();
