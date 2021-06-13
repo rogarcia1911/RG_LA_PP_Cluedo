@@ -90,11 +90,13 @@ public class ActivityLobby extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 SharedPreferences shGameMulti = getSharedPreferences(getString(R.string.PREFmultiGame),0);
+                if (dataSnapshot.getValue()==null || !dataSnapshot.exists())
+                    return;
                 button.setText(R.string.newSala);
                 button.setEnabled(true);
                 String status = null;
                 if(dataSnapshot.getKey().equals("player1")) {
-                    status = "Wait";
+                    status = "player1:Wait";
                 }if(dataSnapshot.getKey().equals("player2")) {
                     status = "player2:player1";
                 }
@@ -110,7 +112,7 @@ public class ActivityLobby extends AppCompatActivity {
                     intent.putExtra("gameNew",true);
                     intent.putExtra("gameMode",false);
                     startActivity(intent);
-                }
+                } // else if !room.exist
             }
 
             @Override
@@ -128,9 +130,10 @@ public class ActivityLobby extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 roomsList.clear();
+                if (!dataSnapshot.exists() || dataSnapshot==null) return;
                 Iterable<DataSnapshot> rooms = dataSnapshot.getChildren();
                 for(DataSnapshot snapshot: rooms){
-                    if (!snapshot.child("player2").exists())
+                    if (snapshot.exists() && !snapshot.child("player2").exists())
                         roomsList.add(snapshot.getKey());
 
                     adapter = new ArrayAdapter<>(ActivityLobby.this, android.R.layout.simple_list_item_1, roomsList);

@@ -9,7 +9,9 @@ public class Room {
     private Match match;
     private String player1;
     private String player2;
+    private String winner;
     private ArrayList<Integer> cardsPicked;
+    private ArrayList<ChatMessage> chat;
 
 
     public Room() {
@@ -18,8 +20,9 @@ public class Room {
     }
 
 
-    public Room(String name, String turn, String status, String player1, String player2, Match match, ArrayList<Integer> cardsPicked,
-                ArrayList<Player> Players) {
+    public Room(String name, String turn, String status, String player1, String player2, String winner,
+                Match match, ArrayList<Integer> cardsPicked, ArrayList<Player> Players,
+                ArrayList<ChatMessage> chat) {
         this.name=name;
         this.status = status;
         this.match = match;
@@ -51,6 +54,14 @@ public class Room {
 
     public void setPlayer2(String player2) {
         this.player2 = player2;
+    }
+
+    public String getWinner() {
+        return winner;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
     }
 
     public ArrayList<Integer> getCardsPicked() {
