@@ -12,8 +12,8 @@ public class RecieveMessage extends ChatMessage {
         this.hour = hour;
     }
 
-    public RecieveMessage(String messagePlayer, String messageText, Long hour) {
-        super(messagePlayer, messageText);
+    public RecieveMessage(String messagePlayer, String messageText, Integer messageImage, Long hour) {
+        super(messagePlayer, messageText, messageImage);
         this.hour = hour;
     }
 
