@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,11 +22,11 @@ public class ActivityPerder extends AppCompatActivity {
 
     DataBaseConnection firebaseConnection = null;
     DatabaseReference database;
-
+    private MediaPlayer mp;
     private ImageView ivPers,ivArma,ivHab;
 
     private SoundPool sp;
-    int sonido;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,8 @@ public class ActivityPerder extends AppCompatActivity {
         setContentView(R.layout.activity_perder);
         firebaseConnection = DataBaseConnection.getInstance();
         database = DataBaseConnection.getFirebase(getApplicationContext());
+        mp = MediaPlayer.create(this, R.raw.trompeta_militar);
+        mp.start();
 /*
         String roomName = (getIntent().hasExtra("roomName")) ? getIntent().getStringExtra("roomName") : null;
         if (roomName!=null)
@@ -47,23 +50,6 @@ public class ActivityPerder extends AppCompatActivity {
         ivHab = findViewById(R.id.ivHab3);
         ivHab.setImageResource(MatchHelper.Cards.getImgByRef(murderCards.get(2)));
 
-        //Reproducimos el audio aplausos
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_GAME)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .build();
-
-            sp = new SoundPool.Builder()
-                    .setMaxStreams(1)
-                    .setAudioAttributes(audioAttributes)
-                    .build();
-        } else {
-            sp= new SoundPool(1, AudioManager.STREAM_MUSIC, 1);
-        }
-        sonido = sp.load(this, R.raw.trompeta_militar, 1);
-        sonido();
-
         //Si pulsa el boton Back le llevará al ActivityMain
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -75,22 +61,14 @@ public class ActivityPerder extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(callback);
     }
 
-    private void sonido() {
-        sp.play(sonido, 1, 1, 1, 0, 0);
-    }
-
     public void tapScreen(View view) {
-        //sp.release();
-        //sp = null;
-        //sonido();
-        Intent inicio = new Intent(this, ActivityMain.class);
-        startActivity(inicio);
+        menu();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        sp.release();
-        sp = null;
+    public void menu(){
+        mp.release();
+        mp = null;
+        Intent menu = new Intent(this, ActivityMain.class);
+        startActivity(menu);
     }
 }
