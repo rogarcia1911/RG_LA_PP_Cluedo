@@ -123,6 +123,7 @@ public class LoginFragment extends Fragment {
             FirebaseAuth.getInstance().signOut();
             SharedPreferences.Editor editorSettings = shSettings.edit();
             editorSettings.remove("userName");
+            editorSettings.remove("userImage");
             editorSettings.apply();
 
             SharedPreferences.Editor editor = shPreferences.edit();
@@ -149,6 +150,7 @@ public class LoginFragment extends Fragment {
                 if(user != null){
                     SharedPreferences.Editor edit = shSettings.edit();
                     edit.putString("userName",user.getName());
+                    edit.putInt("userImage", user.getAvatar());
                     edit.apply();
                     SharedPreferences.Editor editor = shPreferences.edit();
                     editor.putString("userData", user.getEmail() + "\n" +
@@ -160,6 +162,7 @@ public class LoginFragment extends Fragment {
                 } else {
                     SharedPreferences.Editor edit = shSettings.edit();
                     edit.putString("userName","");
+                    edit.putInt("userImage",R.drawable.personaje_amapola);
                     edit.apply();
                     Toast.makeText(getContext(),R.string.err_inico_Sesion,Toast.LENGTH_SHORT).show();
                     ViewSingIn();
@@ -344,26 +347,6 @@ public class LoginFragment extends Fragment {
             return false;
         }
         return Validate(email, password);
-    }
-    public void onCreate(LayoutInflater inflater,ViewGroup cotainer,
-                         Bundle saveInstanceState){
-
-        ArrayList<String> idiomas= new ArrayList<>();
-        idiomas.add("Español");
-        idiomas.add("Ingles");
-        ArrayAdapter<String> abp= new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1,idiomas);
-        idiomSpinner.setAdapter(abp);
-        idiomSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String elemento= (String)idiomSpinner.getAdapter().getItem(position);
-                Toast.makeText(getActivity().getApplicationContext() ,R.string.selecionaste+ elemento, Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
 }

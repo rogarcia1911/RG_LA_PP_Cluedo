@@ -39,6 +39,7 @@ public class ActivityChat extends AppCompatActivity {
 
     SharedPreferences shSettings;
     String userName;
+    Integer userImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +58,13 @@ public class ActivityChat extends AppCompatActivity {
 
         shSettings = getSharedPreferences(getString(R.string.PREFsetttings), 0);
         userName = shSettings.getString("userName","");
+        userImage = shSettings.getInt("userImage",R.drawable.personaje_amapola);
 
         btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                iniFirebaseChat().push().setValue(new SendMessage(userName, etMessage.getText().toString(), ServerValue.TIMESTAMP));
+                if (!etMessage.getText().equals(""))
+                    iniFirebaseChat().push().setValue(new SendMessage(userName, etMessage.getText().toString(), userImage, ServerValue.TIMESTAMP));
                 etMessage.setText("");
             }
         });

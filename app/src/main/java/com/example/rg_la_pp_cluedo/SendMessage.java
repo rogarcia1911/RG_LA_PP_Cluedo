@@ -16,8 +16,8 @@ public class SendMessage extends ChatMessage {
 
 
 
-    public SendMessage(String messagePlayer, String messageText, Map hour) {
-        super(messagePlayer, messageText);
+    public SendMessage(String messagePlayer, String messageText, Integer massageImgage, Map hour) {
+        super(messagePlayer, messageText,massageImgage);
         this.hour = hour;
     }
 
