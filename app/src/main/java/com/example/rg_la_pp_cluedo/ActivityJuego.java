@@ -299,7 +299,7 @@ public class ActivityJuego extends AppCompatActivity {
                 }
             });
         } else {
-            btnSuponer.setText("Wait");//TODO: Traducir texto
+            btnSuponer.setText(R.string.btnWait);//TODO: Traducir texto
             btnSuponer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -564,7 +564,7 @@ public class ActivityJuego extends AppCompatActivity {
                     User user = task.getResult().getValue(User.class);
                     Integer num = user.getNumMultiMatchs() + 1;
                     String otherUserName;
-                    
+
                     Match meMatch = match;
                     Match otherMatch = match;
 

@@ -161,10 +161,10 @@ public class FragmentHistory extends Fragment {
                 SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS");
                 tvTiempo.setText( ((String) tvTiempo.getText()) + ( (totalTime != null) ? format.format(totalTime) : getString(R.string.tvTTNull) ) + "\n" );
 
-                if (matchObj.getResultGame()) // resultado al ganar
-                    tvResultado.setText( ((String) tvResultado.getText()) + getString(R.string.tvResultadoGanar) + "\n" );
-                else if (( matchObj.getResultGame()==null || !matchObj.getResultGame() ) && matchObj.getEndingDate()==null) //resultado cuando no se ha terminado la partida
+                if (matchObj.getResultGame()==null) //resultado cuando no se ha terminado la partida
                     tvResultado.setText( ((String) tvResultado.getText()) + "------" + "\n" );
+                else if (matchObj.getResultGame()) // resultado al ganar
+                    tvResultado.setText( ((String) tvResultado.getText()) + getString(R.string.tvResultadoGanar) + "\n" );
                 else //resultad al perder
                     tvResultado.setText( ((String) tvResultado.getText()) + getString(R.string.tvResultadoPerder) + "\n" );
             }
