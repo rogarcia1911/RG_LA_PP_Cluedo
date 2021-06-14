@@ -564,7 +564,7 @@ public class ActivityJuego extends AppCompatActivity {
                     User user = task.getResult().getValue(User.class);
                     Integer num = user.getNumMultiMatchs() + 1;
                     String otherUserName;
-                    //match.setEndingDate(System.currentTimeMillis());
+                    
                     Match meMatch = match;
                     Match otherMatch = match;
 
@@ -584,7 +584,7 @@ public class ActivityJuego extends AppCompatActivity {
                         otherUserName = room.getPlayer2();
                     }else{
                         room.setPlayer2(null); //borramos un jugador
-                        otherUserName = room.getPlayer2();
+                        otherUserName = room.getPlayer1();
                     }
 
                     meMatch.setName(match.getName()+"-"+num);
