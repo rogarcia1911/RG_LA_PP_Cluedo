@@ -19,9 +19,9 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="411dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/fondo_tienda"
                 android:gravity="center"
@@ -52,11 +52,12 @@
 
                     <TextView
                         android:id="@+id/textView2"
-                        android:layout_width="398dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
+                        android:gravity="center"
                         android:text="@string/avatares"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/H_parrafo"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -72,21 +73,21 @@
                 <ImageView
                     android:id="@+id/imageView1"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/T_imgAncho"
+                    android:layout_height="@dimen/M_imgAncho"
                     android:layout_weight="1"
                     android:src="@drawable/avatar1" />
 
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/T_imgAncho"
+                    android:layout_height="@dimen/M_imgAncho"
                     android:layout_weight="1"
                     android:src="@drawable/avatar10" />
 
                 <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/T_imgAncho"
+                    android:layout_height="@dimen/M_imgAncho"
                     android:layout_weight="1"
                     android:src="@drawable/avatar2" />
             </LinearLayout>
@@ -99,7 +100,7 @@
 
                 <Button
                     android:id="@+id/btn_pista1"
-                    android:layout_width="127dp"
+                    android:layout_width="131dp"
                     android:layout_height="match_parent"
                     android:layout_margin="3dp"
                     android:layout_weight="1"
@@ -157,21 +158,21 @@
                 <ImageView
                     android:id="@+id/imageView4"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/T_imgAncho"
+                    android:layout_height="@dimen/M_imgAncho"
                     android:layout_weight="1"
                     android:src="@drawable/avatar3" />
 
                 <ImageView
                     android:id="@+id/imageView5"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/T_imgAncho"
+                    android:layout_height="@dimen/M_imgAncho"
                     android:layout_weight="1"
                     android:src="@drawable/avatar6" />
 
                 <ImageView
                     android:id="@+id/imageView6"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/T_imgAncho"
+                    android:layout_height="@dimen/M_imgAncho"
                     android:layout_weight="1"
                     android:src="@drawable/avatar9" />
             </LinearLayout>
@@ -184,8 +185,8 @@
 
                 <Button
                     android:id="@+id/btn_pista4"
-                    android:layout_width="127dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="131dp"
+                    android:layout_height="match_parent"
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:background="@android:color/darker_gray"
@@ -200,7 +201,7 @@
                 <Button
                     android:id="@+id/btn_pista5"
                     android:layout_width="127dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:background="@android:color/darker_gray"
@@ -215,7 +216,7 @@
                 <Button
                     android:id="@+id/btn_pista6"
                     android:layout_width="127dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:background="@android:color/darker_gray"
@@ -240,13 +241,9 @@
 
                     <TextView
                         android:id="@+id/textView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="21dp"
                         android:text="@string/puntos"
-                        android:textSize="30sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
                         tools:ignore="MissingConstraints" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
