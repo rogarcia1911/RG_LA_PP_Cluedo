@@ -127,19 +127,19 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <!-- activity_store -->
-    <string name="tienda">Tienda</string>
+    <string name="tienda">Store</string>
     <string name="button_text1">100</string>
     <string name="button_text2">200</string>
     <string name="button_text3">300</string>
-    <string name="pista">==================== Pistas ====================</string>
-    <string name="avatares">==================== Avatares ====================</string>
+    <string name="pista">==================== Clues ====================</string>
+    <string name="avatares">==================== Avatars ====================</string>
     <string name="user">Usuario</string>
     <string name="store">Tienda</string>
     <string name="puntos">points:</string>
     <string name="no_points">No tienes puntos suficientes</string>
     <string name="no_play_sin_login">No se puede comprar sin iniciar sesion</string>
     <string name="validacion_ok">¿Estas seguro que desea comprarlo?</string>
-    <string name="historial">Historial</string>
-    <string name="juego">Juego</string>
+    <string name="historial">History</string>
+    <string name="juego">Game</string>
     +    <!-- TODO: Remove or change this placeholder text -->
 </resources>

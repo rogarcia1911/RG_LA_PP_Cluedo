@@ -162,7 +162,7 @@ public class LoginFragment extends Fragment {
                 } else {
                     SharedPreferences.Editor edit = shSettings.edit();
                     edit.putString("userName","");
-                    edit.putInt("userImage",R.drawable.personaje_amapola);
+                    edit.putInt("userImage", R.drawable.personaje_amapola);
                     edit.apply();
                     Toast.makeText(getContext(),R.string.err_inico_Sesion,Toast.LENGTH_SHORT).show();
                     ViewSingIn();
