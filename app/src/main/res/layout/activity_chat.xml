@@ -56,7 +56,8 @@
             android:ems="10"
             android:hint="@string/etMessage"
             android:inputType="textPersonName"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="#595959" />
 
         <Button
             android:id="@+id/btnSendMessage"
