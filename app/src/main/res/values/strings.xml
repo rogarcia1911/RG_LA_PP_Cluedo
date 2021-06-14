@@ -14,7 +14,7 @@
 
     <!-- activity_loggin -->
     <string name="err_CargaPartida_2">Error al cargar la partida</string>
-    <string name="msg_espera">Espera a otro jugador</string>
+    <string name="msg_espera">Wait another player</string>
     <string name="newSala">Create Room</string>
 
 
@@ -27,13 +27,10 @@
         - 6 weapon cards \n
         - 6 room cards \n
     </string>
-    <string name="texto_start2">
-       At the start the player will choose who wants to be between the characters.
-    </string>
     <string name="Game">GAME</string>
     <string name="texto_Game">The player will choose one card of each type (character, weapon
         and room) then it will tap the “Suspect” button. \n
-        If 1 or more between the chosen ones are wrong, one of them will be shown to the player.
+        If 1 or more between the chosen ones are wrong, they will be shown to the player.
         Next, the player will make a suspect suggestion again
         with another combination of cards. \n
         In case of choosing the 3 cards correctly, the player wins! \n \n
@@ -42,10 +39,10 @@
         murder.</string>
     <string name="txt_sesion">Session already started</string>
     <string name="txt_noSesion">No session started</string>
-    <string name="err_sesionSolo">To play you ONLY have to be logged in</string>
-    <string name="err_sesionMulti">To play MULTI you must be logged in</string>
+    <string name="err_sesionSolo">To play you have to be logged in</string>
+    <string name="err_sesionMulti">To play you must be logged in</string>
     <string name="err_CargaPartida">Game loading error</string>
-    <string name="txt_sesion_inicio">Sesión iniciada</string>
+    <string name="txt_sesion_inicio">Logged</string>
 
 
     <!-- activity_historial -->
@@ -66,11 +63,13 @@
     <string name="tvCont">Opportunities:</string>
     <string name="msj3Cartas">Chose 3 cards</string>
     <string name="btNext">Continuar</string>
+
+    <!-- fragment_login -->
     <string name="txt_recuperando">Retrieving data …</string>
     <string name="txt_sesion_si">Session already started</string>
     <string name="txt_sesion_no">No session started</string>
-    <string name="txt_login">LOG IN</string>
-    <string name="txt_sign_in">SIGN IN</string>
+    <string name="txt_login">Log In</string>
+    <string name="txt_sign_in">Sign In</string>
     <string name="err_error_sesion">failed to login</string>
     <string name="txt_login_in">Logging in</string>
     <string name="err_email">The email is not valid.</string>
@@ -81,7 +80,7 @@
     <string name="txt_usuario_ok">User created</string>
     <string name="txt_puntos">Points</string>
     <string name="err_email_si">This email address is already registered.</string>
-    <string name="txt_cancel">Cancelado</string>
+    <string name="txt_cancel">Cancel</string>
     <string name="txt_email">Email</string>
     <string name="txt_Psolo">Solo Games</string>
     <string name="txt_Pmulti">Multiplayer games</string>
@@ -99,7 +98,7 @@
     <string name="tvPers5">Prado</string>
     <string name="tvPers6">Rubio</string>
     <!-- activity_elegir_arma -->
-    <string name="tvArma1">Candelabra</string>
+    <string name="tvArma1">Chandelier</string>
     <string name="tvArma2">String</string>
     <string name="tvArma3">Tool</string>
     <string name="tvArma4">Handgun</string>
@@ -118,14 +117,14 @@
     <string name="btNgtv">Cancel</string>
     <string name="btPstv">Okay</string>
     <string name="btVolverMain">Menú</string>
+
     <!-- activity_chat -->
     <string name="etMessage">Write a message</string>
 
     <!-- activity_login -->
-    <string name="nameUser">NameUser</string>
-    <string name="switchMusica">Musica</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="nameUser">Username</string>
+    <string name="switchMusica">Music</string>
+    <string name="lblDataUser">Email\nPoints\nSolo Games\nMultiplayer games</string>
     <!-- activity_store -->
     <string name="tienda">Store</string>
     <string name="button_text1">100</string>
@@ -133,13 +132,16 @@
     <string name="button_text3">300</string>
     <string name="pista">==================== Clues ====================</string>
     <string name="avatares">==================== Avatars ====================</string>
-    <string name="user">Usuario</string>
-    <string name="store">Tienda</string>
-    <string name="puntos">points:</string>
-    <string name="no_points">No tienes puntos suficientes</string>
-    <string name="no_play_sin_login">No se puede comprar sin iniciar sesion</string>
+    <string name="user">User</string>
+    <string name="store">Store</string>
+    <string name="puntos">Points:</string>
+    <string name="no_points">You don\'t have enough points</string>
+    <string name="no_play_sin_login">You can not buy without being logged</string>
     <string name="validacion_ok">¿Estas seguro que desea comprarlo?</string>
     <string name="historial">History</string>
     <string name="juego">Game</string>
-    +    <!-- TODO: Remove or change this placeholder text -->
+    <string name="btnWait">Wait</string>
+    <string name="user_data">User Data</string>
+    <string name="log_out">Log Out</string>
+    <string name="ya_est_s_registrado">Not registred yet?</string>
 </resources>

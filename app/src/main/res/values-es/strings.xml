@@ -15,13 +15,10 @@
         - 6 cartas de armas \n
         - 6 cartas de habitaciones \n
     </string>
-    <string name="texto_start2">
-       Al iniciar la partida el jugador elegirá quien quiere ser entre los sospechosos.
-    </string>
     <string name="Game">JUEGO</string>
     <string name="texto_Game"> El jugador elegirá una carta de cada tipo(sospechoso,arma y
         habitación) y pulsará el botón “Suponer”. \n
-        Si entre las cartas elegidas hay 1 o varias mal se mostrará 1 de ellas al jugador.
+        Si entre las cartas elegidas hay 1 o varias mal se mostrarán todas ellas al jugador.
         Entonces hará una suposición con otra combinación de
         cartas.\n
         En caso de acertar las 3 cartas habrá ganado la partida.\n \n
@@ -60,8 +57,8 @@
     <string name="txt_recuperando">Recuperando datos …</string>
     <string name="txt_sesion_si">Sesión ya iniciada</string>
     <string name="txt_sesion_no">No hay sesión iniciada</string>
-    <string name="txt_login">INICIAR SESIÓN</string>
-    <string name="txt_sign_in">Iniciando sesión</string>
+    <string name="txt_login">Iniciar Sesión</string>
+    <string name="txt_sign_in">Registrarse</string>
     <string name="err_error_sesion">Error al iniciar sesión</string>
     <string name="txt_login_in">Iniciando sesión </string>
     <string name="err_email">El email no es válido.</string>
@@ -119,8 +116,9 @@
 
     <!-- activity_perder -->
     <!-- activity_login -->
-    <string name="nameUser">NameUser</string>
+    <string name="nameUser">Nombre de Usuario</string>
     <string name="switchMusica">Musica</string>
+    <string name="lblDataUser">Email\nPuntos\nPartidas Solo\nPartidas Multijugador</string>
     <!-- activity_store -->
     <string name="tienda">Tienda</string>
     <string name="button_text1">100</string>
@@ -136,4 +134,8 @@
     <string name="no_points">No tienes puntos suficientes</string>
     <string name="no_play_sin_login">No se puede comprar sin iniciar sesion</string>
     <string name="validacion_ok">¿Estas seguro que desea comprarlo?</string>
+    <string name="btnWait">Espera</string>
+    <string name="user_data">User Data</string>
+    <string name="log_out">Cerrar Sesión</string>
+    <string name="ya_est_s_registrado">¿Ya estás registrado?</string>
 </resources>
